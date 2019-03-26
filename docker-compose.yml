@@ -191,7 +191,7 @@ services:
       - PGID=${PGID}
     restart:
       always
-      networks:
+    networks:
       - traefik_proxy
     labels:
       - "traefik.enable=true"
