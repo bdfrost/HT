@@ -7,7 +7,7 @@ services:
     volumes:
       - /mnt/storage/appdata/sabnzbd/config:/config
       - incomplete-downloads:/incomplete-downloads
-      - downloads:/downloads
+      - complete_downloads:/downloads
       - shared:/shared
     restart: always
     environment:
@@ -121,7 +121,7 @@ services:
       - /mnt/storage/appdata/sonarr:/config
       - /mnt/storage/media/tv_import:/tv_import
       - tv:/tv
-      - downloads:/downloads
+      - complete_downloads:/downloads
       - shared:/shared
     links:
       - sabnzbd
@@ -152,7 +152,7 @@ services:
     volumes:
       - /mnt/storage/appdata/radarr:/config
       - movies:/movies
-      - downloads:/downloads
+      - complete_downloads:/downloads
       - shared:/shared
     environment:
       - PUID=${PUID}
@@ -220,7 +220,7 @@ services:
     container_name: ubooquity
     volumes:
       - /mnt/storage/appdata/ubooquity:/config
-      - downloads/:/files
+      - complete_downloads/:/files
       - books:/books
       - comics:/comics
     restart:
@@ -250,7 +250,7 @@ services:
     container_name: ubooquity
     volumes:
       - /mnt/storage/appdata/ubooquity:/config
-      - downloads:/files
+      - complete_downloads:/files
       - books:/books
       - comics:/comics
     restart:
@@ -313,7 +313,7 @@ services:
     volumes:
       - /mnt/storage/appdata/mylar:/config
       - /mnt/storage/media/comics-import:/comics-import
-      - downloads/:/downloads
+      - complete_downloads/:/downloads
       - comics:/comics
     networks:
       - traefik_proxy
