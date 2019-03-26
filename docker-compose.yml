@@ -70,8 +70,10 @@ services:
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/TEMP_POSTPROCESSING:/transcode
       - /mnt/storage/appdata/shared:/shared
-    network_mode: host
+    # network_mode: host
     restart: always
+    networks:
+      - traefik_proxy
     environment:
       - VERSION=public
       - PUID=${PUID}
@@ -116,6 +118,8 @@ services:
       - /mnt/storage/appdata/shared:/shared
     # ports:
     #   - 8181:8181
+    networks:
+      - traefik_proxy
     links:
       - plex
     restart: always
