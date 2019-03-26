@@ -280,7 +280,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
   mylar:
     container_name: mylar
-    ports:
+    # ports:
       # - 8090:8090
     environment:
       - TZ=America/Chicago
