@@ -89,7 +89,7 @@ services:
       - "32412:32412/udp"
       - "32413:32413/udp"
       - "32414:32414/udp"
-   labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.backend=plexms"
       - "traefik.frontend.rule=Host:plex.${DOMAINNAME}"
