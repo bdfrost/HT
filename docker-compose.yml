@@ -250,7 +250,7 @@ services:
     container_name: ubooquity
     volumes:
       - /mnt/storage/appdata/ubooquity:/config
-      - downloads/:/files
+      - downloads:/files
       - books:/books
       - comics:/comics
     restart:
