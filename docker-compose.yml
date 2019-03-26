@@ -281,7 +281,7 @@ services:
   mylar:
     container_name: mylar
     ports:
-      - 8090:8090
+      # - 8090:8090
     environment:
       - TZ=America/Chicago
       - PUID=${PUID}
@@ -296,9 +296,9 @@ services:
       - traefik_proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.backend=portainer"
-      - "traefik.frontend.rule=Host:portainer.${DOMAINNAME}"  
-      - "traefik.port=9000"
+      - "traefik.backend=mylar"
+      - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"  
+      - "traefik.port=8090"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
@@ -319,7 +319,7 @@ services:
       - default
       - traefik_proxy
     ports:
-#      - "80:80"
+      - "80:80"
       - "443:443"
 #      - "XXXX:8080"
     environment:
