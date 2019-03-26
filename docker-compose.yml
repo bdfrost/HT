@@ -439,7 +439,7 @@ volumes:
   incomplete_downloads:
     driver_opts:
       type: none
-      device: /mnt/storage/media/downloads/incomplete
+      device: /mnt/storage/media/incomplete-downloads
       o: bind
   shared:
     driver_opts:
