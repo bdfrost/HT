@@ -325,7 +325,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8082:8080"
+      # - "8082:8080"
     environment:
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
       - CF_API_KEY=${CLOUDFLARE_API_KEY}
@@ -333,7 +333,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=traefik"
       - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"  
-      - "traefik.port=8080"
+      - "traefik.port=8282"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
