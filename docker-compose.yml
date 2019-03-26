@@ -1,14 +1,13 @@
----
 version: '2'
 services:
   sabnzbd:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
     volumes:
-      -/mnt/storage/appdata/sabnzbd/config:/config
-      -incomplete-downloads:/incomplete-downloads
-      -complete_downloads:/downloads
-      -shared:/shared
+      - /mnt/storage/appdata/sabnzbd/config:/config
+      - incomplete-downloads:/incomplete-downloads
+      - complete_downloads:/downloads
+      - shared:/shared
     restart: always
     environment:
       - PUID=${PUID}
