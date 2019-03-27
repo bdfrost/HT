@@ -231,7 +231,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/sabnzbd/config:/config"
-      - "incomplete-downloads:/incomplete-downloads"
+      # - "incomplete-downloads:/incomplete-downloads"
       - "complete_downloads:/downloads"
       - "shared:/shared"
   sonarr: 
