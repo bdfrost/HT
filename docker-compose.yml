@@ -33,7 +33,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/mylar:/config"
       - "/mnt/storage/media/comics-import:/comics-import"
-      - "complete_downloads/:/downloads"
+      - "/mnt/storage/media/downloads:/downloads"
       - "comics:/comics"
   netdata: 
     cap_add: 
@@ -202,7 +202,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/radarr:/config"
       - "movies:/movies"
-      - "complete_downloads:/downloads"
+      - "/mnt/storage/media/downloads:/downloads"
       - "shared:/shared"
   sabnzbd: 
     container_name: sabnzbd
@@ -232,7 +232,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/sabnzbd/config:/config"
       - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
-      - "complete_downloads:/downloads"
+      - "/mnt/storage/media/downloads:/downloads"
       - "shared:/shared"
   sonarr: 
     container_name: sonarr
@@ -266,7 +266,7 @@ services:
       - "/mnt/storage/appdata/sonarr:/config"
       - "/mnt/storage/media/tv_import:/tv_import"
       - "tv:/tv"
-      - "complete_downloads:/downloads"
+      - "/mnt/storage/media/downloads:/downloads"
       - "shared:/shared"
   tautulli: 
     container_name: tautulli
@@ -362,7 +362,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/ubooquity:/config"
-      - "complete_downloads/:/files"
+      - "/mnt/storage/media/downloads:/files"
       - "books:/books"
       - "comics:/comics"
   ubooquity-admin: 
@@ -391,7 +391,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/ubooquity:/config"
-      - "complete_downloads:/files"
+      - "/mnt/storage/media/downloads:/files"
       - "books:/books"
       - "comics:/comics"
 version: "2"
@@ -406,26 +406,12 @@ volumes:
       device: /mnt/storage/media/comics
       o: bind
       type: none
-  complete_downloads: 
-    driver_opts: 
-      device: /mnt/storage/media/downloads/complete
-      o: bind
-      type: none
+
   exercisevideos: 
     driver_opts: 
       device: /mnt/storage/media/exercisevideos
       o: bind
       type: none
-  # home_movies: 
-  #   driver_opts: 
-  #     device: /mnt/storage/media/homemovies
-  #     o: bind
-  #     type: none
-  # incomplete_downloads: 
-  #   driver_opts: 
-  #     device: /mnt/storage/media/incomplete-downloads
-  #     o: bind
-  #     type: none
   movies: 
     driver_opts: 
       device: /mnt/storage/media/movies
