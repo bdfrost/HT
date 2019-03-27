@@ -358,17 +358,17 @@ services:
       - traefik.web.frontend.headers.STSIncludeSubdomains=true
       - traefik.web.frontend.headers.STSPreload=true
       - traefik.web.frontend.headers.frameDeny=false
-      # - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
-      # - traefik.admin.port=2203
-      # - traefik.admin.frontend.headers.SSLRedirect=true
-      # - traefik.admin.frontend.headers.STSSeconds=315360000
-      # - traefik.admin.frontend.headers.browserXSSFilter=true
-      # - traefik.admin.frontend.headers.contentTypeNosniff=true
-      # - traefik.admin.frontend.headers.forceSTSHeader=true
-      # - traefik.admin.frontend.headers.SSLHost=example.com
-      # - traefik.admin.frontend.headers.STSIncludeSubdomains=true
-      # - traefik.admin.frontend.headers.STSPreload=true
-      # - traefik.admin.frontend.headers.frameDeny=false
+      - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
+      - traefik.admin.port=2203
+      - traefik.admin.frontend.headers.SSLRedirect=true
+      - traefik.admin.frontend.headers.STSSeconds=315360000
+      - traefik.admin.frontend.headers.browserXSSFilter=true
+      - traefik.admin.frontend.headers.contentTypeNosniff=true
+      - traefik.admin.frontend.headers.forceSTSHeader=true
+      - traefik.admin.frontend.headers.SSLHost=example.com
+      - traefik.admin.frontend.headers.STSIncludeSubdomains=true
+      - traefik.admin.frontend.headers.STSPreload=true
+      - traefik.admin.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
     restart: always
