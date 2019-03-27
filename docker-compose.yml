@@ -367,7 +367,7 @@ services:
       - "/mnt/storage/media/books:/books"
       - "/mnt/storage/media/comics:/comics"
   ubooquity-admin: 
-    container_name: ubooquity
+    container_name: ubooquity-admin
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
