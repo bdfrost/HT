@@ -43,7 +43,7 @@ services:
     image: netdata/netdata
     labels: 
       - traefik.enable=true
-      - traefik.backend=mylar
+      - traefik.backend=netdata
       - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
       - traefik.port=19999
       - traefik.docker.network=traefik_proxy
