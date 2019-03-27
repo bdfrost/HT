@@ -345,9 +345,11 @@ services:
     image: linuxserver/ubooquity
     labels: 
       - traefik.enable=true
+      - traefik.web.frontend.rule=Host:ubooquity.${FQDN}
+      - traefik.web.port=2202
+      - "traefik.admin.frontend.rule=Host:ubooquity.${FQDN}; PathPrefix:/admin,/admin-res,/admin-api"
+      - traefik.admin.port=2203
       - traefik.backend=ubooquity
-      - "traefik.frontend.rule=Host:ubooquity.${DOMAINNAME}"
-      - traefik.port=2202
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
