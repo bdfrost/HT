@@ -146,7 +146,7 @@ services:
       - "/mnt/storage/appdata/plex:/config"
       - "/mnt/storage/media/TEMP_POSTPROCESSING:/transcode"
       - "tv:/data/tvshows"
-      - "homemovies:/data/homemovies"
+      - "/mnt/storage/media/homemovies:/data/homemovies"
       - "photos:/data/photos"
       - "exercisevideos:/data/exercisevideos"
       - "movies:/data/movies"
@@ -231,7 +231,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/sabnzbd/config:/config"
-      # - "incomplete-downloads:/incomplete-downloads"
+      - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
       - "complete_downloads:/downloads"
       - "shared:/shared"
   sonarr: 
@@ -416,16 +416,16 @@ volumes:
       device: /mnt/storage/media/exercisevideos
       o: bind
       type: none
-  home_movies: 
-    driver_opts: 
-      device: /mnt/storage/media/homemovies
-      o: bind
-      type: none
-  incomplete_downloads: 
-    driver_opts: 
-      device: /mnt/storage/media/incomplete-downloads
-      o: bind
-      type: none
+  # home_movies: 
+  #   driver_opts: 
+  #     device: /mnt/storage/media/homemovies
+  #     o: bind
+  #     type: none
+  # incomplete_downloads: 
+  #   driver_opts: 
+  #     device: /mnt/storage/media/incomplete-downloads
+  #     o: bind
+  #     type: none
   movies: 
     driver_opts: 
       device: /mnt/storage/media/movies
