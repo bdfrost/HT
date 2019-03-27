@@ -37,8 +37,8 @@ services:
       - "/mnt/storage/media/downloads:/downloads"
       - "/mnt/storage/media/comics:/comics"
   netdata: 
-    cap_add: 
-      - SYS_PTRACE
+    # cap_add: 
+    #   - SYS_PTRACE
     container_name: netdata
     image: netdata/netdata
     labels: 
