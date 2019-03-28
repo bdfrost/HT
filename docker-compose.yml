@@ -13,13 +13,10 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-      - HTTPPORT=5666
-      - HTTPSPORT=5667
-      - FASTCGIPORT=9000 
     image: digitalhigh/phlex
     ports:
-      - 5666:5666
-      - 5667:5667
+      - 5666:80
+      - 5667:443
     restart: unless-stopped
     volumes:
       - /mnt/storage/appdata/config:/config
