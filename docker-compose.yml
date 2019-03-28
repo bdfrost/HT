@@ -7,6 +7,23 @@ networks:
     external: 
       name: traefik_proxy
 services: 
+  phlex:
+    container_name: phlex
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - HTTPPORT=5666
+      - HTTPSPORT=5667
+      - FASTCGIPORT=9000 
+    image: digitalhigh/phlex
+    ports:
+      - 5666:5666
+      - 5667:5667
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/appdata/config:/config
+    privileged: true
   mylar: 
     container_name: mylar
     environment: 
@@ -117,8 +134,6 @@ services:
       - /mnt/storage/media/exercisevideos:/data/exercisevideos
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/TEMP_POSTPROCESSING:/transcode
-    network_mode: host
-    restart: always
     environment:
       - VERSION=public
       - PUID=${PUID}
