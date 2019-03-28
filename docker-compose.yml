@@ -9,8 +9,6 @@ networks:
 services: 
   phlex:
     container_name: phlex
-    networks: 
-      - bridge
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
