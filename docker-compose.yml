@@ -19,7 +19,7 @@ services:
       - 5667:443
     restart: unless-stopped
     volumes:
-      - /mnt/storage/appdata/config/phlex:/config
+      - /mnt/storage/appdata/phlex:/config
     privileged: true
 
   lazylibrarian:
@@ -30,7 +30,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     volumes:
-      - /mnt/storage/appdata/config/phlex:/config
+      - /mnt/storage/appdata/phlex:/config
       - /mnt/storage/media/downloads:/downloads
       - /mnt/storage/media/books:/books
     restart: unless-stopped
