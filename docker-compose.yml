@@ -19,8 +19,38 @@ services:
       - 5667:443
     restart: unless-stopped
     volumes:
-      - /mnt/storage/appdata/config:/config
+      - /mnt/storage/appdata/config/phlex:/config
     privileged: true
+
+  lazylibrarian:
+    image: linuxserver/lazylibrarian
+    container_name: lazylibrarian
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - /mnt/storage/appdata/config/phlex:/config
+      - /mnt/storage/media/downloads:/downloads
+      - /mnt/storage/media/books:/books
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=lazy
+      - "traefik.frontend.rule=Host:lazy.${DOMAINNAME}"
+      - traefik.port=5299
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
   mylar: 
     container_name: mylar
     environment: 
@@ -400,32 +430,3 @@ services:
       - "/mnt/storage/media/downloads:/files"
       - "/mnt/storage/media/books:/books"
       - "/mnt/storage/media/comics:/comics"
-  # ubooquity-admin: 
-  #   container_name: ubooquity-admin
-  #   environment: 
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #   image: linuxserver/ubooquity
-  #   labels: 
-  #     - traefik.enable=true
-  #     - traefik.backend=ubooquity-admin
-  #     - "traefik.frontend.rule=Host:ubooquity-admin.${DOMAINNAME}"
-  #     - traefik.port=2203
-  #     - traefik.docker.network=traefik_proxy
-  #     - traefik.frontend.headers.SSLRedirect=true
-  #     - traefik.frontend.headers.STSSeconds=315360000
-  #     - traefik.frontend.headers.browserXSSFilter=true
-  #     - traefik.frontend.headers.contentTypeNosniff=true
-  #     - traefik.frontend.headers.forceSTSHeader=true
-  #     - traefik.frontend.headers.SSLHost=example.com
-  #     - traefik.frontend.headers.STSIncludeSubdomains=true
-  #     - traefik.frontend.headers.STSPreload=true
-  #     - traefik.frontend.headers.frameDeny=false
-  #   networks: 
-  #     - traefik_proxy
-  #   restart: always
-  #   volumes: 
-  #     - "/mnt/storage/appdata/ubooquity:/config"
-  #     - "/mnt/storage/media/downloads:/files"
-  #     - "/mnt/storage/media/books:/books"
-  #     - "/mnt/storage/media/comics:/comics"
