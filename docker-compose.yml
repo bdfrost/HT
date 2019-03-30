@@ -21,7 +21,6 @@ services:
     volumes:
       - /mnt/storage/appdata/phlex:/config
     privileged: true
-
   lazylibrarian:
     image: linuxserver/lazylibrarian
     container_name: lazylibrarian
@@ -45,7 +44,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -69,7 +68,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -96,7 +95,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -126,7 +125,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -189,7 +188,7 @@ services:
     #   - traefik.frontend.headers.browserXSSFilter=true
     #   - traefik.frontend.headers.contentTypeNosniff=true
     #   - traefik.frontend.headers.forceSTSHeader=true
-    #   - traefik.frontend.headers.SSLHost=example.com
+    #   - traefik.frontend.headers.SSLHost=frost.haus
     #   - traefik.frontend.headers.STSIncludeSubdomains=true
     #   - traefik.frontend.headers.STSPreload=true
     #   - traefik.frontend.headers.frameDeny=false
@@ -219,7 +218,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -246,7 +245,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -276,7 +275,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -307,7 +306,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -342,7 +341,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -374,7 +373,7 @@ services:
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.contentTypeNosniff=true
       - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=example.com
+      - traefik.frontend.headers.SSLHost=frost.haus
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
@@ -407,7 +406,7 @@ services:
       - traefik.web.frontend.headers.browserXSSFilter=true
       - traefik.web.frontend.headers.contentTypeNosniff=true
       - traefik.web.frontend.headers.forceSTSHeader=true
-      - traefik.web.frontend.headers.SSLHost=example.com
+      - traefik.web.frontend.headers.SSLHost=frost.haus
       - traefik.web.frontend.headers.STSIncludeSubdomains=true
       - traefik.web.frontend.headers.STSPreload=true
       - traefik.web.frontend.headers.frameDeny=false
@@ -418,7 +417,7 @@ services:
       - traefik.admin.frontend.headers.browserXSSFilter=true
       - traefik.admin.frontend.headers.contentTypeNosniff=true
       - traefik.admin.frontend.headers.forceSTSHeader=true
-      - traefik.admin.frontend.headers.SSLHost=example.com
+      - traefik.admin.frontend.headers.SSLHost=frost.haus
       - traefik.admin.frontend.headers.STSIncludeSubdomains=true
       - traefik.admin.frontend.headers.STSPreload=true
       - traefik.admin.frontend.headers.frameDeny=false
