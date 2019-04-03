@@ -9,6 +9,7 @@ networks:
 services: 
   tenma:
     container_name: tenma
+    image: hmhrex/tenma
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
