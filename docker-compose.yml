@@ -68,6 +68,10 @@ services:
   netdata: 
     # cap_add: 
     #   - SYS_PTRACE
+    environment: 
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
     container_name: netdata
     image: netdata/netdata
     labels: 
