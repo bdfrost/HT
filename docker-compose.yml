@@ -17,23 +17,25 @@ services:
     volumes:
       - /mnt/storage/appdata/tenma:/tenma
       - /mnt/storage/media/comics:/tenma/files
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=tenma
-      - "traefik.frontend.rule=Host:tenma.${DOMAINNAME}"
-      - traefik.port=8000
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
+    ports:
+      - 8000:8000
+    # labels: 
+    #   - traefik.enable=true
+    #   - traefik.backend=tenma
+    #   - "traefik.frontend.rule=Host:tenma.${DOMAINNAME}"
+    #   - traefik.port=8000
+    #   - traefik.docker.network=traefik_proxy
+    #   - traefik.frontend.headers.SSLRedirect=true
+    #   - traefik.frontend.headers.STSSeconds=315360000
+    #   - traefik.frontend.headers.browserXSSFilter=true
+    #   - traefik.frontend.headers.contentTypeNosniff=true
+    #   - traefik.frontend.headers.forceSTSHeader=true
+    #   - traefik.frontend.headers.SSLHost=frost.haus
+    #   - traefik.frontend.headers.STSIncludeSubdomains=true
+    #   - traefik.frontend.headers.STSPreload=true
+    #   - traefik.frontend.headers.frameDeny=false
+    # networks: 
+    #   - traefik_proxy
   phlex:
     container_name: phlex
     environment:
