@@ -15,7 +15,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"    
     volumes:
-      - /mnt/storage/appdata/tenma:/tenma
+      - /mnt/storage/appdata/tenma:/tenma/media
       - /mnt/storage/media/comics:/tenma/files
     ports:
       - 8000:8000
