@@ -42,8 +42,10 @@ services:
       - "PGID=${PGID}"
     image: digitalhigh/phlex
     ports:
-      - 5666:80
-      - 5667:443
+      # - 5666:80
+      # - 5667:443
+      - 5666:5666
+      - 5667:5667
     restart: unless-stopped
     volumes:
       - /mnt/storage/appdata/phlex:/config
