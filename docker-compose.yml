@@ -12,7 +12,7 @@ services:
     image: digitalhigh/flextv
     volumes:
     - /mnt/storage/appdata/flex:/config
-    - shared:/shared
+    # - shared:/shared
     # ports:
     # - 5666:80
     # - 5667:443
