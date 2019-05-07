@@ -7,6 +7,39 @@ networks:
     external: 
       name: traefik_proxy
 services: 
+  flex:
+    container_name: flex
+    image: digitalhigh/flextv
+    volumes:
+    - /mnt/storage/appdata/flex:/config
+    - shared:/shared
+    # ports:
+    # - 5666:80
+    # - 5667:443
+    environment:
+    - HTTPPORT=5666
+    - HTTPSPORT=5667
+    - FASTCGIPORT=9000
+    - TZ=America/Chicago
+    - "PUID=${PUID}"
+    - "PGID=${PGID}"
+    networks:
+    - traefik_proxy
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=flex"
+    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
+    - "traefik.port=80"
+    - "traefik.docker.network=traefik_proxy"
+    - "traefik.frontend.headers.SSLRedirect=true"
+    - "traefik.frontend.headers.STSSeconds=315360000"
+    - "traefik.frontend.headers.browserXSSFilter=true"
+    - "traefik.frontend.headers.contentTypeNosniff=true"
+    - "traefik.frontend.headers.forceSTSHeader=true"
+    - "traefik.frontend.headers.SSLHost=delesio.com"
+    - "traefik.frontend.headers.STSIncludeSubdomains=true"
+    - "traefik.frontend.headers.STSPreload=true"
+    - "traefik.frontend.headers.frameDeny=false"
   lazylibrarian:
     image: linuxserver/lazylibrarian
     container_name: lazylibrarian
