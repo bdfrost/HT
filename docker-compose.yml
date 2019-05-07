@@ -15,7 +15,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     volumes:
-      - /mnt/storage/appdata/phlex:/config
+      - /mnt/storage/appdata/lazy:/config
       - /mnt/storage/media/downloads:/downloads
       - /mnt/storage/media/books:/books
     restart: unless-stopped
