@@ -390,12 +390,10 @@ services:
     image: linuxserver/ubooquity
     labels: 
       - traefik.enable=true
-      - traefik.web.frontend.rule=Host:ubooquity.${DOMAINNAME}
-      - traefik.web.port=2202
-      - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
-      - traefik.admin.port=2203
       - traefik.backend=ubooquity
       - traefik.docker.network=traefik_proxy
+      - "traefik.web.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/ubooquity"
+      - traefik.web.port=2202
       - traefik.web.headers.SSLRedirect=true
       - traefik.web.headers.STSSeconds=315360000
       - traefik.web.headers.browserXSSFilter=true
@@ -405,6 +403,8 @@ services:
       - traefik.web.headers.STSIncludeSubdomains=true
       - traefik.web.headers.STSPreload=true
       - traefik.web.headers.frameDeny=false
+      - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/ubooquity/admin,/admin-res,/admin-api"
+      - traefik.admin.port=2203
       - traefik.admin.headers.SSLRedirect=true
       - traefik.admin.headers.STSSeconds=315360000
       - traefik.admin.headers.browserXSSFilter=true
