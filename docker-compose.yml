@@ -389,13 +389,11 @@ services:
       - "PGID=${PGID}"
     image: linuxserver/ubooquity
     labels: 
-      - traefik.docker.network=proxied
-      - traefik.frontend.rule=Host:ubooquity.${DOMAIN}
-      - traefik.port=2202
-      - traefik.default.protocol=http
-      - traefik.admin.frontend.rule=Host:admin-ubooquity.${DOMAIN}
+      - traefik.enable=true
+      - traefik.web.frontend.rule=Host:ubooquity.${FQDN}
+      - traefik.web.port=2202
+      - "traefik.admin.frontend.rule=Host:ubooquity.${FQDN}; PathPrefix:/admin,/admin-res,/admin-api"
       - traefik.admin.port=2203
-      - traefik.admin.protocol=http
     networks: 
       - traefik_proxy
     restart: always
