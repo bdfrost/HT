@@ -391,8 +391,8 @@ services:
     labels: 
       - traefik.docker.network=traefik_proxy
       - traefik.enable=true
-      - traefik.backend=ubooquity
-      - traefik.web.frontend.rule=Host:ubooquity.${DOMAINNAME}
+      # - traefik.backend=ubooquity
+      - "traefik.web.frontend.rule=Host:ubooquity.${DOMAINNAME}""
       - traefik.web.port=2202
       - traefik.web.frontend.headers.SSLRedirect=true
       - traefik.web.frontend.headers.STSSeconds=315360000
