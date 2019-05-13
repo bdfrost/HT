@@ -394,6 +394,26 @@ services:
       - traefik.web.port=2202
       - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
       - traefik.admin.port=2203
+      - traefik.backend=ubooquity
+      - traefik.docker.network=traefik_proxy
+      - traefik.web.headers.SSLRedirect=true
+      - traefik.web.headers.STSSeconds=315360000
+      - traefik.web.headers.browserXSSFilter=true
+      - traefik.web.headers.contentTypeNosniff=true
+      - traefik.web.headers.forceSTSHeader=true
+      - traefik.web.headers.SSLHost=frost.haus
+      - traefik.web.headers.STSIncludeSubdomains=true
+      - traefik.web.headers.STSPreload=true
+      - traefik.web.headers.frameDeny=false
+      - traefik.admin.headers.SSLRedirect=true
+      - traefik.admin.headers.STSSeconds=315360000
+      - traefik.admin.headers.browserXSSFilter=true
+      - traefik.admin.headers.contentTypeNosniff=true
+      - traefik.admin.headers.forceSTSHeader=true
+      - traefik.admin.headers.SSLHost=frost.haus
+      - traefik.admin.headers.STSIncludeSubdomains=true
+      - traefik.admin.headers.STSPreload=true
+      - traefik.admin.headers.frameDeny=false
     networks: 
       - traefik_proxy
     restart: always
