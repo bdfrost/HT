@@ -451,3 +451,14 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+  yacserver:
+    image: muallin/yacreaderlibrary-server-docker
+    container_name: yacserver
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - "/mnt/storage/media/comics:/comics"
+    ports:
+      - 4242:4242
+    restart: unless-stopped
