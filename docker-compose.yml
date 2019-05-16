@@ -403,7 +403,7 @@ services:
       - traefik.web.headers.STSIncludeSubdomains=true
       - traefik.web.headers.STSPreload=true
       - traefik.web.headers.frameDeny=false
-      - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/ubooquity/admin,/admin-res,/admin-api"
+      - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
       - traefik.admin.port=2203
       - traefik.admin.headers.SSLRedirect=true
       - traefik.admin.headers.STSSeconds=315360000
@@ -422,3 +422,32 @@ services:
       - "/mnt/storage/media/downloads:/files"
       - "/mnt/storage/media/books:/books"
       - "/mnt/storage/media/comics:/comics"
+  gazee:
+    image: linuxserver/gazee
+    container_name: gazee
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - "/mnt/storage/appdata/gazee:/config"
+      - "/mnt/storage/media/comics:/comics"
+      - "/mnt/storage/appdata/mylar:/mylar"
+      - "/mnt/storage/appdata/gazee/certs:/certs"
+    #  ports:
+    #   - 4242:4242
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=gazee
+      - "traefik.frontend.rule=Host:gazee.${DOMAINNAME}"
+      - traefik.port=4242
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
