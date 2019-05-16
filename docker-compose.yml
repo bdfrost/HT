@@ -431,7 +431,7 @@ services:
     volumes:
       - "/mnt/storage/appdata/gazee:/config"
       - "/mnt/storage/media/comics:/comics"
-      - "/mnt/storage/appdata/mylar:/mylar"
+      - "/mnt/storage/appdata/mylar/mylar:/mylar"
       - "/mnt/storage/appdata/gazee/certs:/certs"
     #  ports:
     #   - 4242:4242
