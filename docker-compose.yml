@@ -9,13 +9,9 @@ networks:
 services: 
   flex:
     container_name: flex
-    image: digitalhigh/flextv
+    image: digitalhigh/flextv:latest
     volumes:
     - /mnt/storage/appdata/flex:/config
-    # - shared:/shared
-    # ports:
-    # - 5666:80
-    # - 5667:443
     environment:
     - HTTPPORT=5666
     - HTTPSPORT=5667
@@ -41,7 +37,7 @@ services:
     - "traefik.frontend.headers.STSPreload=true"
     - "traefik.frontend.headers.frameDeny=false"
   lazylibrarian:
-    image: linuxserver/lazylibrarian
+    image: linuxserver/lazylibrarian:latest
     container_name: lazylibrarian
     environment:
       - TZ=America/Chicago
@@ -75,7 +71,7 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/mylar
+    image: linuxserver/mylar:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=mylar
@@ -104,7 +100,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     container_name: netdata
-    image: netdata/netdata
+    image: netdata/netdata:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=netdata
@@ -134,7 +130,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - "TZ=${TZ}"
-    image: lsiocommunity/organizr
+    image: lsiocommunity/organizr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=organizr
@@ -165,12 +161,12 @@ services:
       - SELF_UPDATE=true
       - "IGNORE=mongo influxdb postgres mariadb"
       - TZ=America/Chicago
-    image: pyouroboros/ouroboros
+    image: pyouroboros/ouroboros:latest
     restart: unless-stopped
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
   plex:
-    image: linuxserver/plex
+    image: linuxserver/plex:latest
     container_name: plex
     volumes:
       - /mnt/storage/media/download-reprocess:/download-reprocess
@@ -199,7 +195,7 @@ services:
       - "/mnt/storage/appdata/shared:/shared"
   portainer: 
     container_name: portainer
-    image: portainer/portainer
+    image: portainer/portainer:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=portainer
@@ -226,7 +222,7 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/radarr
+    image: linuxserver/radarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=radarr
@@ -256,7 +252,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/sabnzbd
+    image: linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sabnzbd
@@ -287,7 +283,7 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sonarr
@@ -322,7 +318,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/tautulli
+    image: linuxserver/tautulli:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=tautulli
@@ -382,48 +378,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/storage/appdata/traefik:/etc/traefik"
       - "/mnt/storage/appdata/shared:/shared"
-  # ubooquity: 
-    # container_name: ubooquity
-    # environment: 
-    #   - "PUID=${PUID}"
-    #   - "PGID=${PGID}"
-    # image: linuxserver/ubooquity
-    # labels: 
-    #   - traefik.enable=true
-    #   - traefik.backend=ubooquity
-    #   - traefik.docker.network=traefik_proxy
-    #   - "traefik.web.frontend.rule=Host:ubooquity.${DOMAINNAME}"
-    #   - traefik.web.port=2202
-    #   - traefik.web.headers.SSLRedirect=true
-    #   - traefik.web.headers.STSSeconds=315360000
-    #   - traefik.web.headers.browserXSSFilter=true
-    #   - traefik.web.headers.contentTypeNosniff=true
-    #   - traefik.web.headers.forceSTSHeader=true
-    #   - traefik.web.headers.SSLHost=frost.haus
-    #   - traefik.web.headers.STSIncludeSubdomains=true
-    #   - traefik.web.headers.STSPreload=true
-    #   - traefik.web.headers.frameDeny=false
-    #   - "traefik.admin.frontend.rule=Host:ubooquity.${DOMAINNAME}; PathPrefix:/admin,/admin-res,/admin-api"
-    #   - traefik.admin.port=2203
-    #   - traefik.admin.headers.SSLRedirect=true
-    #   - traefik.admin.headers.STSSeconds=315360000
-    #   - traefik.admin.headers.browserXSSFilter=true
-    #   - traefik.admin.headers.contentTypeNosniff=true
-    #   - traefik.admin.headers.forceSTSHeader=true
-    #   - traefik.admin.headers.SSLHost=frost.haus
-    #   - traefik.admin.headers.STSIncludeSubdomains=true
-    #   - traefik.admin.headers.STSPreload=true
-    #   - traefik.admin.headers.frameDeny=false
-    # networks: 
-    #   - traefik_proxy
-    # restart: always
-    # volumes: 
-    #   - "/mnt/storage/appdata/ubooquity:/config"
-    #   - "/mnt/storage/media/downloads:/files"
-    #   - "/mnt/storage/media/books:/books"
-    #   - "/mnt/storage/media/comics:/comics"
   gazee:
-    image: linuxserver/gazee
+    image: linuxserver/gazee:latest
     container_name: gazee
     environment:
       - "PUID=${PUID}"
@@ -433,8 +389,6 @@ services:
       - "/mnt/storage/media/comics:/comics"
       - "/mnt/storage/appdata/mylar/mylar:/mylar"
       - "/mnt/storage/appdata/gazee/certs:/certs"
-    #  ports:
-    #   - 4242:4242
     restart: unless-stopped
     labels: 
       - traefik.enable=true
