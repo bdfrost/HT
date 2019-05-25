@@ -350,7 +350,7 @@ services:
       - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
-    image: "traefik:latest"
+    image: containous/traefik:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=traefik
