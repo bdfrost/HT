@@ -51,7 +51,7 @@ services:
     labels: 
       - traefik.enable=true
       - traefik.backend=lazylibrarian
-      - "traefik.frontend.rule=Host:lazy.${DOMAINNAME}"
+      - "traefik.frontend.rule=Host:lazylibrarian.${DOMAINNAME}"
       - traefik.port=5299
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
@@ -350,7 +350,8 @@ services:
       - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
-    image: containous/traefik:latest
+    # image: containous/traefik:latest
+    image: "traefik:latest"
     labels: 
       - traefik.enable=true
       - traefik.backend=traefik
