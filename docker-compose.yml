@@ -351,7 +351,7 @@ services:
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
     # image: containous/traefik:latest
-    image: "containous/traefik:latest"
+    image: "traefik:latest"
     labels: 
       - traefik.enable=true
       - traefik.backend=traefik
