@@ -347,10 +347,12 @@ services:
     container_name: traefik
     domainname: "${DOMAINNAME}"
     environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
       - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
-    # image: containous/traefik:latest
     image: "traefik:latest"
     labels: 
       - traefik.enable=true
