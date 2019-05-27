@@ -9,7 +9,7 @@ networks:
 services: 
   flex:
     container_name: flex
-    image: d8ahazard/flextv:latest
+    image: d8ahazard/FlexTV:latest
     volumes:
     - /mnt/storage/appdata/flex:/config
     environment:
