@@ -166,7 +166,7 @@ services:
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
   plex:
-    image: linuxserver/docker-plex:latest
+    image: plexinc/pms-docker
     container_name: plex
     volumes:
       - /mnt/storage/media/download-reprocess:/download-reprocess
