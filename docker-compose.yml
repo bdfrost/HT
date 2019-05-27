@@ -182,6 +182,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=America/Chicago
+      - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
     restart: always
     volumes: 
