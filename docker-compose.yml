@@ -124,6 +124,7 @@ services:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/mnt/storage/appdata/netdata:/etc/netdata"
   organizr: 
     container_name: organizr
     environment: 
