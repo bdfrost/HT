@@ -167,7 +167,7 @@ services:
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
   plex:
-    image: linuxserver/plex:latest
+    image: plexinc/pms-docker
     container_name: plex
     volumes:
       - /mnt/storage/media/download-reprocess:/download-reprocess
@@ -183,6 +183,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=America/Chicago
+      - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
     restart: always
     volumes: 
