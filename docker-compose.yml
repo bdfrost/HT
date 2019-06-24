@@ -356,6 +356,7 @@ services:
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
     image: "traefik:latest"
+    dns: 8.8.8.8
     labels: 
       - traefik.enable=true
       - traefik.backend=traefik
