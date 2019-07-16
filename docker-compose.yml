@@ -383,7 +383,7 @@ services:
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/storage/appdata/traefik:/etc/traefik"
-      - "/mnt/storage/appdata/shared:/shared"
+      - "/mnt/storage/appdata/shared/traefik:/shared"
   gazee:
     image: linuxserver/gazee:latest
     container_name: gazee
