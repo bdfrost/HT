@@ -285,7 +285,8 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/sonarr:latest
+    image: linuxserver/sonarr:preview
+#    image: linuxserver/sonarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sonarr
