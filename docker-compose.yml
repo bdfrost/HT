@@ -355,7 +355,7 @@ services:
       - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
-    image: "traefik:latest"
+    image: "traefik:1.7"
     dns: 8.8.8.8
     labels: 
       - traefik.enable=true
