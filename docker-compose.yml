@@ -7,35 +7,6 @@ networks:
     external: 
       name: traefik_proxy
 services: 
-  flex:
-    container_name: flex
-    image: digitalhigh/flextv:latest
-    volumes:
-    - /mnt/storage/appdata/flex:/config
-    environment:
-    - HTTPPORT=5666
-    - HTTPSPORT=5667
-    - FASTCGIPORT=9000
-    - TZ=America/Chicago
-    - "PUID=${PUID}"
-    - "PGID=${PGID}"
-    networks:
-    - traefik_proxy
-    labels:
-    - "traefik.enable=true"
-    - "traefik.backend=flex"
-    - "traefik.frontend.rule=Host:flex.${DOMAINNAME}"
-    - "traefik.port=80"
-    - "traefik.docker.network=traefik_proxy"
-    - "traefik.frontend.headers.SSLRedirect=true"
-    - "traefik.frontend.headers.STSSeconds=315360000"
-    - "traefik.frontend.headers.browserXSSFilter=true"
-    - "traefik.frontend.headers.contentTypeNosniff=true"
-    - "traefik.frontend.headers.forceSTSHeader=true"
-    - "traefik.frontend.headers.SSLHost=delesio.com"
-    - "traefik.frontend.headers.STSIncludeSubdomains=true"
-    - "traefik.frontend.headers.STSPreload=true"
-    - "traefik.frontend.headers.frameDeny=false"
   lazylibrarian:
     image: linuxserver/lazylibrarian:latest
     container_name: lazylibrarian
@@ -94,6 +65,34 @@ services:
       - "/mnt/storage/media/comics-import:/comics-import"
       - "/mnt/storage/media/downloads:/downloads"
       - "/mnt/storage/media/comics:/comics"
+  gaps:
+    container_name: gap
+    expose: 
+      - "32400"
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    image: housewrecker/gaps:latest
+    labels:
+      - traefik.enable=true
+      - traefik.backend=gap
+      - "traefik.frontend.rule=Host:gap.${DOMAINNAME}"
+      - traefik.port=8484
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks:
+      - traefik_proxy
+    volumes:
+      - "/mnt/storage/appdata/gap:/config"
   netdata: 
     environment: 
       - TZ=America/Chicago
