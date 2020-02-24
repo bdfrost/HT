@@ -1,0 +1,79 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: plex
+  name: plex
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: plex
+    spec:
+      containers:
+      - env:
+        - name: PGID
+          value: "1000"
+        - name: PLEX_CLAIM
+          value: claim-czqH5xHxewS6RpyUmQZL
+        - name: PUID
+          value: "1000"
+        - name: TZ
+          value: America/Chicago
+        - name: VERSION
+          value: public
+        image: plexinc/pms-docker
+        name: plex
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: plex-claim0
+        - mountPath: /transcode
+          name: plex-claim1
+        - mountPath: /data/tvshows
+          name: plex-claim2
+        - mountPath: /data/homemovies
+          name: plex-claim3
+        - mountPath: /data/photos
+          name: plex-claim4
+        - mountPath: /data/exercisevideos
+          name: plex-claim5
+        - mountPath: /data/movies
+          name: plex-claim6
+        - mountPath: /shared
+          name: plex-claim7
+      restartPolicy: Always
+      volumes:
+      - name: plex-claim0
+        persistentVolumeClaim:
+          claimName: plex-claim0
+      - name: plex-claim1
+        persistentVolumeClaim:
+          claimName: plex-claim1
+      - name: plex-claim2
+        persistentVolumeClaim:
+          claimName: plex-claim2
+      - name: plex-claim3
+        persistentVolumeClaim:
+          claimName: plex-claim3
+      - name: plex-claim4
+        persistentVolumeClaim:
+          claimName: plex-claim4
+      - name: plex-claim5
+        persistentVolumeClaim:
+          claimName: plex-claim5
+      - name: plex-claim6
+        persistentVolumeClaim:
+          claimName: plex-claim6
+      - name: plex-claim7
+        persistentVolumeClaim:
+          claimName: plex-claim7
+status: {}
