@@ -7,6 +7,36 @@ networks:
     external: 
       name: traefik_proxy
 services: 
+version: "2"
+services:
+  hydra2:
+    image: linuxserver/hydra2
+    container_name: hydra2
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - /mnt/storage/appdata/hydra2:/config
+      - /mnt/storage/media/downloads:/downloads
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.backend=hydra2
+      - "traefik.frontend.rule=Host:hydra2.${DOMAINNAME}"
+      - traefik.port=5076
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks:
+      - traefik_proxy
   lazylibrarian:
     image: linuxserver/lazylibrarian:latest
     container_name: lazylibrarian
@@ -18,7 +48,7 @@ services:
       - /mnt/storage/appdata/lazy:/config
       - /mnt/storage/media/downloads:/downloads
       - /mnt/storage/media/books:/books
-  #  restart: unless-stopped
+    restart: unless-stopped
     labels: 
       - traefik.enable=true
       - traefik.backend=lazylibrarian
@@ -66,18 +96,23 @@ services:
       - "/mnt/storage/media/downloads:/downloads"
       - "/mnt/storage/media/comics:/comics"
   gaps:
-    container_name: gap
+    container_name: gaps
     expose: 
       - "32400"
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: housewrecker/gaps:latest
+    # image: housewrecker/gaps:latest
+    image: housewrecker/gaps:latest-no-ssl
+    # image: housewrecker/gaps:v0.1.2
+    restart: unless-stopped
     labels:
+      # - serversTransport.insecureSkipVerify=true
+      # - traefik.protocol=https
       - traefik.enable=true
-      - traefik.backend=gap
-      - "traefik.frontend.rule=Host:gap.${DOMAINNAME}"
+      - traefik.backend=gaps
+      - "traefik.frontend.rule=Host:gaps.${DOMAINNAME}"
       - traefik.port=8484
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
@@ -92,7 +127,7 @@ services:
     networks:
       - traefik_proxy
     volumes:
-      - "/mnt/storage/appdata/gap:/config"
+      - "/etc/localtime:/etc/localtime:ro"
   netdata: 
     environment: 
       - TZ=America/Chicago
@@ -148,7 +183,7 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-    # restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/organizr:/config"
       - "/mnt/storage/appdata/shared:/shared"
@@ -162,7 +197,7 @@ services:
       - "IGNORE=mongo influxdb postgres mariadb"
       - TZ=America/Chicago
     image: pyouroboros/ouroboros:latest
-    # restart: unless-stopped
+    restart: unless-stopped
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
   plex:
@@ -184,7 +219,7 @@ services:
       - TZ=America/Chicago
       - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
-     #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/plex:/config"
       - "/mnt/storage/media/TEMP_POSTPROCESSING:/transcode"
@@ -214,7 +249,7 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-    #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/portainer:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -241,7 +276,7 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-    #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/radarr:/config"
       - "/mnt/storage/media/movies:/movies"
@@ -271,7 +306,7 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-    #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/sabnzbd/config:/config"
       - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
@@ -304,7 +339,7 @@ services:
       - sabnzbd
     networks: 
       - traefik_proxy
-    #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/sonarr:/config"
       - "/mnt/storage/media/tv_import:/tv_import"
@@ -339,7 +374,7 @@ services:
       - plex
     networks: 
       - traefik_proxy
-    #restart: always
+    restart: always
     volumes: 
       - "/mnt/storage/appdata/plexpy:/config"
       - "/mnt/storage/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
@@ -378,7 +413,7 @@ services:
     ports: 
       - "80:80"
       - "443:443"
-    #restart: always
+    restart: always
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/storage/appdata/traefik:/etc/traefik"
@@ -394,6 +429,7 @@ services:
       - "/mnt/storage/media/comics:/comics"
       - "/mnt/storage/appdata/mylar/mylar:/mylar"
       - "/mnt/storage/appdata/gazee/certs:/certs"
+    restart: unless-stopped
     labels: 
       - traefik.enable=true
       - traefik.backend=gazee
