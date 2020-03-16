@@ -7,8 +7,35 @@ networks:
     external: 
       name: traefik_proxy
 services: 
-version: "2"
-services:
+  taisun:
+    image: linuxserver/taisun
+    container_name: taisun
+#    network_mode: bridge
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - FILE__PASSWORD=/mnt/storage/appdata/taisun/password
+    labels:
+      - traefik.enable=true
+      - traefik.backend=taisun
+      - "traefik.frontend.rule=Host:taisun.${DOMAINNAME}"
+      - traefik.port=3000
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
   hydra2:
     image: linuxserver/hydra2
     container_name: hydra2
