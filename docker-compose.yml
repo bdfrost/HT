@@ -471,7 +471,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   duplicati:
-    image: linuxserver/duplicati
+    image: linuxserver/duplicati:amd64-latest
     container_name: duplicati
     environment:
       - "PUID=${PUID}"
