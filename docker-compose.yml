@@ -468,33 +468,33 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    duplicati:
-      image: linuxserver/duplicati
-      container_name: duplicati
-      environment:
-        - "PUID=${PUID}"
-        - "PGID=${PGID}"
-        - TZ=America/Chicago
-  #      - CLI_ARGS= #optional
-      volumes:
-        - "/mnt/storage/appdata/duplicati:/config"
-  #      - /path/to/backups:/backups
-        - /mnt:/source
-      ports:
-        - 8200:8200
-      restart: unless-stopped
-      labels: 
-      - traefik.enable=true
-      - traefik.backend=duplicati
-      - "traefik.frontend.rule=Host:duplicati.${DOMAINNAME}"
-      - traefik.port=4242
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
+  duplicati:
+    image: linuxserver/duplicati
+    container_name: duplicati
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+#      - CLI_ARGS= #optional
+    volumes:
+      - "/mnt/storage/appdata/duplicati:/config"
+#      - /path/to/backups:/backups
+      - /mnt:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped
+    labels: 
+    - traefik.enable=true
+    - traefik.backend=duplicati
+    - "traefik.frontend.rule=Host:duplicati.${DOMAINNAME}"
+    - traefik.port=4242
+    - traefik.docker.network=traefik_proxy
+    - traefik.frontend.headers.SSLRedirect=true
+    - traefik.frontend.headers.STSSeconds=315360000
+    - traefik.frontend.headers.browserXSSFilter=true
+    - traefik.frontend.headers.contentTypeNosniff=true
+    - traefik.frontend.headers.forceSTSHeader=true
+    - traefik.frontend.headers.SSLHost=frost.haus
+    - traefik.frontend.headers.STSIncludeSubdomains=true
+    - traefik.frontend.headers.STSPreload=true
+    - traefik.frontend.headers.frameDeny=false
