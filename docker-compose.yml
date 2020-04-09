@@ -130,13 +130,9 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    # image: housewrecker/gaps:latest
     image: housewrecker/gaps:latest-no-ssl
-    # image: housewrecker/gaps:v0.1.2
     restart: unless-stopped
     labels:
-      # - serversTransport.insecureSkipVerify=true
-      # - traefik.protocol=https
       - traefik.enable=true
       - traefik.backend=gaps
       - "traefik.frontend.rule=Host:gaps.${DOMAINNAME}"
@@ -461,6 +457,36 @@ services:
       - traefik.enable=true
       - traefik.backend=gazee
       - "traefik.frontend.rule=Host:gazee.${DOMAINNAME}"
+      - traefik.port=4242
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    duplicati:
+      image: linuxserver/duplicati
+      container_name: duplicati
+      environment:
+        - "PUID=${PUID}"
+        - "PGID=${PGID}"
+        - TZ=America/Chicago
+  #      - CLI_ARGS= #optional
+      volumes:
+        - "/mnt/storage/appdata/duplicati:/config"
+  #      - /path/to/backups:/backups
+        - /mnt:/source
+      ports:
+        - 8200:8200
+      restart: unless-stopped
+      labels: 
+      - traefik.enable=true
+      - traefik.backend=duplicati
+      - "traefik.frontend.rule=Host:duplicati.${DOMAINNAME}"
       - traefik.port=4242
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
