@@ -194,7 +194,7 @@ services:
       - "TZ=${TZ}"
     image: lsiocommunity/organizr:latest
     labels: 
-      - traefik.frontend.auth.forward.address="http://oauth:4181"
+      - traefik.frontend.auth.forward.address="http://oauth.$DOMAINNAME:4181"
       - traefik.frontend.auth.forward.authResponseHeaders="X-Forwarded-User"
       - traefik.frontend.auth.forward.trustForwardHeader="true"
       - traefik.enable=true
