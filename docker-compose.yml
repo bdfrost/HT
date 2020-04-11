@@ -26,7 +26,7 @@ services:
       - "PGID=${PGID}"
       - FILE__PASSWORD=/mnt/storage/appdata/taisun/password
     labels:
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=taisun
       - "traefik.frontend.rule=Host:taisun.${DOMAINNAME}"
       - traefik.port=3000
@@ -52,7 +52,7 @@ services:
       - /mnt/storage/media/downloads:/downloads
     restart: unless-stopped
     labels:
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=hydra2
       - "traefik.frontend.rule=Host:hydra2.${DOMAINNAME}"
       - traefik.port=5076
@@ -81,7 +81,7 @@ services:
       - /mnt/storage/media/books:/books
     restart: unless-stopped
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=lazylibrarian
       - "traefik.frontend.rule=Host:lazylibrarian.${DOMAINNAME}"
       - traefik.port=5299
@@ -105,7 +105,7 @@ services:
       - "PGID=${PGID}"
     image: linuxserver/mylar:latest
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=mylar
       - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
       - traefik.port=8090
@@ -137,7 +137,7 @@ services:
     image: housewrecker/gaps:latest-no-ssl
     restart: unless-stopped
     labels:
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=gaps
       - "traefik.frontend.rule=Host:gaps.${DOMAINNAME}"
       - traefik.port=8484
@@ -166,7 +166,7 @@ services:
       - traefik.frontend.auth.forward.address="http://oauth.$DOMAINNAME:4181"
       - traefik.frontend.auth.forward.authResponseHeaders="X-Forwarded-User"
       - traefik.frontend.auth.forward.trustForwardHeader="true"
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=netdata
       - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
       - traefik.port=19999
@@ -197,7 +197,7 @@ services:
       - "TZ=${TZ}"
     image: lsiocommunity/organizr:latest
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=organizr
       - "traefik.frontend.rule=Host:${DOMAINNAME}"
       - traefik.port=80
@@ -263,7 +263,7 @@ services:
     container_name: portainer
     image: portainer/portainer:latest
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=portainer
       - "traefik.frontend.rule=Host:portainer.${DOMAINNAME}"
       - traefik.port=9000
@@ -291,7 +291,7 @@ services:
     # image: linuxserver/radarr:latest
     image: linuxserver/radarr:preview
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=radarr
       - "traefik.frontend.rule=Host:radarr.${DOMAINNAME}"
       - traefik.port=7878
@@ -321,7 +321,7 @@ services:
       - TZ=America/Chicago
     image: linuxserver/sabnzbd:latest
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=sabnzbd
       - "traefik.frontend.rule=Host:sabnzbd.${DOMAINNAME}"
       - traefik.port=8080
@@ -352,7 +352,7 @@ services:
       - "PGID=${PGID}"
     image: linuxserver/sonarr:preview
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=sonarr
       - "traefik.frontend.rule=Host:sonarr.${DOMAINNAME}"
       - traefik.port=8989
@@ -387,7 +387,7 @@ services:
       - TZ=America/Chicago
     image: linuxserver/tautulli:latest
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=tautulli
       - "traefik.frontend.rule=Host:tautulli.${DOMAINNAME}"
       - traefik.port=8181
@@ -423,20 +423,20 @@ services:
     image: "traefik:1.7"
     dns: 8.8.8.8
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=traefik
       - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
       - traefik.port=8080
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.browserXSSFilter="true"
+      - traefik.frontend.headers.contentTypeNosniff="true"
+      - traefik.frontend.headers.forceSTSHeader="true"
       - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
+      - traefik.frontend.headers.STSIncludeSubdomains="true"
+      - traefik.frontend.headers.STSPreload="true"
+      - traefik.frontend.headers.frameDeny="false"
       - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
       # - traefik.frontend.auth.forward.address="http://oauth:4181"
       # - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
@@ -466,7 +466,7 @@ services:
       - "/mnt/storage/appdata/gazee/certs:/certs"
     restart: unless-stopped
     labels: 
-      - traefik.enable=true
+      - traefik.enable="true"
       - traefik.backend=gazee
       - "traefik.frontend.rule=Host:gazee.${DOMAINNAME}"
       - traefik.port=4242
@@ -494,7 +494,7 @@ services:
       - /mnt:/source
     restart: unless-stopped
     labels: 
-    - traefik.enable=true
+    - traefik.enable="true"
     - traefik.backend=duplicati
     - "traefik.frontend.rule=Host:duplicati.${DOMAINNAME}"
     - traefik.port=8200
