@@ -437,13 +437,17 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-      - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
-    networks: 
+      # - "traefik.frontend.auth.basic.users=${HTTP_USERNAME}:${HTTP_PASSWORD}"
+      - traefik.frontend.auth.forward.address="http://oauth:4181"
+      - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+      - traefik.frontend.auth.forward.trustForwardHeader="true"
+      networks: 
       - default
       - traefik_proxy
     ports: 
       - "80:80"
       - "443:443"
+      - "8145:8080"
     restart: always
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
