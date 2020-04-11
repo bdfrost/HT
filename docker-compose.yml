@@ -515,14 +515,14 @@ services:
       - default
       - traefik_proxy
     environment:
-      - PROVIDERS_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - PROVIDERS_GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - SECRET=${OAUTH_SECRET}
-      - COOKIE_DOMAIN=${DOMAINNAME}
+      - PROVIDERS_GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID}"
+      - PROVIDERS_GOOGLE_CLIENT_SECRET="${GOOGLE_CLIENT_SECRET}"
+      - SECRET="${OAUTH_SECRET}"
+      - COOKIE_DOMAIN="${DOMAINNAME}"
       - INSECURE_COOKIE=false
-      - AUTH_HOST=oauth.${DOMAINNAME}
+      - AUTH_HOST=oauth."${DOMAINNAME}"
       - URL_PATH=/_oauth
-      - WHITELIST=${MY_EMAIL}
+      - WHITELIST="${MY_EMAIL}"
       - LOG_LEVEL=info
       - LIFETIME=2592000 # 30 days
     labels:
