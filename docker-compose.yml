@@ -163,6 +163,9 @@ services:
     container_name: netdata
     image: netdata/netdata:latest
     labels: 
+      - traefik.frontend.auth.forward.address="http://oauth.$DOMAINNAME:4181"
+      - traefik.frontend.auth.forward.authResponseHeaders="X-Forwarded-User"
+      - traefik.frontend.auth.forward.trustForwardHeader="true"
       - traefik.enable=true
       - traefik.backend=netdata
       - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
@@ -194,9 +197,6 @@ services:
       - "TZ=${TZ}"
     image: lsiocommunity/organizr:latest
     labels: 
-      - traefik.frontend.auth.forward.address="http://oauth.$DOMAINNAME:4181"
-      - traefik.frontend.auth.forward.authResponseHeaders="X-Forwarded-User"
-      - traefik.frontend.auth.forward.trustForwardHeader="true"
       - traefik.enable=true
       - traefik.backend=organizr
       - "traefik.frontend.rule=Host:${DOMAINNAME}"
