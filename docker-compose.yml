@@ -449,7 +449,6 @@ services:
       - "traefik.frontend.headers.SSLHost=traefik.${DOMAINNAME}"
       - traefik.frontend.passHostHeader=true
       - traefik.frontend.headers.SSLForceHost=true
-      - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.customResponseHeaders=X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
       - traefik.frontend.headers.frameDeny=true
       - "traefik.frontend.headers.customFrameOptionsValue=allow-from https:${DOMAINNAME}"
