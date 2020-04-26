@@ -198,7 +198,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - "TZ=${TZ}"
-    image: lsiocommunity/organizr:latest
+    # image: lsiocommunity/organizr:latest
+    image: linuxserver/organizr:amd64-latest
     labels: 
       - traefik.enable=true
       - traefik.backend=organizr
