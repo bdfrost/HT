@@ -41,7 +41,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   hydra2:
-    image: linuxserver/hydra2
+    image: linuxserver/nzbhydra2
     container_name: hydra2
     environment:
       - TZ=America/Chicago
