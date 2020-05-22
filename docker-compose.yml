@@ -166,9 +166,9 @@ services:
     container_name: netdata
     image: netdata/netdata:latest
     labels: 
-      - traefik.frontend.auth.forward.address=http://oauth:4181
-      - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
-      - traefik.frontend.auth.forward.trustForwardHeader=true
+      # - traefik.frontend.auth.forward.address=http://oauth:4181
+      # - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+      # - traefik.frontend.auth.forward.trustForwardHeader=true
       - traefik.enable=true
       - traefik.backend=netdata
       - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
