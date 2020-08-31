@@ -40,37 +40,6 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  hydra2:
-    image: linuxserver/nzbhydra2
-    container_name: hydra2
-    environment:
-      - TZ=America/Chicago
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    volumes:
-      - /mnt/storage/appdata/hydra2:/config
-      - /mnt/storage/media/downloads:/downloads
-    restart: unless-stopped
-    labels:
-      # - traefik.frontend.auth.forward.address=http://oauth:4181
-      # - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
-      # - traefik.frontend.auth.forward.trustForwardHeader=true      
-      - traefik.enable=true
-      - traefik.backend=hydra2
-      - "traefik.frontend.rule=Host:hydra2.${DOMAINNAME}"
-      - traefik.port=5076
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks:
-      - traefik_proxy
   lazylibrarian:
     image: linuxserver/lazylibrarian:latest
     container_name: lazylibrarian
@@ -100,64 +69,64 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-  mylar: 
-    container_name: mylar
-    environment: 
-      - TZ=America/Chicago
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    image: linuxserver/mylar:latest
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=mylar
-      - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
-      - traefik.port=8090
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
-    volumes: 
-      - "/mnt/storage/appdata/mylar:/config"
-      - "/mnt/storage/media/comics-import:/comics-import"
-      - "/mnt/storage/media/downloads:/downloads"
-      - "/mnt/storage/media/comics:/comics"
-  gaps:
-    container_name: gaps
-    expose: 
-      - "32400"
-    environment:
-      - TZ=America/Chicago
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    image: housewrecker/gaps:latest-no-ssl
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.backend=gaps
-      - "traefik.frontend.rule=Host:gaps.${DOMAINNAME}"
-      - traefik.port=8484
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks:
-      - traefik_proxy
-    volumes:
-      - "/etc/localtime:/etc/localtime:ro"
+#  mylar: 
+#    container_name: mylar
+#    environment: 
+#      - TZ=America/Chicago
+#      - "PUID=${PUID}"
+#      - "PGID=${PGID}"
+#    image: linuxserver/mylar:latest
+#    labels: 
+#      - traefik.enable=true
+#      - traefik.backend=mylar
+#      - "traefik.frontend.rule=Host:mylar.${DOMAINNAME}"
+#      - traefik.port=8090
+#      - traefik.docker.network=traefik_proxy
+#      - traefik.frontend.headers.SSLRedirect=true
+#      - traefik.frontend.headers.STSSeconds=315360000
+#      - traefik.frontend.headers.browserXSSFilter=true
+#      - traefik.frontend.headers.contentTypeNosniff=true
+#      - traefik.frontend.headers.forceSTSHeader=true
+#      - traefik.frontend.headers.SSLHost=frost.haus
+#      - traefik.frontend.headers.STSIncludeSubdomains=true
+#      - traefik.frontend.headers.STSPreload=true
+#      - traefik.frontend.headers.frameDeny=false
+#    networks: 
+#      - traefik_proxy
+#    volumes: 
+#      - "/mnt/storage/appdata/mylar:/config"
+#      - "/mnt/storage/media/comics-import:/comics-import"
+#      - "/mnt/storage/media/downloads:/downloads"
+#      - "/mnt/storage/media/comics:/comics"
+#  gaps:
+#    container_name: gaps
+#    expose: 
+#      - "32400"
+#    environment:
+#      - TZ=America/Chicago
+#      - "PUID=${PUID}"
+#      - "PGID=${PGID}"
+#    image: housewrecker/gaps:latest-no-ssl
+#    restart: unless-stopped
+#    labels:
+#      - traefik.enable=true
+#      - traefik.backend=gaps
+#      - "traefik.frontend.rule=Host:gaps.${DOMAINNAME}"
+#      - traefik.port=8484
+#      - traefik.docker.network=traefik_proxy
+#      - traefik.frontend.headers.SSLRedirect=true
+#      - traefik.frontend.headers.STSSeconds=315360000
+#      - traefik.frontend.headers.browserXSSFilter=true
+#      - traefik.frontend.headers.contentTypeNosniff=true
+#      - traefik.frontend.headers.forceSTSHeader=true
+#      - traefik.frontend.headers.SSLHost=frost.haus
+#      - traefik.frontend.headers.STSIncludeSubdomains=true
+#      - traefik.frontend.headers.STSPreload=true
+#      - traefik.frontend.headers.frameDeny=false
+#    networks:
+#      - traefik_proxy
+#    volumes:
+#      - "/etc/localtime:/etc/localtime:ro"
   netdata: 
     environment: 
       - TZ=America/Chicago
@@ -349,12 +318,10 @@ services:
       - "/mnt/storage/appdata/shared:/shared"
   sonarr: 
     container_name: sonarr
-#    depends_on: 
-#      - sabnzbd
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/sonarr:preview
+    image: linuxserver/sonarr
     labels: 
       - traefik.enable=true
       - traefik.backend=sonarr
@@ -466,33 +433,33 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/storage/appdata/traefik:/etc/traefik"
       - "/mnt/storage/appdata/shared/traefik:/shared"
-  gazee:
-    image: linuxserver/gazee:latest
-    container_name: gazee
-    environment:
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    volumes:
-      - "/mnt/storage/appdata/gazee:/config"
-      - "/mnt/storage/media/comics:/comics"
-      - "/mnt/storage/appdata/mylar/mylar:/mylar"
-      - "/mnt/storage/appdata/gazee/certs:/certs"
-    restart: unless-stopped
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=gazee
-      - "traefik.frontend.rule=Host:gazee.${DOMAINNAME}"
-      - traefik.port=4242
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
+#  gazee:
+#    image: linuxserver/gazee:latest
+#    container_name: gazee
+#    environment:
+#      - "PUID=${PUID}"
+#      - "PGID=${PGID}"
+#    volumes:
+#      - "/mnt/storage/appdata/gazee:/config"
+#      - "/mnt/storage/media/comics:/comics"
+#      - "/mnt/storage/appdata/mylar/mylar:/mylar"
+#      - "/mnt/storage/appdata/gazee/certs:/certs"
+#    restart: unless-stopped
+#    labels: 
+#      - traefik.enable=true
+#      - traefik.backend=gazee
+#      - "traefik.frontend.rule=Host:gazee.${DOMAINNAME}"
+#      - traefik.port=4242
+#      - traefik.docker.network=traefik_proxy
+#      - traefik.frontend.headers.SSLRedirect=true
+#      - traefik.frontend.headers.STSSeconds=315360000
+#      - traefik.frontend.headers.browserXSSFilter=true
+#      - traefik.frontend.headers.contentTypeNosniff=true
+#      - traefik.frontend.headers.forceSTSHeader=true
+#      - traefik.frontend.headers.SSLHost=frost.haus
+#      - traefik.frontend.headers.STSIncludeSubdomains=true
+#      - traefik.frontend.headers.STSPreload=true
+#      - traefik.frontend.headers.frameDeny=false
   duplicati:
     image: linuxserver/duplicati:amd64-latest
     container_name: duplicati
