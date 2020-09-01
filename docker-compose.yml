@@ -316,6 +316,7 @@ services:
       - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
+      - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
       - "/mnt/storage/appdata/shared:/shared"
   sonarr: 
     container_name: sonarr
