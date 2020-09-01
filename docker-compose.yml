@@ -292,7 +292,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/sabnzbd:latest
+    image: linuxserver/sabnzbd:2.3.9-0ubuntu1jcfp218.04-ls67
+    #image: linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sabnzbd
