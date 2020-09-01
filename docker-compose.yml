@@ -41,7 +41,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   lazylibrarian:
-    image: linuxserver/lazylibrarian:latest
+    image: linuxserver/lazylibrarian
     container_name: lazylibrarian
     environment:
       - TZ=America/Chicago
@@ -133,7 +133,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     container_name: netdata
-    image: netdata/netdata:latest
+    image: netdata/netdata
     labels: 
       # - traefik.frontend.auth.forward.address=http://oauth:4181
       # - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
@@ -167,7 +167,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - "TZ=${TZ}"
-    # image: lsiocommunity/organizr:latest
+    # image: lsiocommunity/organizr
     image: linuxserver/organizr:amd64-latest
     labels: 
       - traefik.enable=true
@@ -199,7 +199,7 @@ services:
       - SELF_UPDATE=true
       - "IGNORE=mongo influxdb postgres mariadb"
       - TZ=America/Chicago
-    image: pyouroboros/ouroboros:latest
+    image: pyouroboros/ouroboros
     restart: unless-stopped
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -234,7 +234,7 @@ services:
       - "/mnt/storage/appdata/shared:/shared"
   portainer: 
     container_name: portainer
-    image: portainer/portainer:latest
+    image: portainer/portainer-ce
     labels: 
       - traefik.enable=true
       - traefik.backend=portainer
@@ -261,7 +261,7 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/radarr:latest
+    image: linuxserver/radarr
     #image: linuxserver/radarr:preview
     labels: 
       - traefik.enable=true
@@ -292,7 +292,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/sabnzbd:latest
+    image: linuxserver/sabnzbd
     labels: 
       - traefik.enable=true
       - traefik.backend=sabnzbd
@@ -356,7 +356,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/tautulli:latest
+    image: linuxserver/tautulli
     labels: 
       - traefik.enable=true
       - traefik.backend=tautulli
