@@ -284,8 +284,8 @@ services:
     volumes: 
       - "/mnt/storage/appdata/radarr:/config"
       - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage/media/downloads:/downloads"
       - "/mnt/storage/appdata/shared:/shared"
+      - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
   sabnzbd: 
     container_name: sabnzbd
     environment: 
@@ -348,7 +348,7 @@ services:
       - "/mnt/storage/appdata/sonarr:/config"
       - "/mnt/storage/media/tv_import:/tv_import"
       - "/mnt/storage-usb/media/tv:/tv"
-      - "/mnt/storage/media/downloads:/downloads"
+      - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/appdata/shared:/shared"
   tautulli: 
     container_name: tautulli
