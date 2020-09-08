@@ -529,54 +529,52 @@ services:
   #     - traefik.frontend.auth.forward.address=http://oauth:4181
   #     - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
   #     - traefik.frontend.auth.forward.trustForwardHeader=true
-    shinobi:
-        image: shinobisystems/shinobi:dev
-        container_name: Shinobi
-        environment:
-           - SSL_ENABLED=false
-           - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
-        volumes:
-           - /mnt/storage/appdata/Shinobi/config:/config
-           - /mnt/storage/appdata/Shinobi/customAutoLoad:/home/Shinobi/libs/customAutoLoad
-           - /mnt/storage/media/Shinobi/database:/var/lib/mysql
-           - /mnt/storage/media/Shinobi/videos:/home/Shinobi/videos
-           - /mnt/storage/appdata/Shinobi/plugins:/home/Shinobi/plugins
-           - /dev/shm/Shinobi/streams:/dev/shm/streams
-           - /etc/localtime:/etc/localtime:ro
-        restart: unless-stopped
-        networks:
-          - traefik_proxy
-        environment:
-          - TZ=America/Chicago
-          - "PUID=${PUID}"
-          - "PGID=${PGID}"
-        labels:
-          - traefik.enable=true
-          - traefik.backend=taisun
-          - "traefik.frontend.rule=Host:shinobi.${DOMAINNAME}"
-          - traefik.port=12321
-          - traefik.docker.network=traefik_proxy
-          - traefik.frontend.headers.SSLRedirect=true
-          - traefik.frontend.headers.STSSeconds=315360000
-          - traefik.frontend.headers.browserXSSFilter=true
-          - traefik.frontend.headers.contentTypeNosniff=true
-          - traefik.frontend.headers.forceSTSHeader=true
-          - traefik.frontend.headers.SSLHost=frost.haus
-          - traefik.frontend.headers.STSIncludeSubdomains=true
-          - traefik.frontend.headers.STSPreload=true
-          - traefik.frontend.headers.frameDeny=false
-    shinobiplugintensorflow:
-        image: shinobisystems/shinobi-tensorflow:latest
-        container_name: shinobitensorflow
-        environment:
-          - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
-          - PLUGIN_HOST=Shinobi
-        volumes:
-          - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
-        restart: unless-stopped
-        networks:
-          - traefik_proxy
-        environment:
-          - TZ=America/Chicago
-          - "PUID=${PUID}"
-          - "PGID=${PGID}"
+  shinobi:
+    image: shinobisystems/shinobi:dev
+    container_name: Shinobi
+    environment:
+      - SSL_ENABLED=false
+      - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
+    volumes:
+      - /mnt/storage/appdata/Shinobi/config:/config
+      - /mnt/storage/appdata/Shinobi/customAutoLoad:/home/Shinobi/libs/customAutoLoad
+      - /mnt/storage/media/Shinobi/database:/var/lib/mysql
+      - /mnt/storage/media/Shinobi/videos:/home/Shinobi/videos
+      - /mnt/storage/appdata/Shinobi/plugins:/home/Shinobi/plugins
+      - /dev/shm/Shinobi/streams:/dev/shm/streams
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    labels:
+      - traefik.enable=true
+      - traefik.backend=taisun
+      - "traefik.frontend.rule=Host:shinobi.${DOMAINNAME}"
+      - traefik.port=12321
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+  shinobiplugintensorflow:
+    image: shinobisystems/shinobi-tensorflow:latest
+    container_name: shinobitensorflow
+    environment:
+      - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
+      - PLUGIN_HOST=Shinobi
+    volumes:
+      - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
+    restart: unless-stopped
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
