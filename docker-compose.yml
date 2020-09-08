@@ -531,7 +531,7 @@ services:
   #     - traefik.frontend.auth.forward.trustForwardHeader=true
   shinobi:
     image: shinobisystems/shinobi:dev
-    container_name: Shinobi
+    container_name: shinobi
     environment:
       - SSL_ENABLED=false
       - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
@@ -552,7 +552,7 @@ services:
       - "PGID=${PGID}"
     labels:
       - traefik.enable=true
-      - traefik.backend=taisun
+      - traefik.backend=shinobi
       - "traefik.frontend.rule=Host:shinobi.${DOMAINNAME}"
       - traefik.port=12321
       - traefik.docker.network=traefik_proxy
@@ -570,7 +570,7 @@ services:
     container_name: shinobitensorflow
     environment:
       - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
-      - PLUGIN_HOST=Shinobi
+      - PLUGIN_HOST=shinobi
     volumes:
       - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
     restart: unless-stopped
