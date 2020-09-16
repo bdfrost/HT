@@ -209,6 +209,7 @@ services:
     volumes:
       - /mnt/storage/media/download-reprocess:/download-reprocess
       - /mnt/storage/appdata/plex:/config
+      - /mnt/storage/appdata/plex/tmp:/tmp
       - /mnt/storage-usb/media/tv:/data/tvshows
       - /mnt/storage/media/homemovies:/data/homemovies
       - /mnt/storage/media/photos:/data/photos
