@@ -204,12 +204,13 @@ services:
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock"
   plex:
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:plexpass
     container_name: plex
     volumes:
       - /mnt/storage/media/download-reprocess:/download-reprocess
       - /mnt/storage/appdata/plex:/config
-      - /mnt/storage/appdata/plex/tmp:/tmp
+      - /mnt/storage/appdata/tmp:/tmp
+      - /mnt/storage/appdata/tmp:/transcode
       - /mnt/storage-usb/media/tv:/data/tvshows
       - /mnt/storage/media/homemovies:/data/homemovies
       - /mnt/storage/media/photos:/data/photos
