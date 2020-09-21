@@ -212,11 +212,9 @@ services:
       - /mnt/storage/appdata/tmp:/tmp
       - /mnt/storage/appdata/tmp:/transcode
       - /mnt/storage-usb/media/tv:/data/tvshows
-      - /mnt/storage/media/homemovies:/data/homemovies
       - /mnt/storage/media/photos:/data/photos
-      - /mnt/storage/media/exercisevideos:/data/exercisevideos
       - /mnt/storage/media/movies:/data/movies
-      - /mnt/storage/media/TEMP_POSTPROCESSING:/transcode
+      - /mnt/storage/appdata/shared:/shared
     environment:
       - VERSION=public
       - PUID=${PUID}
@@ -225,15 +223,6 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
     restart: always
-    volumes: 
-      - "/mnt/storage/appdata/plex:/config"
-      - "/mnt/storage/media/TEMP_POSTPROCESSING:/transcode"
-      - "/mnt/storage-usb/media/tv:/data/tvshows"
-      - "/mnt/storage/media/homemovies:/data/homemovies"
-      - "/mnt/storage/media/photos:/data/photos"
-      - "/mnt/storage/media/exercisevideos:/data/exercisevideos"
-      - "/mnt/storage/media/movies:/data/movies"
-      - "/mnt/storage/appdata/shared:/shared"
   portainer: 
     container_name: portainer
     image: portainer/portainer-ce:latest
