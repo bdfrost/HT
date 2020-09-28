@@ -9,7 +9,34 @@ networks:
   traefik_proxy: 
     external: 
       name: traefik_proxy
-services: 
+services:
+  pihole:
+    # Reset webadmin password with `docker exec -it pihole_container_name pihole -a -p`
+    network_mode: host
+    container_name: pihole
+    image: pihole/pihole:latest
+    # ports:
+    #   - "53:53/tcp"
+    #   - "53:53/udp"
+    #   - "67:67/udp"
+    #   - "80:80/tcp"
+    #   - "443:443/tcp"
+    environment:
+      TZ: 'America/Chicago'
+      DNS1: 208.67.222.222
+      DNS2: 208.67.220.220
+      DNS_FQDN_REQUIRED: "true"
+      # CONDITIONAL_FORWARDING: "true"
+      ServerIP: 192.168.100.150
+      # VIRTUAL_HOST: "pepper"
+      TEMPERATUREUNIT: 'f'
+      restart: unless-stopped    
+    volumes:
+      - '/mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/'
+      - '/mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped    
   taisun:
     image: linuxserver/taisun
     container_name: taisun
