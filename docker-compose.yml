@@ -446,8 +446,8 @@ services:
     - default
     - traefik_proxy
     ports: 
-      - "80:80"
-      - "443:443"
+      # - "80:80"
+      # - "443:443"
       - "8145:8080"
     restart: always
     volumes: 
