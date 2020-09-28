@@ -24,7 +24,7 @@ services:
     environment:
       TZ: "America/Chicago"
       DNS_FQDN_REQUIRED: "true"
-      ServerIP: 192.168.100.150
+      ServerIP: 192.168.100.10 # for the host networking that DHCP 'needs'
       TEMPERATUREUNIT: "f"
       restart: unless-stopped    
     volumes:
