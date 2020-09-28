@@ -253,7 +253,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     # image: linuxserver/radarr:latest
-    image: linuxserver/radarr:preview
+    image: linuxserver/radarr:nightly
     labels: 
       - traefik.enable=true
       - traefik.backend=radarr
