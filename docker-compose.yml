@@ -192,7 +192,7 @@ services:
       - "TZ=${TZ}"
       - "fpm=false"
     # image: lsiocommunity/organizr
-    image: organizr/organizr:v2-master
+    image: organizr/organizr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=organizr
