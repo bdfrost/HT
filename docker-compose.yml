@@ -190,8 +190,9 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - "TZ=${TZ}"
+      - "fpm=false"
     # image: lsiocommunity/organizr
-    image: linuxserver/organizr:amd64-latest
+    image: organizr/organizr:v2-master
     labels: 
       - traefik.enable=true
       - traefik.backend=organizr
@@ -212,7 +213,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/organizr:/config"
-      - "/mnt/storage/appdata/shared:/shared"
+  #    - "/mnt/storage/appdata/shared:/shared"
   ouroboros: 
     container_name: ouroboros
     environment: 
