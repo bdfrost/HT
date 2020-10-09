@@ -10,26 +10,47 @@ networks:
     external: 
       name: traefik_proxy
 services:
+  nzbhydra2:
+    image: linuxserver/nzbhydra2
+    container_name: nzbhydra2
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/appdata/nzbhydra2/config:/config
+      - /mnt/storage/appdata/nzbhydra2/downloads:/downloads
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=nzbhydra2
+      - "traefik.frontend.rule=Host:nzbhydra2.${DOMAINNAME}"
+      - traefik.port=5076
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
   pihole:
     # Reset webadmin password with `docker exec -it pihole_container_name pihole -a -p`
     network_mode: host
     container_name: pihole
     image: pihole/pihole:latest
-    # ports:
-    #   - "53:53/tcp"
-    #   - "53:53/udp"
-    #   - "67:67/udp"
-    #   - "80:80/tcp"
-    #   - "443:443/tcp"
     environment:
-      TZ: "America/Chicago"
-      DNS_FQDN_REQUIRED: "true"
-      ServerIP: 192.168.100.10 # for the host networking that DHCP 'needs'
-      TEMPERATUREUNIT: "f"
-      restart: unless-stopped    
+      - TZ=America/Chicago
+      - DNS_FQDN_REQUIRED=true
+      - ServerIP=192.168.100.10 # for the host networking that DHCP 'needs'
+      - TEMPERATUREUNIT=f
     volumes:
-      - '/mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/'
-      - '/mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/'
+      - /mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/
+      - /mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/
     cap_add:
       - NET_ADMIN
     restart: unless-stopped    
