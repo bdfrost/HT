@@ -10,11 +10,41 @@ networks:
     external: 
       name: traefik_proxy
 services:
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
+      - UMASK_SET=022
+    volumes:
+      - "/mnt/storage/media/movies:/movies"
+      - "/mnt/storage-usb/media/tv:/tv"
+      - "/mnt/storage/appdata/bazarr/config:/config"
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=bazarr
+      - "traefik.frontend.rule=Host:lazylibrarian.${DOMAINNAME}"
+      - traefik.port=6767
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
   nzbhydra2:
     image: linuxserver/nzbhydra2
     container_name: nzbhydra2
     environment:
-      - TZ=America/Chicago
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     restart: unless-stopped
@@ -65,7 +95,7 @@ services:
     networks:
       - traefik_proxy
     environment:
-      - TZ=America/Chicago
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - FILE__PASSWORD=/mnt/storage/appdata/taisun/password
@@ -88,7 +118,7 @@ services:
     image: linuxserver/lazylibrarian:latest
     container_name: lazylibrarian
     environment:
-      - TZ=America/Chicago
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     volumes:
@@ -115,7 +145,7 @@ services:
       - traefik_proxy
   netdata: 
     environment: 
-      - TZ=America/Chicago
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     container_name: netdata
@@ -234,7 +264,6 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    # image: linuxserver/radarr:latest
     image: linuxserver/radarr:nightly
     labels: 
       - traefik.enable=true
@@ -265,8 +294,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    image: linuxserver/sabnzbd:2.3.9-0ubuntu1jcfp218.04-ls67
-    #image: linuxserver/sabnzbd:latest
+    #image: linuxserver/sabnzbd:2.3.9-0ubuntu1jcfp218.04-ls67
+    image: linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sabnzbd
