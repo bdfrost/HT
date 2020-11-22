@@ -115,8 +115,6 @@ services:
   taisun:
     image: linuxserver/taisun:latest
     container_name: taisun
-    ports:
-      - "3000:3000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
