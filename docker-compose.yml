@@ -10,6 +10,34 @@ networks:
     external: 
       name: traefik_proxy
 services:
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - /mnt/storage/appdata/nextcloud/config:/config
+      - /mnt/storage/appdata/nextcloud/data:/data
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=nextcloud
+      - "traefik.frontend.rule=Host:nextcloud.${DOMAINNAME}"
+      - traefik.port=443
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
