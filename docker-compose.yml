@@ -25,7 +25,7 @@ services:
       - traefik.enable=true
       - traefik.backend=nextcloud
       - "traefik.frontend.rule=Host:nextcloud.${DOMAINNAME}"
-      - traefik.port=4443
+      - traefik.port=80
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
