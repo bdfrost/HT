@@ -14,7 +14,6 @@ networks:
     driver_opts:
       parent: ens160
     ipam:
-      driver: default
       config:
         - subnet: 192.168.100.0/24
           gateway: 192.168.100.1
