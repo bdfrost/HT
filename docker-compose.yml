@@ -12,7 +12,7 @@ networks:
   macvlan_network:
     driver: macvlan
     driver_opts:
-      parent: eth0
+      parent: ens160
     ipam:
       driver: default
       config:
