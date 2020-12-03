@@ -21,8 +21,7 @@ services:
       - /mnt/storage/appdata/nextcloud/config:/config
       - /mnt/storage/appdata/nextcloud/data:/data
     restart: unless-stopped
-    ports:
-      - "4000:443"
+    network_mode: host
     labels: 
       - "traefik.enable=false"
       # - traefik.enable=true
@@ -39,8 +38,8 @@ services:
       # - traefik.frontend.headers.STSIncludeSubdomains=true
       # - traefik.frontend.headers.STSPreload=true
       # - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
+    # networks: 
+    #   - traefik_proxy
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
