@@ -9,6 +9,15 @@ networks:
   traefik_proxy: 
     external: 
       name: traefik_proxy
+  macvlan_network:
+    driver: macvlan
+    driver_opts:
+      parent: ens160
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.100.0/24
+          gateway: 192.168.100.1
 services:
   nextcloud:
     image: linuxserver/nextcloud
@@ -21,7 +30,6 @@ services:
       - /mnt/storage/appdata/nextcloud/config:/config
       - /mnt/storage/appdata/nextcloud/data:/data
     restart: unless-stopped
-    network_mode: host
     labels: 
       - "traefik.enable=false"
       # - traefik.enable=true
@@ -38,8 +46,9 @@ services:
       # - traefik.frontend.headers.STSIncludeSubdomains=true
       # - traefik.frontend.headers.STSPreload=true
       # - traefik.frontend.headers.frameDeny=false
-    # networks: 
-    #   - traefik_proxy
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
