@@ -30,10 +30,11 @@ services:
       - /mnt/storage/appdata/nextcloud/data:/data
     restart: unless-stopped
     ports:
-      - 443:443
+      - 44443:443
     networks: 
-      macvlan_network:
-        ipv4_address: 192.168.100.11
+      - traefik_proxy
+      # macvlan_network:
+      #   ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
