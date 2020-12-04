@@ -14,6 +14,7 @@ networks:
     driver_opts:
       parent: ens160
     ipam:
+      driver: default
       config:
         - subnet: 192.168.100.0/24
           gateway: 192.168.100.1
@@ -31,10 +32,10 @@ services:
     restart: unless-stopped
     ports:
       - 44443:443
+    mac_address: 02:42:c0:a8:84:23
     networks: 
-      - traefik_proxy
-      # macvlan_network:
-      #   ipv4_address: 192.168.100.11
+      macvlan_network:
+        ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
