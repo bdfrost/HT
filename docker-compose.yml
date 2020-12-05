@@ -180,8 +180,10 @@ services:
       - UMASK_SET=002 #optional
     volumes:
       - /mnt/storage/appdata/readarr:/config
-      - /mnt/storage/media/downloads/book-downloads:/downloads
+      - /mnt/storage/media/downloads/book-downloads:/book-downloads
+      - /mnt/storage/media/downloads/comic-downloads:/comic-downloads
       - /mnt/storage/media/books:/books
+      - /mnt/storage/media/comics:/comics
     links:
       - sabnzbd
     restart: unless-stopped
