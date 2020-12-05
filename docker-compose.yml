@@ -138,35 +138,68 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  lazylibrarian:
-    image: linuxserver/lazylibrarian:latest
-    container_name: lazylibrarian
+  ubooquity:
+    image: ghcr.io/linuxserver/ubooquity
+    container_name: ubooquity
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     volumes:
-      - /mnt/storage/appdata/lazy:/config
-      - /mnt/storage/media/downloads:/downloads
+      - /mnt/storage/appdata/ubooquity:/config
+      - /mnt/storage/media/downloads/book-downloads:/downloads
       - /mnt/storage/media/books:/books
+    # ports:
+    #   - 2202:2202
+    #   - 2203:2203
     restart: unless-stopped
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=lazylibrarian
-      - "traefik.frontend.rule=Host:lazylibrarian.${DOMAINNAME}"
-      - traefik.port=5299
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks: 
+    networks:
       - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=ubooquity"
+      - "traefik.frontend.rule=Host:ubooquity.${DOMAINNAME}"
+      - "traefik.port=2202"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+  readarr:
+    image: hotio/readarr:nightly
+    container_name: readarr
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - UMASK_SET=002 #optional
+    volumes:
+      - /mnt/storage/appdata/readarr:/config
+      - /mnt/storage/media/downloads/book-downloads:/downloads
+      - /mnt/storage/media/books:/books
+    links:
+      - sabnzbd
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=ubooquity"
+      - "traefik.frontend.rule=Host:readarr.${DOMAINNAME}"
+      - "traefik.port=8787"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
   netdata: 
     environment: 
       - "TZ=${TZ}"
