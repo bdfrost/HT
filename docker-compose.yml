@@ -374,6 +374,8 @@ services:
     volumes: 
       - "/mnt/storage/appdata/sabnzbd/config:/config"
       - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
+      - "/mnt/storage/media/downloads/book-downloads:/book-downloads"
+      - "/mnt/storage/media/downloads/comic-downloads:/comic-downloads"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
