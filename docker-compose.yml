@@ -139,7 +139,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   ubooquity:
-    image: ghcr.io/linuxserver/ubooquity
+    image: linuxserver/ubooquity:latest
     container_name: ubooquity
     environment:
       - "TZ=${TZ}"
@@ -187,7 +187,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.backend=ubooquity"
+      - "traefik.backend=readarr"
       - "traefik.frontend.rule=Host:readarr.${DOMAINNAME}"
       - "traefik.port=8787"
       - "traefik.docker.network=traefik_proxy"
