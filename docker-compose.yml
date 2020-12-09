@@ -281,7 +281,7 @@ services:
       - /mnt/storage/appdata/tmp:/tmp
       - /mnt/storage/appdata/tmp:/transcode
       - /mnt/storage-usb/media/tv:/data/tvshows
-      - /mnt/storage/media/photos:/data/photos
+      - /mnt/storage/media/gphotos/photos:/data/photos
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/appdata/shared:/shared
     environment:
