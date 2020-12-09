@@ -518,9 +518,6 @@ services:
   shinobi:
     image: shinobisystems/shinobi:dev
     container_name: shinobi
-    environment:
-      - SSL_ENABLED=false
-      - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
     volumes:
       - /mnt/storage/appdata/Shinobi/config:/config
       - /mnt/storage/appdata/Shinobi/customAutoLoad:/home/Shinobi/libs/customAutoLoad
@@ -536,6 +533,8 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
+      - SSL_ENABLED=false
+      - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
     labels:
       - traefik.enable=true
       - traefik.backend=shinobi
@@ -554,13 +553,12 @@ services:
   shinobiplugintensorflow:
     image: shinobisystems/shinobi-tensorflow:latest
     container_name: shinobitensorflow
-    environment:
-      - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
-      - PLUGIN_HOST=shinobi
     volumes:
       - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
     restart: unless-stopped
     environment:
+      - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
+      - PLUGIN_HOST=shinobi
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
