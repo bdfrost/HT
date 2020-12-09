@@ -556,6 +556,8 @@ services:
     volumes:
       - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
     restart: unless-stopped
+    networks:
+      - host
     environment:
       - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
       - PLUGIN_HOST=shinobi
