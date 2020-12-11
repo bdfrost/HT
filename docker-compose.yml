@@ -323,7 +323,7 @@ services:
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/radarr:nightly
+    image: linuxserver/radarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=radarr
@@ -353,7 +353,6 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-    #image: linuxserver/sabnzbd:2.3.9-0ubuntu1jcfp218.04-ls67
     image: linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
@@ -458,6 +457,7 @@ services:
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
     image: "traefik:1.7"
+#    image: "traefik:latest"
     dns: 8.8.8.8
     labels: 
       - traefik.enable=true
