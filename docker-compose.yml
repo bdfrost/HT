@@ -280,7 +280,7 @@ services:
       - /mnt/storage/appdata/plex:/config
       - /mnt/storage/appdata/tmp:/tmp
       - /mnt/storage/appdata/tmp:/transcode
-      - /mnt/storage-usb/media/tv:/data/tvshows
+      - /mnt/storage/media/tv:/data/tvshows
       - /mnt/storage/media/gphotos/photos:/data/photos
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/appdata/shared:/shared
@@ -411,7 +411,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/sonarr:/config"
       - "/mnt/storage/media/tv_import:/tv_import"
-      - "/mnt/storage-usb/media/tv:/tv"
+      - "/mnt/storage/media/tv:/tv"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/appdata/shared:/shared"
   tautulli: 
