@@ -19,23 +19,23 @@ networks:
         - subnet: 192.168.100.0/24
           # gateway: 192.168.100.1
 services:
-  # nextcloud:
-  #   image: linuxserver/nextcloud
-  #   container_name: nextcloud
-  #   environment:
-  #     - TZ=America/Chicago
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #   volumes:
-  #     - /mnt/storage/appdata/nextcloud/config:/config
-  #     - /mnt/storage/appdata/nextcloud/data:/data
-  #   restart: unless-stopped
-  #   ports:
-  #     - 443:443
-  #   mac_address: 02:42:c0:a8:84:23
-  #   networks: 
-  #     macvlan_network:
-  #       ipv4_address: 192.168.100.11
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - /mnt/storage/appdata/nextcloud/config:/config
+      - /mnt/storage/appdata/nextcloud/data:/data
+    restart: unless-stopped
+    ports:
+      - 443:443
+    mac_address: 02:42:c0:a8:84:23
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
