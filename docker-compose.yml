@@ -293,8 +293,6 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM_CODE}
     network_mode: host
     restart: always
-    depends_on: 
-      - pihole
   portainer: 
     container_name: portainer
     image: portainer/portainer-ce:latest
