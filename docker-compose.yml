@@ -31,11 +31,12 @@ services:
       - /mnt/storage/appdata/nextcloud/data:/data
     restart: unless-stopped
     ports:
-      - 44443:443
-    mac_address: 02:42:c0:a8:84:23
-    networks: 
-      macvlan_network:
-        ipv4_address: 192.168.100.11
+      - 443:443
+    network_mode: host
+    # mac_address: 02:42:c0:a8:84:23
+    # networks: 
+    #   macvlan_network:
+    #     ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
@@ -94,22 +95,22 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-  pihole:
-    # Reset webadmin password with `docker exec -it pihole_container_name pihole -a -p`
-    network_mode: host
-    container_name: pihole
-    image: pihole/pihole:latest
-    environment:
-      - TZ=America/Chicago
-      - DNS_FQDN_REQUIRED=true
-      - ServerIP=192.168.100.10 # for the host networking that DHCP 'needs'
-      - TEMPERATUREUNIT=f
-    volumes:
-      - /mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/
-      - /mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/
-    cap_add:
-      - NET_ADMIN
-    restart: unless-stopped    
+  # pihole:
+  #   # Reset webadmin password with `docker exec -it pihole_container_name pihole -a -p`
+  #   network_mode: host
+  #   container_name: pihole
+  #   image: pihole/pihole:latest
+  #   environment:
+  #     - TZ=America/Chicago
+  #     - DNS_FQDN_REQUIRED=true
+  #     - ServerIP=192.168.100.10 # for the host networking that DHCP 'needs'
+  #     - TEMPERATUREUNIT=f
+  #   volumes:
+  #     - /mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/
+  #     - /mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/
+  #   cap_add:
+  #     - NET_ADMIN
+  #   restart: unless-stopped    
   # taisun:
   #   image: linuxserver/taisun:latest
   #   container_name: taisun
