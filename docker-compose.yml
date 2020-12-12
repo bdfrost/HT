@@ -9,33 +9,33 @@ networks:
   traefik_proxy: 
     external: 
       name: traefik_proxy
-  # macvlan_network:
-  #   driver: macvlan
-  #   driver_opts:
-  #     parent: ens160
-  #   ipam:
-  #     driver: default
-  #     config:
-  #       - subnet: 192.168.100.0/24
-  #         gateway: 192.168.100.1
+  macvlan_network:
+    driver: macvlan
+    driver_opts:
+      parent: ens160
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.100.0/24
+          gateway: 192.168.100.1
 services:
-  # nextcloud:
-  #   image: linuxserver/nextcloud
-  #   container_name: nextcloud
-  #   environment:
-  #     - TZ=America/Chicago
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #   volumes:
-  #     - /mnt/storage/appdata/nextcloud/config:/config
-  #     - /mnt/storage/appdata/nextcloud/data:/data
-  #   restart: unless-stopped
-  #   ports:
-  #     - 443:443
-  #   mac_address: 02:42:c0:a8:84:23
-  #   networks: 
-  #     macvlan_network:
-  #       ipv4_address: 192.168.100.11
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    volumes:
+      - /mnt/storage/appdata/nextcloud/config:/config
+      - /mnt/storage/appdata/nextcloud/data:/data
+    restart: unless-stopped
+    ports:
+      - 443:443
+    mac_address: 02:42:c0:a8:84:23
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
@@ -454,7 +454,7 @@ services:
       - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
       - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
     hostname: traefik
-    image: "traefik:1.7.18"
+    image: "traefik:1.7"
     dns: 8.8.8.8
     labels: 
       - traefik.enable=true
