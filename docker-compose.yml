@@ -17,7 +17,7 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
-          gateway: 192.168.100.1
+        - gateway: 192.168.100.1
 services:
   inventory-hunter:
     network_mode: host
@@ -27,8 +27,8 @@ services:
     image: ericjmarti/inventory-hunter:latest
     command: --alerter=slack --webhook=$ScalperWebhook
     volumes:
-      - /mnt/storage/appdata/inventory-hunter/data:/data
-      - /mnt/storage/appdata/inventory-hunter/log:/log
+      # - /mnt/storage/appdata/inventory-hunter/data:/data
+      # - /mnt/storage/appdata/inventory-hunter/log:/log
       - type: bind
         source: /mnt/storage/appdata/inventory-hunter/3070.yaml
         target: /config.yaml
