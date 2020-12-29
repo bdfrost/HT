@@ -28,8 +28,8 @@ services:
     command: --alerter=slack --webhook=$ScalperWebhook
     volumes:
       - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
-      - /mnt/storage/appdata/inventory-hunter/data/:/data/
-      - /mnt/storage/appdata/inventory-hunter/log/:/logs/
+      - /mnt/storage/appdata/inventory-hunter/data:/data
+      - /mnt/storage/appdata/inventory-hunter/log:/log
     restart: unless-stopped 
   nextcloud:
     image: linuxserver/nextcloud
