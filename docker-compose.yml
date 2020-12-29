@@ -19,6 +19,16 @@ networks:
         - subnet: 192.168.100.0/24
           gateway: 192.168.100.1
 services:
+  inventory-hunter:
+    network_mode: host
+    container_name: inventory-hunter
+    image: ericjmarti/inventory-hunter:latest
+    command: --alerter=slack --webhook=https://hooks.slack.com/services/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
+    volumes:
+      - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
+      - /mnt/storage/appdata/inventory-hunter/data/:/data
+      - /mnt/storage/appdata/inventory-hunter/log/:/logs.txt
+    restart: unless-stopped 
   nextcloud:
     image: linuxserver/nextcloud
     container_name: nextcloud
