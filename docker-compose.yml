@@ -17,7 +17,6 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
-        # - gateway: 192.168.100.1
 services:
   inventory-hunter:
     network_mode: host
@@ -32,7 +31,7 @@ services:
       - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
     restart: unless-stopped 
   nextcloud:
-    image: linuxserver/nextcloud
+    image: ghcr.io/linuxserver/nextcloud
     container_name: nextcloud
     environment:
       - TZ=America/Chicago
@@ -44,7 +43,7 @@ services:
     restart: unless-stopped
     ports:
       - 443:443
-    mac_address: 02:42:c0:a8:84:23
+    # mac_address: 02:42:c0:a8:84:23
     networks: 
       macvlan_network:
         ipv4_address: 192.168.100.11
@@ -106,50 +105,6 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-  # pihole:
-  #   # Reset webadmin password with `docker exec -it pihole_container_name pihole -a -p`
-  #   network_mode: host
-  #   container_name: pihole
-  #   image: pihole/pihole:latest
-  #   environment:
-  #     - TZ=America/Chicago
-  #     - DNS_FQDN_REQUIRED=true
-  #     - ServerIP=192.168.100.10 # for the host networking that DHCP 'needs'
-  #     - TEMPERATUREUNIT=f
-  #   volumes:
-  #     - /mnt/storage/appdata/pihole/etc/pihole/:/etc/pihole/
-  #     - /mnt/storage/appdata/pihole/etc/dnsmasq.d/:/etc/dnsmasq.d/
-  #   cap_add:
-  #     - NET_ADMIN
-  #   restart: unless-stopped    
-  # taisun:
-  #   image: linuxserver/taisun:latest
-  #   container_name: taisun
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   restart: unless-stopped
-  #   networks:
-  #     - traefik_proxy
-  #   environment:
-  #     - "TZ=${TZ}"
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #     - FILE__PASSWORD=/mnt/storage/appdata/taisun/password
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.backend=taisun
-  #     - "traefik.frontend.rule=Host:taisun.${DOMAINNAME}"
-  #     - traefik.port=3000
-  #     - traefik.docker.network=traefik_proxy
-  #     - traefik.frontend.headers.SSLRedirect=true
-  #     - traefik.frontend.headers.STSSeconds=315360000
-  #     - traefik.frontend.headers.browserXSSFilter=true
-  #     - traefik.frontend.headers.contentTypeNosniff=true
-  #     - traefik.frontend.headers.forceSTSHeader=true
-  #     - traefik.frontend.headers.SSLHost=frost.haus
-  #     - traefik.frontend.headers.STSIncludeSubdomains=true
-  #     - traefik.frontend.headers.STSPreload=true
-  #     - traefik.frontend.headers.frameDeny=false
   # ubooquity:
   #   image: linuxserver/ubooquity:latest
   #   container_name: ubooquity
@@ -189,7 +144,7 @@ services:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-      - UMASK_SET=002 #optional
+      - UMASK_SET=002
     volumes:
       - /mnt/storage/appdata/readarr:/config
       - /mnt/storage/media/downloads/book-downloads:/downloads
