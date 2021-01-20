@@ -18,6 +18,21 @@ networks:
       config:
         - subnet: 192.168.100.0/24
 services:
+  homeassistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - /mnt/storage/appdata/homne-assistent/:/config
+    # devices:
+    #   - /dev/ttyUSB0:/dev/ttyUSB0
+    #   - /dev/ttyUSB1:/dev/ttyUSB1
+    #   - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"    
+    restart: always
+    network_mode: host
   inventory-hunter:
     network_mode: host
     container_name: inventory-hunter
