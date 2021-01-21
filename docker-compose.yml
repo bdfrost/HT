@@ -18,11 +18,22 @@ networks:
       config:
         - subnet: 192.168.100.0/24
 services:
+  avahi:
+    container_name: avahi
+    image: solidnerd/avahi:0.7
+    network_mode: host
+    volumes:
+     - /mnt/storage/appdata/:/etc/avahi:ro
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"    
+    restart: always
   homeassistant:
     container_name: home-assistant
     image: homeassistant/home-assistant:stable
     volumes:
-      - /mnt/storage/appdata/homne-assistent/:/config
+      - /mnt/storage/appdata/home-assistant/:/config
     # devices:
     #   - /dev/ttyUSB0:/dev/ttyUSB0
     #   - /dev/ttyUSB1:/dev/ttyUSB1
