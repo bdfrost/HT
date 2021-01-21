@@ -23,7 +23,7 @@ services:
     image: solidnerd/avahi:0.7
     network_mode: host
     volumes:
-     - /mnt/storage/appdata/avahi/:/etc/avahi
+     - /mnt/storage/appdata/avahi/:/etc/avahi:ro
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
