@@ -34,10 +34,10 @@ services:
     image: homeassistant/home-assistant:stable
     volumes:
       - /mnt/storage/appdata/home-assistant/:/config
-    # devices:
+    devices:
     #   - /dev/ttyUSB0:/dev/ttyUSB0
     #   - /dev/ttyUSB1:/dev/ttyUSB1
-    #   - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/ttyACM0:/dev/ttyACM0
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
