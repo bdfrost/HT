@@ -18,6 +18,20 @@ networks:
       config:
         - subnet: 192.168.100.0/24
 services:
+  samba:
+    container_name: WinShare
+    hostname: samba
+    image: sixeyed/samba
+    volumes:
+    - /mnt/storage/media/fileshare:/fileshare
+    ports:
+    - "139:139"
+    - "445:445"
+    - "137:137/udp"
+    - "138:138/udp"
+    command: samba.sh -s "fileshare;/fileshare;yes;no;yes;all" 
+    mem_limit: 1g
+    restart: always
   avahi:
     container_name: avahi
     image: solidnerd/avahi:0.7
