@@ -30,7 +30,6 @@ services:
     - "137:137/udp"
     - "138:138/udp"
     command: samba.sh -s "fileshare;/fileshare;yes;no;yes;all" 
-    mem_limit: 1g
     restart: always
   avahi:
     container_name: avahi
