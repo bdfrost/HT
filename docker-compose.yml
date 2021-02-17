@@ -291,6 +291,7 @@ services:
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/appdata/shared:/shared
     environment:
+      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
       - VERSION=public
       - PUID=${PUID}
       - PGID=${PGID}
