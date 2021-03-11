@@ -42,21 +42,21 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"    
     restart: always
-  homeassistant:
-    container_name: home-assistant
-    image: homeassistant/home-assistant:stable
-    volumes:
-      - /mnt/storage/appdata/home-assistant/:/config
-    devices:
-    #   - /dev/ttyUSB0:/dev/ttyUSB0
-    #   - /dev/ttyUSB1:/dev/ttyUSB1
-      - /dev/ttyACM0:/dev/ttyACM0
-    environment:
-      - TZ=America/Chicago
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"    
-    restart: always
-    network_mode: host
+  # homeassistant:
+  #   container_name: home-assistant
+  #   image: homeassistant/home-assistant:stable
+  #   volumes:
+  #     - /mnt/storage/appdata/home-assistant/:/config
+  #   devices:
+  #   #   - /dev/ttyUSB0:/dev/ttyUSB0
+  #   #   - /dev/ttyUSB1:/dev/ttyUSB1
+  #     - /dev/ttyACM0:/dev/ttyACM0
+  #   environment:
+  #     - TZ=America/Chicago
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"    
+  #   restart: always
+  #   network_mode: host
   inventory-hunter:
     network_mode: host
     container_name: inventory-hunter
