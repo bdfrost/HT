@@ -81,7 +81,7 @@ services:
       - UMASK_SET=022
     volumes:
       - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage-usb/media/tv:/tv"
+      - "/mnt/storage/media/tv:/tv"
       - "/mnt/storage/appdata/bazarr/config:/config"
     restart: unless-stopped
     labels: 
