@@ -338,6 +338,8 @@ services:
   radarr: 
     container_name: radarr
     environment: 
+      - DOCKER_MODS=linuxserver/mods:universal-apprise
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     image: linuxserver/radarr:latest
@@ -401,6 +403,8 @@ services:
   sonarr: 
     container_name: sonarr
     environment: 
+      - DOCKER_MODS=linuxserver/mods:universal-apprise
+      - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     image: linuxserver/sonarr:latest
