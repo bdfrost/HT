@@ -269,6 +269,7 @@ services:
       - /mnt/storage/media/tv:/data/tvshows
       - /mnt/storage/media/gphotos/photos:/data/photos
       - /mnt/storage/media/movies:/data/movies
+      - /mnt/storage/media/hallmark:/data/hallmark
       - /mnt/storage/appdata/shared:/shared
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
@@ -332,6 +333,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/radarr:/config"
       - "/mnt/storage/media/movies:/movies"
+      - "/mnt/storage/media/hallmark:/hallmark"
       - "/mnt/storage/appdata/shared:/shared"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
   sabnzbd: 
