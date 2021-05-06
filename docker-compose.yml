@@ -72,10 +72,7 @@ services:
   inventory-hunter:
     network_mode: host
     container_name: inventory-hunter
-    environment: 
-      - "ScalperWebhook=${ScalperWebhook}"
     image: ericjmarti/inventory-hunter:latest
-    command: --alerter=slack --webhook=$ScalperWebhook
     volumes:
       - /mnt/storage/appdata/inventory-hunter/data:/data
       - /mnt/storage/appdata/inventory-hunter/log:/log
