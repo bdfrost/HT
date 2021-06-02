@@ -133,10 +133,12 @@ services:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     restart: unless-stopped
     volumes:
       - /mnt/storage/appdata/nzbhydra2/config:/config
       - /mnt/storage/appdata/nzbhydra2/downloads:/downloads
+      - /mnt/storage/appdata/healthcheck:/config/contabs
     labels: 
       - traefik.enable=true
       - traefik.backend=nzbhydra2
