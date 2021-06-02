@@ -136,7 +136,7 @@ services:
       - DOCKER_MODS=linuxserver/mods:universal-cron
     restart: unless-stopped
     volumes:
-      - /mnt/storage/appdata/nzbhydra2/config:/config
+      - /mnt/storage/appdata/nzbhydra2/cronfig:/config
       - /mnt/storage/appdata/nzbhydra2/downloads:/downloads
       - /mnt/storage/appdata/healthcheck:/config/contabs
     labels: 
