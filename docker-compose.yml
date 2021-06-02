@@ -271,8 +271,9 @@ services:
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/hallmark:/data/hallmark
       - /mnt/storage/appdata/shared:/shared
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
     environment:
-      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
+      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
       - VERSION=public
       - PUID=${PUID}
       - PGID=${PGID}
@@ -307,7 +308,7 @@ services:
   radarr: 
     container_name: radarr
     environment: 
-      - DOCKER_MODS=linuxserver/mods:universal-apprise
+      - DOCKER_MODS=linuxserver/mods:universal-apprise|linuxserver/mods:universal-cron
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
@@ -336,12 +337,14 @@ services:
       - "/mnt/storage/media/hallmark:/hallmark"
       - "/mnt/storage/appdata/shared:/shared"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
   sabnzbd: 
     container_name: sabnzbd
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     image: linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
@@ -370,6 +373,7 @@ services:
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
       - "/mnt/storage/appdata/shared:/shared"
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
     environment: 
@@ -377,6 +381,7 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     image: linuxserver/sonarr:latest
     labels: 
       - traefik.enable=true
@@ -404,6 +409,7 @@ services:
       - "/mnt/storage/media/tv:/tv"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/appdata/shared:/shared"
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
     depends_on: 
@@ -412,6 +418,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     image: linuxserver/tautulli:latest
     labels: 
       - traefik.enable=true
@@ -437,6 +444,7 @@ services:
       - "/mnt/storage/appdata/plexpy:/config"
       - "/mnt/storage/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
       - "/mnt/storage/appdata/shared:/shared"
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
   traefik: 
     container_name: traefik
     domainname: "${DOMAINNAME}"
@@ -488,9 +496,11 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
       - "/mnt/storage/appdata/duplicati:/config"
       - /mnt:/source
+      - /mnt/storage/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -545,8 +555,10 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
      - "/mnt/storage/appdata/monitorr:/app"
+     - /mnt/storage/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
      - traefik.enable=true
