@@ -31,6 +31,7 @@ services:
       - /mnt/storage/appdata/prometheus/etc:/etc/prometheus
       - /mnt/storage/appdata/prometheus/data:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    # Command allows config reload with "curl -X POST http://localhost:9000/-/reload"
     restart: unless-stopped
     labels: 
       - traefik.enable=true
