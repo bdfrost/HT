@@ -37,6 +37,21 @@ services:
       - traefik.backend=prometheus
       - "traefik.frontend.rule=Host:prometheus.${DOMAINNAME}"
       - traefik.port=9090
+  apprise-api:
+    image: ghcr.io/linuxserver/apprise-api
+    container_name: apprise-api
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"    
+    volumes:
+     - /mnt/storage/appdata/apprise/:/config
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=apprise
+      - "traefik.frontend.rule=Host:apprise.${DOMAINNAME}"
+      - traefik.port=8000
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
@@ -76,10 +91,8 @@ services:
   inventory-hunter:
     network_mode: host
     container_name: inventory-hunter
-    environment: 
-      - "ScalperWebhook=${ScalperWebhook}"
     image: ericjmarti/inventory-hunter:latest
-    command: --alerter=slack --webhook=$ScalperWebhook
+    command: ["-q", "alerters.yaml"]
     volumes:
       - /mnt/storage/appdata/inventory-hunter/data:/data
       - /mnt/storage/appdata/inventory-hunter/log:/log
@@ -112,7 +125,7 @@ services:
       - UMASK_SET=022
     volumes:
       - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage-usb/media/tv:/tv"
+      - "/mnt/storage/media/tv:/tv"
       - "/mnt/storage/appdata/bazarr/config:/config"
     restart: unless-stopped
     labels: 
@@ -160,38 +173,6 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-  # ubooquity:
-  #   image: linuxserver/ubooquity:latest
-  #   container_name: ubooquity
-  #   environment:
-  #     - "TZ=${TZ}"
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #   volumes:
-  #     - /mnt/storage/appdata/ubooquity:/config
-  #     - /mnt/storage/media/downloads/book-downloads:/downloads
-  #     - /mnt/storage/media/books:/books
-  #   # ports:
-  #   #   - 2202:2202
-  #   #   - 2203:2203
-  #   restart: unless-stopped
-  #   networks:
-  #     - traefik_proxy
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.backend=ubooquity"
-  #     - "traefik.frontend.rule=Host:ubooquity.${DOMAINNAME}"
-  #     - "traefik.port=2202"
-  #     - "traefik.docker.network=traefik_proxy"
-  #     - "traefik.frontend.headers.SSLRedirect=true"
-  #     - "traefik.frontend.headers.STSSeconds=315360000"
-  #     - "traefik.frontend.headers.browserXSSFilter=true"
-  #     - "traefik.frontend.headers.contentTypeNosniff=true"
-  #     - "traefik.frontend.headers.forceSTSHeader=true"
-  #     - traefik.frontend.headers.SSLHost=frost.haus
-  #     - "traefik.frontend.headers.STSIncludeSubdomains=true"
-  #     - "traefik.frontend.headers.STSPreload=true"
-  #     - "traefik.frontend.headers.frameDeny=false"
   readarr:
     image: hotio/readarr:nightly
     container_name: readarr
@@ -305,6 +286,7 @@ services:
       - /mnt/storage/media/tv:/data/tvshows
       - /mnt/storage/media/gphotos/photos:/data/photos
       - /mnt/storage/media/movies:/data/movies
+      - /mnt/storage/media/hallmark:/data/hallmark
       - /mnt/storage/appdata/shared:/shared
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
@@ -342,6 +324,8 @@ services:
   radarr: 
     container_name: radarr
     environment: 
+      - DOCKER_MODS=linuxserver/mods:universal-apprise
+      - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     image: linuxserver/radarr:latest
@@ -366,6 +350,7 @@ services:
     volumes: 
       - "/mnt/storage/appdata/radarr:/config"
       - "/mnt/storage/media/movies:/movies"
+      - "/mnt/storage/media/hallmark:/hallmark"
       - "/mnt/storage/appdata/shared:/shared"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
   sabnzbd: 
@@ -405,6 +390,8 @@ services:
   sonarr: 
     container_name: sonarr
     environment: 
+      - DOCKER_MODS=linuxserver/mods:universal-apprise
+      - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     image: linuxserver/sonarr:latest
@@ -537,54 +524,6 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  # shinobi:
-  #   image: shinobisystems/shinobi:dev
-  #   container_name: shinobi
-  #   volumes:
-  #     - /mnt/storage/appdata/Shinobi/config:/config
-  #     - /mnt/storage/appdata/Shinobi/customAutoLoad:/home/Shinobi/libs/customAutoLoad
-  #     - /mnt/storage/media/Shinobi/database:/var/lib/mysql
-  #     - /mnt/storage/media/Shinobi/videos:/home/Shinobi/videos
-  #     - /mnt/storage/appdata/Shinobi/plugins:/home/Shinobi/plugins
-  #     - /dev/shm/Shinobi/streams:/dev/shm/streams
-  #     - /etc/localtime:/etc/localtime:ro
-  #   restart: unless-stopped
-  #   networks:
-  #     - traefik_proxy
-  #   environment:
-  #     - TZ=America/Chicago
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #     - SSL_ENABLED=false
-  #     - PLUGIN_KEYS={"Tensorflow":"$TENSORFLOW_PLUGIN_KEY"}
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.backend=shinobi
-  #     - "traefik.frontend.rule=Host:shinobi.${DOMAINNAME}"
-  #     - traefik.port=8080
-  #     - traefik.docker.network=traefik_proxy
-  #     - traefik.frontend.headers.SSLRedirect=true
-  #     - traefik.frontend.headers.STSSeconds=315360000
-  #     - traefik.frontend.headers.browserXSSFilter=true
-  #     - traefik.frontend.headers.contentTypeNosniff=true
-  #     - traefik.frontend.headers.forceSTSHeader=true
-  #     - traefik.frontend.headers.SSLHost=frost.haus
-  #     - traefik.frontend.headers.STSIncludeSubdomains=true
-  #     - traefik.frontend.headers.STSPreload=true
-  #     - traefik.frontend.headers.frameDeny=false
-  # shinobiplugintensorflow:
-  #   image: shinobisystems/shinobi-tensorflow:latest
-  #   container_name: shinobitensorflow
-  #   volumes:
-  #     - /mnt/storage/appdata/Shinobi/docker-plugins/tensorflow:/config
-  #   restart: unless-stopped
-  #   network_mode: host
-  #   environment:
-  #     - PLUGIN_KEY=$TENSORFLOW_PLUGIN_KEY
-  #     - PLUGIN_HOST=shinobi
-  #     - TZ=America/Chicago
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
   speedtest:
     image: henrywhitaker3/speedtest-tracker
     container_name: speedtest
@@ -648,7 +587,6 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-     # - BASE_URL=/ombi #optional
     volumes:
       - "/mnt/storage/appdata/ombi:/config"
     restart: unless-stopped
