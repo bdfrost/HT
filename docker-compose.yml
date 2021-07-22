@@ -126,36 +126,36 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-  nzbhydra2:
-    image: linuxserver/nzbhydra2
-    container_name: nzbhydra2
-    environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-      - DOCKER_MODS=linuxserver/mods:universal-cron
-    restart: unless-stopped
-    volumes:
-      - /mnt/storage/appdata/nzbhydra2/config:/config
-      - /mnt/storage/appdata/nzbhydra2/downloads:/downloads
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=nzbhydra2
-      - "traefik.frontend.rule=Host:nzbhydra2.${DOMAINNAME}"
-      - traefik.port=5076
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
+  # nzbhydra2:
+  #   image: linuxserver/nzbhydra2
+  #   container_name: nzbhydra2
+  #   environment:
+  #     - "TZ=${TZ}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - DOCKER_MODS=linuxserver/mods:universal-cron
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /mnt/storage/appdata/nzbhydra2/config:/config
+  #     - /mnt/storage/appdata/nzbhydra2/downloads:/downloads
+  #     - /mnt/storage/appdata/healthcheck:/config/crontabs
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=nzbhydra2
+  #     - "traefik.frontend.rule=Host:nzbhydra2.${DOMAINNAME}"
+  #     - traefik.port=5076
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  #   networks: 
+  #     - traefik_proxy
   readarr:
     image: hotio/readarr:nightly
     container_name: readarr
