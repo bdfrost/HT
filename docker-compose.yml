@@ -43,7 +43,7 @@ services:
       - "PGID=${PGID}"    
     restart: always
   inventory-hunter-3070:
-    container_name: inventory-hunter
+    container_name: inventory-hunter-3070
     image: ericjmarti/inventory-hunter:latest
     command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
     volumes:
@@ -53,7 +53,7 @@ services:
       - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
     restart: unless-stopped 
   inventory-hunter-ps5:
-      container_name: inventory-hunter
+      container_name: inventory-hunter-ps5
       image: ericjmarti/inventory-hunter:latest
       command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
       volumes:
