@@ -46,11 +46,12 @@ services:
     # network_mode: host
     container_name: inventory-hunter
     image: ericjmarti/inventory-hunter:latest
-    command: "./docker_run.bash -c config.yaml -a slack -w ${IHSLACK}"
+    command: "--alerter slack"
     volumes:
       - /mnt/storage/appdata/inventory-hunter/data:/data
       - /mnt/storage/appdata/inventory-hunter/log:/log
       - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
+      - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerts.yaml
     restart: unless-stopped 
   nextcloud:
     image: ghcr.io/linuxserver/nextcloud
