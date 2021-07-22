@@ -42,7 +42,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"    
     restart: always
-  inventory-hunter:
+  inventory-hunter-3070:
     container_name: inventory-hunter
     image: ericjmarti/inventory-hunter:latest
     command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
@@ -52,6 +52,16 @@ services:
       - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
       - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
     restart: unless-stopped 
+  inventory-hunter-ps5:
+      container_name: inventory-hunter
+      image: ericjmarti/inventory-hunter:latest
+      command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
+      volumes:
+        - /mnt/storage/appdata/inventory-hunter/data:/data
+        - /mnt/storage/appdata/inventory-hunter/log:/log
+        - /mnt/storage/appdata/inventory-hunter/ps5.yaml:/config.yaml
+        - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
+      restart: unless-stopped 
   nextcloud:
     image: ghcr.io/linuxserver/nextcloud
     container_name: nextcloud
