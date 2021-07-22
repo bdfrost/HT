@@ -43,10 +43,9 @@ services:
       - "PGID=${PGID}"    
     restart: always
   inventory-hunter:
-    # network_mode: host
     container_name: inventory-hunter
     image: ericjmarti/inventory-hunter:latest
-    command: "/src/run.bash --config config.yaml --alerter slack --alerter-config /alerters.yaml"
+    command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
     volumes:
       - /mnt/storage/appdata/inventory-hunter/data:/data
       - /mnt/storage/appdata/inventory-hunter/log:/log
