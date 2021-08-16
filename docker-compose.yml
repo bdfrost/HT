@@ -120,6 +120,8 @@ services:
       - /mnt/storage/appdata/readarr:/config
       - /mnt/storage/media/downloads/book-downloads:/downloads
       - /mnt/storage/media/books:/books
+      - /mnt/storage/media/comics:/comics
+      - /mnt/storage/media/manga:/manga
     links:
       - sabnzbd
     restart: unless-stopped
