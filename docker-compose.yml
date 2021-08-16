@@ -210,7 +210,7 @@ services:
     restart: unless-stopped
     labels: 
       - traefik.enable=true
-      - traefik.backend=radarr
+      - traefik.backend=kavita
       - "traefik.frontend.rule=Host:kavita.${DOMAINNAME}"
       - traefik.port=5000
       - traefik.docker.network=traefik_proxy
