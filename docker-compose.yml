@@ -120,8 +120,6 @@ services:
       - /mnt/storage/appdata/readarr:/config
       - /mnt/storage/media/downloads/book-downloads:/downloads
       - /mnt/storage/media/books:/books
-      - /mnt/storage/media/comics:/comics
-      - /mnt/storage/media/manga:/manga
     links:
       - sabnzbd
     restart: unless-stopped
@@ -130,6 +128,36 @@ services:
       - "traefik.backend=readarr"
       - "traefik.frontend.rule=Host:readarr.${DOMAINNAME}"
       - "traefik.port=8787"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+  mylar3:
+    image: linuxserver/mylar3
+    container_name: mylar3
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    links:
+      - sabnzbd
+    volumes:
+      - /mnt/storage/appdata/mylar3:/config
+      - /mnt/storage/media/downloads/book-downloads:/downloads
+      - /mnt/storage/media/comics:/comics
+      - /mnt/storage/media/manga:/manga
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=mylar3"
+      - "traefik.frontend.rule=Host:mylar3.${DOMAINNAME}"
+      - "traefik.port=8090"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.headers.STSSeconds=315360000"
