@@ -206,7 +206,9 @@ services:
     image: kizaing/kavita:latest
     volumes:
       - "/mnt/storage/appdata/kavita:/kavita/data"
-      - "/mnt/storage/media/comics:/manga"
+      - "/mnt/storage/media/manga:/manga"
+      - "/mnt/storage/media/books:/books"
+      - "/mnt/storage/media/comics:/comics"
     restart: unless-stopped
     labels: 
       - traefik.enable=true
