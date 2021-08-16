@@ -138,37 +138,37 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
-  netdata: 
-    environment: 
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    container_name: netdata
-    image: netdata/netdata:latest
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=netdata
-      - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
-      - traefik.port=19999
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
-    security_opt: 
-      - "apparmor:unconfined"
-    volumes: 
-      - "/proc:/host/proc:ro"
-      - "/sys:/host/sys:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/mnt/storage/appdata/netdata:/etc/netdata"
+  # netdata: 
+  #   environment: 
+  #     - "TZ=${TZ}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #   container_name: netdata
+  #   image: netdata/netdata:latest
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=netdata
+  #     - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
+  #     - traefik.port=19999
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  #   networks: 
+  #     - traefik_proxy
+  #   security_opt: 
+  #     - "apparmor:unconfined"
+  #   volumes: 
+  #     - "/proc:/host/proc:ro"
+  #     - "/sys:/host/sys:ro"
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #     - "/mnt/storage/appdata/netdata:/etc/netdata"
   organizr: 
     container_name: organizr
     environment: 
@@ -222,7 +222,6 @@ services:
       - /mnt/storage/media/gphotos/photos:/data/photos
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/hallmark:/data/hallmark
-      - /mnt/storage/appdata/shared:/shared
       - /mnt/storage/appdata/healthcheck:/config/crontabs
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
@@ -287,7 +286,6 @@ services:
       - "/mnt/storage/appdata/radarr:/config"
       - "/mnt/storage/media/movies:/movies"
       - "/mnt/storage/media/hallmark:/hallmark"
-      - "/mnt/storage/appdata/shared:/shared"
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
       - /mnt/storage/appdata/healthcheck:/config/crontabs
   sabnzbd: 
@@ -324,7 +322,6 @@ services:
       - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
       - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
-      - "/mnt/storage/appdata/shared:/shared"
       - /mnt/storage/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
@@ -356,10 +353,8 @@ services:
     restart: always
     volumes: 
       - "/mnt/storage/appdata/sonarr:/config"
-      - "/mnt/storage/media/tv_import:/tv_import"
       - "/mnt/storage/media/tv:/tv"
       - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
-      - "/mnt/storage/appdata/shared:/shared"
       - /mnt/storage/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
@@ -394,7 +389,6 @@ services:
     volumes: 
       - "/mnt/storage/appdata/plexpy:/config"
       - "/mnt/storage/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
-      - "/mnt/storage/appdata/shared:/shared"
       - /mnt/storage/appdata/healthcheck:/config/crontabs
   traefik: 
     container_name: traefik
@@ -439,7 +433,6 @@ services:
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/storage/appdata/traefik:/etc/traefik"
-      - "/mnt/storage/appdata/shared/traefik:/shared"
   duplicati:
     image: linuxserver/duplicati:amd64-latest
     container_name: duplicati
