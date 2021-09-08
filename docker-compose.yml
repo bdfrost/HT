@@ -604,3 +604,28 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+  frigate:
+    container_name: frigate
+    privileged: true # this may not be necessary for all setups
+    restart: unless-stopped
+    image: blakeblackshear/frigate:stable-amd64
+    devices:
+   #   - /dev/bus/usb:/dev/bus/usb
+      - /dev/dri/renderD128 # for intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/storage/appdata/frigate/frigate.yml:/config/config.yml:ro
+      - /mnt/storage/media/frigate/:/me`dia/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "5000:5000"
+      - "1935:1935" # RTMP feeds
+    network_mode: host
+    environment:
+      - FRIGATE_RTSP_PASSWORD="password"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
