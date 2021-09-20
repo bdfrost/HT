@@ -147,7 +147,7 @@ services:
         - 8554:8554
         - 8888:8888
     environment:
-        - QUALITY=HD60
+        - QUALITY=SD30
         - LAN_ONLY=True
         - WYZE_EMAIL=${WYZE_EMAIL}
         - WYZE_PASSWORD=${WYZE_PASSWORD}
