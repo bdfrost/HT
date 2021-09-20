@@ -148,6 +148,7 @@ services:
         - 8888:8888
     environment:
         - QUALITY=HD120
+        - DEBUG_FFMPEG=True
         - LAN_ONLY=True
         - WYZE_EMAIL=${WYZE_EMAIL}
         - WYZE_PASSWORD=${WYZE_PASSWORD}
