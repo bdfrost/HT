@@ -138,6 +138,20 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
+  wyze-bridge:
+    container_name: wyze-bridge
+    restart: always
+    image: mrlt8/wyze-bridge:latest
+    ports:
+        - 1935:1935
+        - 8554:8554
+        - 8888:8888
+    environment:
+        - WYZE_EMAIL=${WYZE_EMAIL}
+        - WYZE_PASSWORD=${WYZE_PASSWORD}
+        - DOCKER_MODS=linuxserver/mods:universal-cron
+    network_mode: host
+    restart: always
   mylar3:
     image: linuxserver/mylar3
     container_name: mylar3
