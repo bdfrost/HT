@@ -153,6 +153,8 @@ services:
       - /mnt/storage/media/comics:/comics
       - /mnt/storage/media/manga:/manga
     restart: unless-stopped
+    networks: 
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
       - "traefik.backend=mylar3"
@@ -168,37 +170,6 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
-  # netdata: 
-  #   environment: 
-  #     - "TZ=${TZ}"
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #   container_name: netdata
-  #   image: netdata/netdata:latest
-  #   labels: 
-  #     - traefik.enable=true
-  #     - traefik.backend=netdata
-  #     - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
-  #     - traefik.port=19999
-  #     - traefik.docker.network=traefik_proxy
-  #     - traefik.frontend.headers.SSLRedirect=true
-  #     - traefik.frontend.headers.STSSeconds=315360000
-  #     - traefik.frontend.headers.browserXSSFilter=true
-  #     - traefik.frontend.headers.contentTypeNosniff=true
-  #     - traefik.frontend.headers.forceSTSHeader=true
-  #     - traefik.frontend.headers.SSLHost=frost.haus
-  #     - traefik.frontend.headers.STSIncludeSubdomains=true
-  #     - traefik.frontend.headers.STSPreload=true
-  #     - traefik.frontend.headers.frameDeny=false
-  #   networks: 
-  #     - traefik_proxy
-  #   security_opt: 
-  #     - "apparmor:unconfined"
-  #   volumes: 
-  #     - "/proc:/host/proc:ro"
-  #     - "/sys:/host/sys:ro"
-  #     - "/var/run/docker.sock:/var/run/docker.sock"
-  #     - "/mnt/storage/appdata/netdata:/etc/netdata"
   organizr: 
     container_name: organizr
     environment: 
@@ -281,6 +252,7 @@ services:
       - /mnt/storage/media/movies:/data/movies
       - /mnt/storage/media/hallmark:/data/hallmark
       - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - /dev/dri:/dev/dri
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
       - VERSION=public
@@ -604,28 +576,3 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  # frigate:
-  #   container_name: frigate
-  #   privileged: true # this may not be necessary for all setups
-  #   restart: unless-stopped
-  #   image: blakeblackshear/frigate:stable-amd64
-  #   devices:
-  #     - /dev/bus/usb:/dev/bus/usb
-  #     - /dev/dri/renderD128 # for intel hwaccel, needs to be updated for your hardware
-  #   volumes:
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - /mnt/storage/appdata/frigate/frigate.yml:/config/config.yml:ro
-  #     - /mnt/storage/media/frigate/:/media/frigate/
-  #     # - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
-  #     #   target: /tmp/cache
-  #     #   tmpfs:
-  #     #     size: 1000000000
-  #   ports:
-  #     - "5000:5000"
-  #     - "1935:1935" # RTMP feeds
-  #   network_mode: host
-  #   environment:
-  #     - FRIGATE_RTSP_PASSWORD="password"
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #     - TZ=America/Chicago
