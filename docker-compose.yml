@@ -23,7 +23,7 @@ services:
     hostname: samba
     image: sixeyed/samba
     volumes:
-    - /mnt/storage/media/fileshare:/fileshare
+    - /mnt/media/fileshare:/fileshare
     ports:
     - "139:139"
     - "445:445"
@@ -87,8 +87,8 @@ services:
       - "TZ=${TZ}"
       - UMASK_SET=022
     volumes:
-      - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage/media/tv:/tv"
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/tv:/tv"
       - "/mnt/appdata/bazarr/config:/config"
     restart: unless-stopped
     labels: 
@@ -118,8 +118,8 @@ services:
       - UMASK_SET=002
     volumes:
       - /mnt/appdata/readarr:/config
-      - /mnt/storage/media/downloads/book-downloads:/downloads
-      - /mnt/storage/media/books:/books
+      - /mnt/media/downloads/book-downloads:/downloads
+      - /mnt/media/books:/books
     links:
       - sabnzbd
     restart: unless-stopped
@@ -149,9 +149,9 @@ services:
       - sabnzbd
     volumes:
       - /mnt/appdata/mylar3:/config
-      - /mnt/storage/media/downloads/book-downloads:/downloads
-      - /mnt/storage/media/comics:/comics
-      - /mnt/storage/media/manga:/manga
+      - /mnt/media/downloads/book-downloads:/downloads
+      - /mnt/media/comics:/comics
+      - /mnt/media/manga:/manga
     restart: unless-stopped
     networks: 
       - traefik_proxy
@@ -207,9 +207,9 @@ services:
     image: kizaing/kavita:latest
     volumes:
       - "/mnt/appdata/kavita:/kavita/data"
-      - "/mnt/storage/media/manga:/manga"
-      - "/mnt/storage/media/books:/books"
-      - "/mnt/storage/media/comics:/comics"
+      - "/mnt/media/manga:/manga"
+      - "/mnt/media/books:/books"
+      - "/mnt/media/comics:/comics"
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -243,14 +243,14 @@ services:
     image: plexinc/pms-docker:plexpass
     container_name: plex
     volumes:
-      - /mnt/storage/media/download-reprocess:/download-reprocess
+      - /mnt/media/download-reprocess:/download-reprocess
       - /mnt/appdata/plex:/config
       - /mnt/appdata/tmp:/tmp
       - /mnt/appdata/tmp:/transcode
-      - /mnt/storage/media/tv:/data/tvshows
-      - /mnt/storage/media/gphotos/photos:/data/photos
-      - /mnt/storage/media/movies:/data/movies
-      - /mnt/storage/media/hallmark:/data/hallmark
+      - /mnt/media/tv:/data/tvshows
+      - /mnt/media/gphotos/photos:/data/photos
+      - /mnt/media/movies:/data/movies
+      - /mnt/media/hallmark:/data/hallmark
       - /mnt/appdata/healthcheck:/config/crontabs
       - /dev/dri:/dev/dri
     environment:
@@ -314,9 +314,9 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/radarr:/config"
-      - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage/media/hallmark:/hallmark"
-      - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/hallmark:/hallmark"
+      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   sabnzbd: 
     container_name: sabnzbd
@@ -346,12 +346,12 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/sabnzbd/config:/config"
-      - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
-      - "/mnt/storage/media/downloads/book-downloads:/book-downloads"
-      - "/mnt/storage/media/downloads/comic-downloads:/comic-downloads"
-      - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
-      - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
-      - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
+      - "/mnt/media/incomplete-downloads:/incomplete-downloads"
+      - "/mnt/media/downloads/book-downloads:/book-downloads"
+      - "/mnt/media/downloads/comic-downloads:/comic-downloads"
+      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
+      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
+      - "/mnt/media/downloads/misc-downloads:/misc-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
@@ -383,8 +383,8 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/sonarr:/config"
-      - "/mnt/storage/media/tv:/tv"
-      - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
+      - "/mnt/media/tv:/tv"
+      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
