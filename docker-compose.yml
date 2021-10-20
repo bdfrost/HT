@@ -584,27 +584,26 @@ services:
     image: mbentley/timemachine:latest
     container_name: timemachine
     environment: 
+      - CUSTOM_SMB_CONF=false
+      - CUSTOM_USER=false
+      - DEBUG_LEVEL=1
+      - EXTERNAL_CONF=
+      - HIDE_SHARES=no
+      - MIMIC_MODEL=TimeCapsule8,119
+      - TM_USERNAME=timemachine
+      - TM_GROUPNAME=timemachine
       - "TM_UID=${PUID}"
       - "TM_GID=${PGID}"
       - PASSWORD="${HTTP_PASSWORD}"
-      - VOLUME_SIZE_LIMIT="1500000"
-      - TM_USERNAME="timemachine"
-      - TM_GROUPNAME="timemachine"
-      - SHARE_NAME="Time Capsule"
-      - ADVERTISED_HOSTNAME="TimeMachine"
-      - CUSTOM_SMB_CONF="false"
-      - CUSTOM_USER="false"
-      - MIMIC_MODEL="TimeCapsule8,119"
-      - HIDE_SHARES="no"
-      - SET_PERMISSIONS="false"
-      - SHARE_NAME="TimeMachine"
-      - SMB_INHERIT_PERMISSIONS="no"
-      - SMB_NFS_ACES="yes"
-      - SMB_METADATA="stream"
-      - SMB_PORT="445"
-      - SMB_VFS_OBJECTS="acl_xattr fruit streams_xattr"
-      - VOLUME_SIZE_LIMIT="0"
-      - WORKGROUP="WORKGROUP"
+      - SET_PERMISSIONS=false
+      - SHARE_NAME=TimeMachine
+      - SMB_INHERIT_PERMISSIONS=no
+      - SMB_NFS_ACES=yes
+      - SMB_METADATA=stream
+      - SMB_PORT=445
+      - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
+      - VOLUME_SIZE_LIMIT=0
+      - WORKGROUP=WORKGROUP
     volumes:
       - /mnt/media/timecapsule:/opt/timemachine
       - timemachine-var-lib-samba:/var/lib/samba
