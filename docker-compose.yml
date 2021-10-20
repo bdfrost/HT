@@ -9,7 +9,7 @@ networks:
   traefik_proxy: 
     external: 
       name: traefik_proxy
-  macvlan_network:
+  nextcloud_network:
     driver: macvlan
     driver_opts:
       parent: ens18
@@ -17,6 +17,16 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
+  timemachine_network:
+    driver: macvlan
+    driver_opts:
+      parent: ens18
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.100.0/24
+          ip_range: 192.168.100.0/24
+          gateway: 192.168.100.1
 services:
   samba:
     container_name: WinShare
@@ -76,7 +86,7 @@ services:
     ports:
       - 443:443
     networks: 
-      macvlan_network:
+      nextcloud_network:
         ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
@@ -587,9 +597,28 @@ services:
       - TM_USERNAME="timemachine"
       - TM_GROUPNAME="timemachine"
       - SHARE_NAME="Time Capsule"
+      - ADVERTISED_HOSTNAME="TimeMachine"
+      - CUSTOM_SMB_CONF="false"
+      - CUSTOM_USER="false"
+      - DEBUG_LEVEL="1"
+      - MIMIC_MODEL="TimeCapsule8,119"
+      - HIDE_SHARES="no"
+      - SET_PERMISSIONS="false"
+      - SHARE_NAME="TimeMachine"
+      - SMB_INHERIT_PERMISSIONS="no"
+      - SMB_NFS_ACES="yes"
+      - SMB_METADATA="stream"
+      - SMB_PORT="445"
+      - SMB_VFS_OBJECTS="acl_xattr fruit streams_xattr"
+      - VOLUME_SIZE_LIMIT="0"
+      - WORKGROUP="WORKGROUP"
     volumes:
       - /mnt/media/timecapsule:/opt/timemachine
-      - timemachine-netatalk:/var/netatalk
-      - timemachine-logs:/var/log/supervisor
-    network_mode: host
+      - timemachine-var-lib-samba:/var/lib/samba
+      - timemachine-var-cache-samba:/var/cache/samba
+      - timemachine-run-samba:/run/samba
     restart: always
+    hostname: timemachine
+    networks: 
+      timemachine_network:
+        ipv4_address: 192.168.100.12
