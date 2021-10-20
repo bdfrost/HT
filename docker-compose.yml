@@ -594,7 +594,7 @@ services:
       - TM_GROUPNAME=timemachine
       - "TM_UID=${PUID}"
       - "TM_GID=${PGID}"
-      - PASSWORD="${TM_PASSWORD}"
+      - "PASSWORD=${TM_PASSWORD}"
       - SET_PERMISSIONS=false
       - SHARE_NAME=TimeMachine
       - SMB_INHERIT_PERMISSIONS=no
