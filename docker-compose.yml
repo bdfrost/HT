@@ -25,6 +25,10 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
+volumes:
+  timemachine-var-lib-samba:
+  timemachine-var-cache-samba:
+  timemachine-run-samba:
 services:
   samba:
     container_name: WinShare
@@ -620,3 +624,7 @@ services:
     networks: 
       timemachine_network:
         ipv4_address: 192.168.100.12
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
