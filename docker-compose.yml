@@ -594,7 +594,6 @@ services:
       - ADVERTISED_HOSTNAME="TimeMachine"
       - CUSTOM_SMB_CONF="false"
       - CUSTOM_USER="false"
-      - DEBUG_LEVEL="1"
       - MIMIC_MODEL="TimeCapsule8,119"
       - HIDE_SHARES="no"
       - SET_PERMISSIONS="false"
