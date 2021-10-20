@@ -576,3 +576,20 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+  timemachine:
+    image: mbentley/timemachine:latest
+    container_name: timemachine
+    environment: 
+      - "TM_UID=${PUID}"
+      - "TM_GID=${PGID}"
+      - PASSWORD="${HTTP_PASSWORD}"
+      - VOLUME_SIZE_LIMIT="1500000"
+      - TM_USERNAME="timemachine"
+      - TM_GROUPNAME="timemachine"
+      - SHARE_NAME="Time Capsule"
+    volumes:
+      - /mnt/media/timecapsule:/opt/timemachine
+      - timemachine-netatalk:/var/netatalk
+      - timemachine-logs:/var/log/supervisor
+    network_mode: host
+    restart: always
