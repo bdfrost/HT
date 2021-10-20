@@ -9,15 +9,7 @@ networks:
   traefik_proxy: 
     external: 
       name: traefik_proxy
-  nextcloud_network:
-    driver: macvlan
-    driver_opts:
-      parent: ens18
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.100.0/24
-  timemachine_network:
+  macvlan_network:
     driver: macvlan
     driver_opts:
       parent: ens18
@@ -88,7 +80,7 @@ services:
     ports:
       - 443:443
     networks: 
-      nextcloud_network:
+      macvlan_network:
         ipv4_address: 192.168.100.11
   bazarr:
     image: linuxserver/bazarr
@@ -622,7 +614,7 @@ services:
     restart: always
     hostname: timemachine
     networks: 
-      timemachine_network:
+      macvlan_network:
         ipv4_address: 192.168.100.12
     ulimits:
       nofile:
