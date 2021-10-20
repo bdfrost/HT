@@ -25,8 +25,6 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
-          ip_range: 192.168.100.0/24
-          gateway: 192.168.100.1
 services:
   samba:
     container_name: WinShare
