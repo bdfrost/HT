@@ -319,7 +319,6 @@ services:
     volumes: 
       - "/mnt/appdata/radarr:/config"
       - "/mnt/media/movies:/movies"
-      - "/mnt/media/hallmark:/hallmark"
       - "/mnt/media/downloads/movie-downloads:/movie-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   sabnzbd: 
