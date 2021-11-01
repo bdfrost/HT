@@ -17,13 +17,17 @@ networks:
       driver: default
       config:
         - subnet: 192.168.100.0/24
+volumes:
+  timemachine-var-lib-samba:
+  timemachine-var-cache-samba:
+  timemachine-run-samba:
 services:
   samba:
     container_name: WinShare
     hostname: samba
     image: sixeyed/samba
     volumes:
-    - /mnt/storage/media/fileshare:/fileshare
+    - /mnt/media/fileshare:/fileshare
     ports:
     - "139:139"
     - "445:445"
@@ -36,7 +40,7 @@ services:
     image: solidnerd/avahi:0.7
     network_mode: host
     volumes:
-     - /mnt/storage/appdata/avahi/:/etc/avahi:ro
+     - /mnt/appdata/avahi/:/etc/avahi:ro
     environment:
       - TZ=America/Chicago
       - "PUID=${PUID}"
@@ -47,20 +51,20 @@ services:
     image: ericjmarti/inventory-hunter:latest
     command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
     volumes:
-      - /mnt/storage/appdata/inventory-hunter/data:/data
-      - /mnt/storage/appdata/inventory-hunter/log:/log
-      - /mnt/storage/appdata/inventory-hunter/3070.yaml:/config.yaml
-      - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
+      - /mnt/appdata/inventory-hunter/data:/data
+      - /mnt/appdata/inventory-hunter/log:/log
+      - /mnt/appdata/inventory-hunter/3070.yaml:/config.yaml
+      - /mnt/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
     restart: unless-stopped 
   inventory-hunter-ps5:
       container_name: inventory-hunter-ps5
       image: ericjmarti/inventory-hunter:latest
       command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
       volumes:
-        - /mnt/storage/appdata/inventory-hunter/data:/data
-        - /mnt/storage/appdata/inventory-hunter/log:/log
-        - /mnt/storage/appdata/inventory-hunter/ps5.yaml:/config.yaml
-        - /mnt/storage/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
+        - /mnt/appdata/inventory-hunter/data:/data
+        - /mnt/appdata/inventory-hunter/log:/log
+        - /mnt/appdata/inventory-hunter/ps5.yaml:/config.yaml
+        - /mnt/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
       restart: unless-stopped 
   nextcloud:
     image: ghcr.io/linuxserver/nextcloud
@@ -70,8 +74,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
     volumes:
-      - /mnt/storage/appdata/nextcloud/config:/config
-      - /mnt/storage/appdata/nextcloud/data:/data
+      - /mnt/appdata/nextcloud/config:/config
+      - /mnt/appdata/nextcloud/data:/data
     restart: unless-stopped
     ports:
       - 443:443
@@ -87,9 +91,9 @@ services:
       - "TZ=${TZ}"
       - UMASK_SET=022
     volumes:
-      - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage/media/tv:/tv"
-      - "/mnt/storage/appdata/bazarr/config:/config"
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/tv:/tv"
+      - "/mnt/appdata/bazarr/config:/config"
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -117,9 +121,9 @@ services:
       - "PGID=${PGID}"
       - UMASK_SET=002
     volumes:
-      - /mnt/storage/appdata/readarr:/config
-      - /mnt/storage/media/downloads/book-downloads:/downloads
-      - /mnt/storage/media/books:/books
+      - /mnt/appdata/readarr:/config
+      - /mnt/media/downloads/book-downloads:/downloads
+      - /mnt/media/books:/books
     links:
       - sabnzbd
     restart: unless-stopped
@@ -148,11 +152,13 @@ services:
     links:
       - sabnzbd
     volumes:
-      - /mnt/storage/appdata/mylar3:/config
-      - /mnt/storage/media/downloads/book-downloads:/downloads
-      - /mnt/storage/media/comics:/comics
-      - /mnt/storage/media/manga:/manga
+      - /mnt/appdata/mylar3:/config
+      - /mnt/media/downloads/book-downloads:/downloads
+      - /mnt/media/comics:/comics
+      - /mnt/media/manga:/manga
     restart: unless-stopped
+    networks: 
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
       - "traefik.backend=mylar3"
@@ -195,7 +201,7 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/organizr:/config"
+      - "/mnt/appdata/organizr:/config"
   kavita:
     container_name: kavita
     environment: 
@@ -204,10 +210,10 @@ services:
       - "TZ=${TZ}"
     image: kizaing/kavita:latest
     volumes:
-      - "/mnt/storage/appdata/kavita:/kavita/data"
-      - "/mnt/storage/media/manga:/manga"
-      - "/mnt/storage/media/books:/books"
-      - "/mnt/storage/media/comics:/comics"
+      - "/mnt/appdata/kavita:/kavita/data"
+      - "/mnt/media/manga:/manga"
+      - "/mnt/media/books:/books"
+      - "/mnt/media/comics:/comics"
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -241,15 +247,16 @@ services:
     image: plexinc/pms-docker:plexpass
     container_name: plex
     volumes:
-      - /mnt/storage/media/download-reprocess:/download-reprocess
-      - /mnt/storage/appdata/plex:/config
-      - /mnt/storage/appdata/tmp:/tmp
-      - /mnt/storage/appdata/tmp:/transcode
-      - /mnt/storage/media/tv:/data/tvshows
-      - /mnt/storage/media/gphotos/photos:/data/photos
-      - /mnt/storage/media/movies:/data/movies
-      - /mnt/storage/media/hallmark:/data/hallmark
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - /mnt/media/download-reprocess:/download-reprocess
+      - /mnt/appdata/plex:/config
+      - /mnt/appdata/tmp:/tmp
+      - /mnt/appdata/tmp:/transcode
+      - /mnt/media/tv:/data/tvshows
+      - /mnt/media/gphotos/photos:/data/photos
+      - /mnt/media/movies:/data/movies
+      - /mnt/media/hallmark:/data/hallmark
+      - /mnt/appdata/healthcheck:/config/crontabs
+      - /dev/dri:/dev/dri
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
       - VERSION=public
@@ -281,7 +288,7 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/portainer:/data"
+      - "/mnt/appdata/portainer:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
   radarr: 
     container_name: radarr
@@ -310,11 +317,10 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/radarr:/config"
-      - "/mnt/storage/media/movies:/movies"
-      - "/mnt/storage/media/hallmark:/hallmark"
-      - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/radarr:/config"
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
+      - /mnt/appdata/healthcheck:/config/crontabs
   sabnzbd: 
     container_name: sabnzbd
     environment: 
@@ -342,14 +348,14 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/sabnzbd/config:/config"
-      - "/mnt/storage/media/incomplete-downloads:/incomplete-downloads"
-      - "/mnt/storage/media/downloads/book-downloads:/book-downloads"
-      - "/mnt/storage/media/downloads/comic-downloads:/comic-downloads"
-      - "/mnt/storage/media/downloads/movie-downloads:/movie-downloads"
-      - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
-      - "/mnt/storage/media/downloads/misc-downloads:/misc-downloads"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/sabnzbd/config:/config"
+      - "/mnt/media/incomplete-downloads:/incomplete-downloads"
+      - "/mnt/media/downloads/book-downloads:/book-downloads"
+      - "/mnt/media/downloads/comic-downloads:/comic-downloads"
+      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
+      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
+      - "/mnt/media/downloads/misc-downloads:/misc-downloads"
+      - /mnt/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
     environment: 
@@ -379,10 +385,10 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/sonarr:/config"
-      - "/mnt/storage/media/tv:/tv"
-      - "/mnt/storage/media/downloads/tv-downloads:/tv-downloads"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/sonarr:/config"
+      - "/mnt/media/tv:/tv"
+      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
+      - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
     depends_on: 
@@ -414,9 +420,9 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/storage/appdata/plexpy:/config"
-      - "/mnt/storage/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/plexpy:/config"
+      - "/mnt/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
+      - /mnt/appdata/healthcheck:/config/crontabs
   traefik: 
     container_name: traefik
     domainname: "${DOMAINNAME}"
@@ -459,7 +465,7 @@ services:
     restart: always
     volumes: 
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/mnt/storage/appdata/traefik:/etc/traefik"
+      - "/mnt/appdata/traefik:/etc/traefik"
   duplicati:
     image: linuxserver/duplicati:amd64-latest
     container_name: duplicati
@@ -469,9 +475,9 @@ services:
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
-      - "/mnt/storage/appdata/duplicati:/config"
+      - "/mnt/appdata/duplicati:/config"
       - /mnt:/source
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -497,7 +503,7 @@ services:
       - TZ=America/Chicago
       - OOKLA_EULA_GDPR=true
     volumes:
-     - "/mnt/storage/appdata/speedtest:/config"
+     - "/mnt/appdata/speedtest:/config"
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -528,8 +534,8 @@ services:
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
-     - "/mnt/storage/appdata/monitorr:/app"
-     - /mnt/storage/appdata/healthcheck:/config/crontabs
+     - "/mnt/appdata/monitorr:/app"
+     - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
      - traefik.enable=true
@@ -555,8 +561,8 @@ services:
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
-      - "/mnt/storage/appdata/prowlarr:/config"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/prowlarr:/config"
+      - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -583,8 +589,8 @@ services:
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
-      - "/mnt/storage/appdata/overseerr:/config"
-      - /mnt/storage/appdata/healthcheck:/config/crontabs
+      - "/mnt/appdata/overseerr:/config"
+      - /mnt/appdata/healthcheck:/config/crontabs
     labels: 
       - traefik.enable=true
       - traefik.backend=overseerr
@@ -600,3 +606,42 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+  timemachine:
+    image: mbentley/timemachine:latest
+    container_name: timemachine
+    environment: 
+      - CUSTOM_SMB_CONF=false
+      - CUSTOM_USER=false
+      - DEBUG_LEVEL=1
+      - EXTERNAL_CONF=
+      - HIDE_SHARES=no
+      - MIMIC_MODEL=TimeCapsule8,119
+      - TM_USERNAME=timemachine
+      - TM_GROUPNAME=timemachine
+      - "TM_UID=${PUID}"
+      - "TM_GID=${PGID}"
+      - "PASSWORD=${TM_PASSWORD}"
+      - SET_PERMISSIONS=false
+      - SHARE_NAME=TimeMachine
+      - SMB_INHERIT_PERMISSIONS=no
+      - SMB_NFS_ACES=yes
+      - SMB_METADATA=stream
+      - SMB_PORT=445
+      - VOLUME_SIZE_LIMIT="1000000"
+      - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
+      - VOLUME_SIZE_LIMIT=0
+      - WORKGROUP=WORKGROUP
+    volumes:
+      - /mnt/media/timecapsule:/opt/timemachine
+      - timemachine-var-lib-samba:/var/lib/samba
+      - timemachine-var-cache-samba:/var/cache/samba
+      - timemachine-run-samba:/run/samba
+    restart: always
+    hostname: timemachine
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.12
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
