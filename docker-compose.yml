@@ -646,3 +646,9 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      # - /root/.docker/config.json:/config.json
+    command: --interval 1200
