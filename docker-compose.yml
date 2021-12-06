@@ -320,8 +320,8 @@ services:
       - "/mnt/appdata/radarr:/config"
       - "/mnt/media/movies:/movies"
       - "/mnt/media/downloads/movie-downloads:/movie-downloads"
-      - "/mnt/media/hallmark:/hallmark"
       - "/mnt/appdata/healthcheck:/config/crontabs"
+      - "/mnt/media/hallmark:/hallmark"
   sabnzbd: 
     container_name: sabnzbd
     environment: 
