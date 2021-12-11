@@ -652,7 +652,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment: 
-      - WATCHTOWER_NOTIFICATIONS_LEVEL=info
       - WATCHTOWER_NOTIFICATIONS=slack
       - "WATCHTOWER_NOTIFICATION_SLACK_CHANNEL=${WATCHSLACK}"
       - WATCHTOWER_POLL_INTERVAL=1200
