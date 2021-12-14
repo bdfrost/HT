@@ -656,3 +656,22 @@ services:
       - "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHSLACK}"
       - WATCHTOWER_POLL_INTERVAL=1200
       - WATCHTOWER_CLEANUP=true
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=watchtower
+      - "traefik.frontend.rule=Host:watchtower.${DOMAINNAME}"
+      - traefik.port=8080
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
