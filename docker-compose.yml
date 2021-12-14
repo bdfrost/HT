@@ -622,7 +622,7 @@ services:
       - "TM_UID=${PUID}"
       - "TM_GID=${PGID}"
       - "PASSWORD=${TM_PASSWORD}"
-      - SET_PERMISSIONS=false
+      - SET_PERMISSIONS=true
       - SHARE_NAME=TimeMachine
       - SMB_INHERIT_PERMISSIONS=no
       - SMB_NFS_ACES=yes
@@ -630,7 +630,7 @@ services:
       - SMB_PORT=445
       - VOLUME_SIZE_LIMIT="1000000"
       - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
-      - VOLUME_SIZE_LIMIT=0
+      - VOLUME_SIZE_LIMIT=2T
       - WORKGROUP=WORKGROUP
     volumes:
       - /mnt/media/timecapsule:/opt/timemachine
