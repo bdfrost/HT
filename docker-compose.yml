@@ -612,8 +612,10 @@ services:
     container_name: timemachine
     environment: 
       - CUSTOM_SMB_CONF=false
+      - CUSTOM_AFP_CONF=false
       - CUSTOM_USER=false
       - DEBUG_LEVEL=1
+      - LOG_LEVEL=info  
       - EXTERNAL_CONF=
       - HIDE_SHARES=no
       - MIMIC_MODEL=TimeCapsule8,119
@@ -622,14 +624,14 @@ services:
       - "TM_UID=${PUID}"
       - "TM_GID=${PGID}"
       - "PASSWORD=${TM_PASSWORD}"
-      - SET_PERMISSIONS=true
+      - SET_PERMISSIONS=false
       - SHARE_NAME=TimeMachine
-      - SMB_INHERIT_PERMISSIONS=no
-      - SMB_NFS_ACES=yes
-      - SMB_METADATA=stream
-      - SMB_PORT=445
+      # - SMB_INHERIT_PERMISSIONS=no
+      # - SMB_NFS_ACES=yes
+      # - SMB_METADATA=stream
+      # - SMB_PORT=445
+      # - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
       - VOLUME_SIZE_LIMIT="1000000"
-      - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
       - VOLUME_SIZE_LIMIT=2T
       - WORKGROUP=WORKGROUP
     volumes:
