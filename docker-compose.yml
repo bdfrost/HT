@@ -683,9 +683,9 @@ services:
     image: meisnate12/plex-meta-manager
     container_name: pmm
     volumes:
-      - /mnt/appdata/pmm:/config
-      - /mnt/media/tv:/tvshows
-      - /mnt/media/movies:/movies
+      - "/mnt/appdata/pmm:/config"
+      - "/mnt/media/tv:/tvshows"
+      - "/mnt/media/movies:/movies"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
