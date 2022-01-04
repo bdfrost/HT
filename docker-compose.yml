@@ -23,7 +23,7 @@ volumes:
   timemachine-run-samba:
 services:
   samba:
-    container_name: WinShare
+    container_name: winshare
     hostname: samba
     image: sixeyed/samba
     volumes:
