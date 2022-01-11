@@ -695,8 +695,8 @@ services:
     image: lukechannings/moviematch:latest
     container_name: moviematch
     environment: 
-      - "PLEX_URL=${PLEX_TOKEN}"
-      - "PLEX_TOKEN=${PLEX_URL}"
+      - "PLEX_URL=${PLEX_URL}"
+      - "PLEX_TOKEN=${PLEX_TOKEN}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
