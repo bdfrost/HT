@@ -210,7 +210,7 @@ services:
       - "TZ=${TZ}"
     image: kizaing/kavita:latest
     volumes:
-      - "/mnt/appdata/kavita:/kavita/data"
+      - "/mnt/appdata/kavita:/kavita/config"
       - "/mnt/media/manga:/manga"
       - "/mnt/media/books:/books"
       - "/mnt/media/comics:/comics"
