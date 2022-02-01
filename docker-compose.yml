@@ -1,4 +1,17 @@
 --- 
+
+version: "3.8"
+services:
+  olivetin:
+    container_name: olivetin
+    image: jamesread/olivetin
+    volumes:
+      - /docker/olivetin:/config # replace host path or volume as needed
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+
+
 version: "3"
 networks:
   default:
@@ -22,6 +35,34 @@ volumes:
   timemachine-var-cache-samba:
   timemachine-run-samba:
 services:
+  olivetin:
+    container_name: olivetin
+    image: jamesread/olivetin
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
+    volumes:
+      - "/mnt/appdata/olivetin/config:/config"
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks: 
+      - traefik_proxy
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=olivetin
+      - "traefik.frontend.rule=Host:olivetin.${DOMAINNAME}"
+      - traefik.port=1337
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
   samba:
     container_name: winshare
     hostname: samba
