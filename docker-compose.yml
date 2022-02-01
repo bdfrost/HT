@@ -33,6 +33,7 @@ services:
       - "/mnt/appdata/olivetin/:/config"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/home/${HTTP_USERNAME}/.ssh/:/home/olivetin/.ssh/:ro"
+      - "/mnt/appdata/olivetin/sudoer/:/etc/sudoers.d/"
     restart: unless-stopped
     networks: 
       - traefik_proxy
