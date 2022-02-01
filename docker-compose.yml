@@ -31,7 +31,8 @@ services:
       - "TZ=${TZ}"
     volumes:
       - "/mnt/appdata/olivetin/:/config"
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/home/${HTTP_USERNAME}/.ssh/:/home/OliveTin/.ssh/:ro"
     restart: unless-stopped
     networks: 
       - traefik_proxy
