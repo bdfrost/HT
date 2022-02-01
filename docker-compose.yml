@@ -30,7 +30,7 @@ services:
       - "PGID=${PGID}"
       - "TZ=${TZ}"
     volumes:
-      - "/mnt/appdata/olivetin/config:/config"
+      - "/mnt/appdata/olivetin/:/config"
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks: 
