@@ -277,7 +277,7 @@ services:
     image: plexinc/pms-docker:plexpass
     container_name: plex
     volumes:
-      - /mnt/ssd:/transcode
+      - /mnt/ramdisk:/transcode
       - /mnt/media/download-reprocess:/download-reprocess
       - /mnt/appdata/plex:/config
       - "/mnt/appdata/plex/Library/Application Support/Plex Media Server/Plug-ins/Trakttv.bundle:/usr/lib/plexmediaserver/Resources/Plug-ins-f05b712b6/Trakttv.bundle"
