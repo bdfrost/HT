@@ -281,8 +281,6 @@ services:
       - /mnt/media/download-reprocess:/download-reprocess
       - /mnt/appdata/plex:/config
       - "/mnt/appdata/plex/Library/Application Support/Plex Media Server/Plug-ins/Trakttv.bundle:/usr/lib/plexmediaserver/Resources/Plug-ins-f05b712b6/Trakttv.bundle"
-      - /mnt/appdata/tmp:/tmp
-      - /mnt/appdata/tmp:/transcode
       - /mnt/media/tv:/data/tvshows
       - /mnt/media/gphotos/photos:/data/photos
       - /mnt/media/movies:/data/movies
