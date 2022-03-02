@@ -584,7 +584,7 @@ services:
      - traefik.frontend.headers.STSPreload=true
      - traefik.frontend.headers.frameDeny=false
   prowlarr:
-    image: ghcr.io/linuxserver/prowlarr:nightly
+    image: linuxserver/prowlarr:0.2.0-nightly
     container_name: prowlarr
     environment: 
       - "PUID=${PUID}"
