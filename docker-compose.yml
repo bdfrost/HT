@@ -420,40 +420,40 @@ services:
       - "/mnt/media/tv:/tv"
       - "/mnt/media/downloads/tv-downloads:/tv-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
-  # tautulli: 
-  #   container_name: tautulli
-  #   depends_on: 
-  #     - plex
-  #   environment: 
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #     - TZ=America/Chicago
-  #     - DOCKER_MODS=linuxserver/mods:universal-cron
-  #   image: linuxserver/tautulli:latest
-  #   labels: 
-  #     - traefik.enable=true
-  #     - traefik.backend=tautulli
-  #     - "traefik.frontend.rule=Host:tautulli.${DOMAINNAME}"
-  #     - traefik.port=8181
-  #     - traefik.docker.network=traefik_proxy
-  #     - traefik.frontend.headers.SSLRedirect=true
-  #     - traefik.frontend.headers.STSSeconds=315360000
-  #     - traefik.frontend.headers.browserXSSFilter=true
-  #     - traefik.frontend.headers.contentTypeNosniff=true
-  #     - traefik.frontend.headers.forceSTSHeader=true
-  #     - traefik.frontend.headers.SSLHost=frost.haus
-  #     - traefik.frontend.headers.STSIncludeSubdomains=true
-  #     - traefik.frontend.headers.STSPreload=true
-  #     - traefik.frontend.headers.frameDeny=false
-  #   links: 
-  #     - plex
-  #   networks: 
-  #     - traefik_proxy
-  #   restart: always
-  #   volumes: 
-  #     - "/mnt/appdata/plexpy:/config"
-  #     - "/mnt/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
-  #     - /mnt/appdata/healthcheck:/config/crontabs
+  tautulli: 
+    container_name: tautulli
+    depends_on: 
+      - plex
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+    image: linuxserver/tautulli:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=tautulli
+      - "traefik.frontend.rule=Host:tautulli.${DOMAINNAME}"
+      - traefik.port=8181
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    links: 
+      - plex
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/plexpy:/config"
+      - "/mnt/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
+      - /mnt/appdata/healthcheck:/config/crontabs
   traefik: 
     container_name: traefik
     domainname: "${DOMAINNAME}"
