@@ -611,7 +611,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   overseerr:
-    image: linuxserver/overseerr:1.27.0
+    image: linuxserver/overseerr:latest
     container_name: overseerr
     restart: unless-stopped
     environment:
