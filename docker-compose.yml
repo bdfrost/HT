@@ -284,7 +284,6 @@ services:
       - /mnt/media/tv:/data/tvshows
       - /mnt/media/gphotos/photos:/data/photos
       - /mnt/media/movies:/data/movies
-      - /mnt/media/hallmark:/data/hallmark
       - /mnt/appdata/healthcheck:/config/crontabs
       - /dev/dri:/dev/dri
     environment:
@@ -351,7 +350,6 @@ services:
       - "/mnt/media/movies:/movies"
       - "/mnt/media/downloads/movie-downloads:/movie-downloads"
       - "/mnt/appdata/healthcheck:/config/crontabs"
-      - "/mnt/media/hallmark:/hallmark"
   sabnzbd: 
     container_name: sabnzbd
     environment: 
