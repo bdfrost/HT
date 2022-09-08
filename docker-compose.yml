@@ -152,8 +152,8 @@ services:
       - UMASK_SET=002
     volumes:
       - /mnt/appdata/readarr:/config
-      - /mnt/media/downloads/book-downloads:/downloads
-      - /mnt/media/books:/books
+      - /mnt/media/downloads/book-downloads:/data/downloads
+      - /mnt/media/books:/data/books
     links:
       - sabnzbd
     restart: unless-stopped
@@ -183,9 +183,9 @@ services:
       - sabnzbd
     volumes:
       - /mnt/appdata/mylar3:/config
-      - /mnt/media/downloads/book-downloads:/downloads
-      - /mnt/media/comics:/comics
-      - /mnt/media/manga:/manga
+      - /mnt/media/downloads/book-downloads:/data/downloads
+      - /mnt/media/comics:/data/comics
+      - /mnt/media/manga:/data/manga
     restart: unless-stopped
     networks: 
       - traefik_proxy
@@ -278,7 +278,7 @@ services:
     container_name: plex
     volumes:
       - /mnt/ramdisk:/transcode
-      - /mnt/media/download-reprocess:/download-reprocess
+      # - /mnt/media/download-reprocess:/download-reprocess
       - /mnt/appdata/plex:/config
       - "/mnt/appdata/plex/Library/Application Support/Plex Media Server/Plug-ins/Trakttv.bundle:/usr/lib/plexmediaserver/Resources/Plug-ins-f05b712b6/Trakttv.bundle"
       - /mnt/media/tv:/data/tvshows
@@ -347,8 +347,8 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/radarr:/config"
-      - "/mnt/media/movies:/movies"
-      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
+      - "/mnt/media/movies:/data/movies"
+      - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
       - "/mnt/appdata/healthcheck:/config/crontabs"
   sabnzbd: 
     container_name: sabnzbd
@@ -378,12 +378,12 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/sabnzbd/config:/config"
-      - "/mnt/media/incomplete-downloads:/incomplete-downloads"
-      - "/mnt/media/downloads/book-downloads:/book-downloads"
-      - "/mnt/media/downloads/comic-downloads:/comic-downloads"
-      - "/mnt/media/downloads/movie-downloads:/movie-downloads"
-      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
-      - "/mnt/media/downloads/misc-downloads:/misc-downloads"
+      - "/mnt/media/incomplete-downloads:/dataincomplete-downloads"
+      - "/mnt/media/downloads/book-downloads:/data/book-downloads"
+      - "/mnt/media/downloads/comic-downloads:/data/comic-downloads"
+      - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
+      - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
+      - "/mnt/media/downloads/misc-downloads:/data/misc-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
@@ -415,8 +415,8 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/sonarr:/config"
-      - "/mnt/media/tv:/tv"
-      - "/mnt/media/downloads/tv-downloads:/tv-downloads"
+      - "/mnt/media/tv:/data/tv"
+      - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
