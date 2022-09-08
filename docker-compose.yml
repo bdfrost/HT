@@ -378,7 +378,7 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/sabnzbd/config:/config"
-      - "/mnt/media/incomplete-downloads:/dataincomplete-downloads"
+      - "/mnt/media/incomplete-downloads:/data/incomplete-downloads"
       - "/mnt/media/downloads/book-downloads:/data/book-downloads"
       - "/mnt/media/downloads/comic-downloads:/data/comic-downloads"
       - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
