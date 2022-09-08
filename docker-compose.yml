@@ -152,7 +152,7 @@ services:
       - UMASK_SET=002
     volumes:
       - /mnt/appdata/readarr:/config
-      - /mnt/media/downloads/book-downloads:/data/downloads
+      - /mnt/media/downloads/book-downloads:/data/book-downloads
       - /mnt/media/books:/data/books
     links:
       - sabnzbd
@@ -185,7 +185,7 @@ services:
       - /mnt/appdata/mylar3:/config
       - /mnt/media/downloads/book-downloads:/data/downloads
       - /mnt/media/comics:/data/comics
-      - /mnt/media/manga:/data/manga
+      # - /mnt/media/manga:/data/manga
     restart: unless-stopped
     networks: 
       - traefik_proxy
