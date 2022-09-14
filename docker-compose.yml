@@ -377,6 +377,7 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
+      - "/mnt/appdata/sabnzbd/config/scripts:/app/sabnzbd/scripts"
       - "/mnt/appdata/sabnzbd/config:/config"
       - "/mnt/media/downloads/incomplete-downloads:/data/incomplete-downloads"
       - "/mnt/media/downloads/book-downloads:/data/book-downloads"
