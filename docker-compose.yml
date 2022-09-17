@@ -276,6 +276,8 @@ services:
   plex:
     image: plexinc/pms-docker:plexpass
     container_name: plex
+    devices:
+      - /dev/dri:/dev/dri
     volumes:
       - /mnt/ramdisk:/transcode
       # - /mnt/media/download-reprocess:/download-reprocess
@@ -285,7 +287,6 @@ services:
       - /mnt/media/gphotos/photos:/data/photos
       - /mnt/media/movies:/data/movies
       - /mnt/appdata/healthcheck:/config/crontabs
-      - /dev/dri:/dev/dri
     environment:
       - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
       - VERSION=public
