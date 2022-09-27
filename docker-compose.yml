@@ -154,8 +154,8 @@ services:
       - /mnt/appdata/readarr:/config
       - /mnt/media/downloads/book-downloads:/data/book-downloads
       - /mnt/media/books:/data/books
-    links:
-      - sabnzbd
+    # links:
+    #   - sabnzbd
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -179,8 +179,8 @@ services:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    links:
-      - sabnzbd
+    # links:
+    #   - sabnzbd
     volumes:
       - /mnt/appdata/mylar3:/config
       - /mnt/media/downloads/book-downloads:/data/downloads
@@ -348,8 +348,9 @@ services:
     restart: always
     volumes: 
       - "/mnt/appdata/radarr:/config"
-      - "/mnt/media/movies:/data/movies"
-      - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
+      - "/mnt/media:/data"
+      # - "/mnt/media/movies:/data/movies"
+      # - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
       - "/mnt/appdata/healthcheck:/config/crontabs"
   sabnzbd: 
     container_name: sabnzbd
@@ -411,15 +412,16 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    links: 
-      - sabnzbd
+    # links: 
+    #   - sabnzbd
     networks: 
       - traefik_proxy
     restart: always
     volumes: 
       - "/mnt/appdata/sonarr:/config"
-      - "/mnt/media/tv:/data/tv"
-      - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
+      - "/mnt/media:/data"
+      # - "/mnt/media/tv:/data/tv"
+      # - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
@@ -446,8 +448,8 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    links: 
-      - plex
+    # links: 
+    #   - plex
     networks: 
       - traefik_proxy
     restart: always
