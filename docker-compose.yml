@@ -303,7 +303,7 @@ services:
       - traefik.enable=true
       - traefik.backend=portainer
       - "traefik.frontend.rule=Host:portainer.${DOMAINNAME}"
-      - traefik.port=9443
+      - traefik.port=9000
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
