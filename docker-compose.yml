@@ -344,8 +344,6 @@ services:
     volumes: 
       - "/mnt/appdata/radarr:/config"
       - "/mnt/media:/data"
-      # - "/mnt/media/movies:/data/movies"
-      # - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
       - "/mnt/appdata/healthcheck:/config/crontabs"
   sabnzbd: 
     container_name: sabnzbd
@@ -377,12 +375,6 @@ services:
       - "/mnt/appdata/sabnzbd/config/scripts:/app/sabnzbd/scripts"
       - "/mnt/appdata/sabnzbd/config:/config"
       - "/mnt/media/:/data/"
-      # - "/mnt/media/downloads/incomplete-downloads:/data/incomplete-downloads"
-      # - "/mnt/media/downloads/book-downloads:/data/book-downloads"
-      # - "/mnt/media/downloads/comic-downloads:/data/comic-downloads"
-      # - "/mnt/media/downloads/movie-downloads:/data/movie-downloads"
-      # - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
-      # - "/mnt/media/downloads/misc-downloads:/data/misc-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   sonarr: 
     container_name: sonarr
@@ -415,8 +407,6 @@ services:
     volumes: 
       - "/mnt/appdata/sonarr:/config"
       - "/mnt/media:/data"
-      # - "/mnt/media/tv:/data/tv"
-      # - "/mnt/media/downloads/tv-downloads:/data/tv-downloads"
       - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
