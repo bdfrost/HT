@@ -726,7 +726,7 @@ services:
     container_name: netdata
     hostname: pepper.frost.haus
     environment: 
-      # - DO_NOT_TRACK=1
+      - DO_NOT_TRACK=1
       - "DOCKER_USR=${PUID}"
       - "DOCKER_GRP=${PGID}"
       - TZ=America/Chicago
