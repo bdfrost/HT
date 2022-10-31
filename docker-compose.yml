@@ -276,9 +276,8 @@ services:
       - /mnt/media/tv:/data/tvshows
       - /mnt/media/gphotos/photos:/data/photos
       - /mnt/media/movies:/data/movies
-      - /mnt/appdata/healthcheck:/config/crontabs
     environment:
-      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
+      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
       - VERSION=public
       - PUID=${PUID}
       - PGID=${PGID}
@@ -377,7 +376,6 @@ services:
       - TZ=America/Chicago
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-      - DOCKER_MODS=linuxserver/mods:universal-cron
     image: lscr.io/linuxserver/sonarr:latest
     labels: 
       - traefik.enable=true
@@ -400,7 +398,6 @@ services:
     volumes: 
       - "/mnt/appdata/sonarr:/config"
       - "/mnt/media:/data"
-      - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
     depends_on: 
@@ -483,11 +480,9 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
       - "/mnt/appdata/duplicati:/config"
       - /mnt:/source
-      - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
       - traefik.enable=true
@@ -542,10 +537,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
     volumes:
      - "/mnt/appdata/monitorr:/app"
-     - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
      - traefik.enable=true
