@@ -628,11 +628,6 @@ services:
       - "PASSWORD=${TM_PASSWORD}"
       - SET_PERMISSIONS=false
       - SHARE_NAME=TimeMachine
-      # - SMB_INHERIT_PERMISSIONS=no
-      # - SMB_NFS_ACES=yes
-      # - SMB_METADATA=stream
-      # - SMB_PORT=445
-      # - SMB_VFS_OBJECTS=acl_xattr fruit streams_xattr
       - VOLUME_SIZE_LIMIT="1000000"
       - VOLUME_SIZE_LIMIT=2T
       - WORKGROUP=WORKGROUP
@@ -686,8 +681,6 @@ services:
     container_name: pmm
     volumes:
       - "/mnt/appdata/pmm:/config"
-      # - "/mnt/media/tv:/tvshows"
-      # - "/mnt/media/movies:/movies"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -728,3 +721,40 @@ services:
     volumes:
       - "/mnt/appdata/plexautoskip:/config"
     restart: unless-stopped
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    hostname: pepper.frost.haus
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /mnt/appdata/netdata/etc:/etc/netdata
+      - /mnt/appdata/netdata/lib:/var/lib/netdata
+      - /mnt/appdata/netdata/cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=netdata
+      - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
+      - traefik.port=19999
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
