@@ -715,8 +715,8 @@ services:
     image: ghcr.io/mdhiggins/plexautoskip-docker:latest
     container_name: plexautoskip
     environment:
-      - DOCKER_USR=${PUID}"
-      - DOCKER_GRP=${PGID}"
+      - DOCKER_USR="${PUID}"
+      - DOCKER_GRP="${PGID}"
       - TZ=America/Chicago
     volumes:
       - "/mnt/appdata/plexautoskip:/config"
