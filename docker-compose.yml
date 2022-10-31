@@ -735,9 +735,9 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /mnt/appdata/netdata/etc:/etc/netdata
-      - /mnt/appdata/netdata/lib:/var/lib/netdata
-      - /mnt/appdata/netdata/cache:/var/cache/netdata
+      - /mnt/appdata/netdata/etc/:/etc/netdata/
+      - /mnt/appdata/netdata/lib/:/var/lib/netdata/
+      - /mnt/appdata/netdata/cache/:/var/cache/netdata/
       - /etc/passwd:/host/etc/passwd:ro
       - /etc/group:/host/etc/group:ro
       - /proc:/host/proc:ro
