@@ -113,7 +113,7 @@ services:
   #     macvlan_network:
   #       ipv4_address: 192.168.100.11
   bazarr:
-    image: linuxserver/bazarr
+    image: lscr.io/linuxserver/bazarr
     container_name: bazarr
     environment:
       - "PUID=${PUID}"
@@ -170,7 +170,7 @@ services:
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
   mylar3:
-    image: linuxserver/mylar3
+    image: lscr.io/linuxserver/mylar3
     container_name: mylar3
     environment:
       - "TZ=${TZ}"
@@ -269,11 +269,8 @@ services:
   plex:
     image: plexinc/pms-docker:plexpass
     container_name: plex
-    # devices:
-    #   - /dev/dri:/dev/dri
     volumes:
       - /mnt/ramdisk:/transcode
-      # - /mnt/media/download-reprocess:/download-reprocess
       - /mnt/appdata/plex:/config
       - "/mnt/appdata/plex/Library/Application Support/Plex Media Server/Plug-ins/Trakttv.bundle:/usr/lib/plexmediaserver/Resources/Plug-ins-f05b712b6/Trakttv.bundle"
       - /mnt/media/tv:/data/tvshows
@@ -281,7 +278,7 @@ services:
       - /mnt/media/movies:/data/movies
       - /mnt/appdata/healthcheck:/config/crontabs
     environment:
-      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama|linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:plex-absolute-hama|lscr.io/linuxserver/mods:universal-cron
       - VERSION=public
       - PUID=${PUID}
       - PGID=${PGID}
@@ -316,11 +313,11 @@ services:
   radarr: 
     container_name: radarr
     environment: 
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=radarr
@@ -349,8 +346,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
-    image: linuxserver/sabnzbd:latest
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
+    image: lscr.io/linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sabnzbd
@@ -381,7 +378,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - DOCKER_MODS=linuxserver/mods:universal-cron
-    image: linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=sonarr
@@ -397,8 +394,6 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    # links: 
-    #   - sabnzbd
     networks: 
       - traefik_proxy
     restart: always
@@ -414,8 +409,8 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
-    image: linuxserver/tautulli:latest
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
+    image: lscr.io/linuxserver/tautulli:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=tautulli
@@ -431,8 +426,6 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    # links: 
-    #   - plex
     networks: 
       - traefik_proxy
     restart: always
@@ -484,13 +477,13 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/mnt/appdata/traefik:/etc/traefik"
   duplicati:
-    image: linuxserver/duplicati:amd64-latest
+    image: lscr.io/linuxserver/duplicati:amd64-latest
     container_name: duplicati
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
     volumes:
       - "/mnt/appdata/duplicati:/config"
       - /mnt:/source
@@ -549,7 +542,7 @@ services:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
     volumes:
      - "/mnt/appdata/monitorr:/app"
      - /mnt/appdata/healthcheck:/config/crontabs
@@ -570,14 +563,13 @@ services:
      - traefik.frontend.headers.STSPreload=true
      - traefik.frontend.headers.frameDeny=false
   prowlarr:
-    image: linuxserver/prowlarr:nightly
-    # image: linuxserver/prowlarr:0.2.0-nightly
+    image: lscr.io/linuxserver/prowlarr:nightly
     container_name: prowlarr
     environment: 
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
     volumes:
       - "/mnt/appdata/prowlarr:/config"
       - /mnt/appdata/healthcheck:/config/crontabs
@@ -598,14 +590,14 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   overseerr:
-    image: linuxserver/overseerr:latest
+    image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
     restart: unless-stopped
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-cron
     volumes:
       - "/mnt/appdata/overseerr:/config"
       - /mnt/appdata/healthcheck:/config/crontabs
