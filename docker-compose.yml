@@ -715,8 +715,8 @@ services:
     image: ghcr.io/mdhiggins/plexautoskip-docker:latest
     container_name: plexautoskip
     environment:
-      - DOCKER_USR="${PUID}"
-      - DOCKER_GRP="${PGID}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
       - TZ=America/Chicago
     volumes:
       - "/mnt/appdata/plexautoskip:/config"
@@ -727,8 +727,8 @@ services:
     hostname: pepper.frost.haus
     environment: 
       - DO_NOT_TRACK=1
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
+      - "DOCKER_USR=${PUID}"
+      - "DOCKER_GRP=${PGID}"
       - TZ=America/Chicago
     restart: unless-stopped
     cap_add:
