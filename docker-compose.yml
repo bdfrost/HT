@@ -176,8 +176,6 @@ services:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    # links:
-    #   - sabnzbd
     volumes:
       - /mnt/appdata/mylar3:/config
       - /mnt/media:/data
@@ -271,8 +269,8 @@ services:
   plex:
     image: plexinc/pms-docker:plexpass
     container_name: plex
-    devices:
-      - /dev/dri:/dev/dri
+    # devices:
+    #   - /dev/dri:/dev/dri
     volumes:
       - /mnt/ramdisk:/transcode
       # - /mnt/media/download-reprocess:/download-reprocess
@@ -514,7 +512,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   speedtest:
-    image: henrywhitaker3/speedtest-tracker
+    image: henrywhitaker3/speedtest-tracker:latest
     container_name: speedtest
     environment: 
       - "PUID=${PUID}"
@@ -545,7 +543,7 @@ services:
      - traefik.frontend.headers.STSPreload=true
      - traefik.frontend.headers.frameDeny=false
   monitorr:
-    image: monitorr/monitorr
+    image: monitorr/monitorr:latest
     container_name: monitorr
     environment: 
       - "PUID=${PUID}"
@@ -572,7 +570,8 @@ services:
      - traefik.frontend.headers.STSPreload=true
      - traefik.frontend.headers.frameDeny=false
   prowlarr:
-    image: linuxserver/prowlarr:0.2.0-nightly
+    image: linuxserver/prowlarr:latest
+    # image: linuxserver/prowlarr:0.2.0-nightly
     container_name: prowlarr
     environment: 
       - "PUID=${PUID}"
@@ -667,7 +666,7 @@ services:
         soft: 65536
         hard: 65536
   watchtower:
-    image: containrrr/watchtower
+    image: containrrr/watchtower:latest
     container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -698,7 +697,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   pmm:
-    image: meisnate12/plex-meta-manager
+    image: meisnate12/plex-meta-manager:latest
     container_name: pmm
     volumes:
       - "/mnt/appdata/pmm:/config"
@@ -735,7 +734,7 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   plexautoskip:
-    image: ghcr.io/mdhiggins/plexautoskip-docker
+    image: ghcr.io/mdhiggins/plexautoskip-docker:latest
     container_name: plexautoskip
     environment:
       - "PUID=${PUID}"
