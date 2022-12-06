@@ -424,7 +424,7 @@ services:
       - traefik_proxy
     restart: always
     volumes: 
-      - "/mnt/appdata/dashy/my-conf.yml:/app/public/conf.yml"
+      - "/mnt/appdata/dashy/:/app/public/"
   tautulli: 
     container_name: tautulli
     depends_on: 
