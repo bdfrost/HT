@@ -409,7 +409,7 @@ services:
       - traefik.enable=true
       - traefik.backend=dashy
       - "traefik.frontend.rule=Host:dashy.${DOMAINNAME}"
-      - traefik.port=8080
+      - traefik.port=80
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
