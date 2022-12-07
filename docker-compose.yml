@@ -404,7 +404,6 @@ services:
     environment: 
       - TZ=America/Chicago
       - "PORT=4000"
-      - HOST=frost.haus
       - NODE_ENV=production
     image: ghcr.io/lissy93/dashy:latest
     # cap_drop:
