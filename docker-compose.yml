@@ -747,7 +747,5 @@ services:
       - SETUID
       - DAC_OVERRIDE
       - NET_BIND_SERVICE
-    security_opt:
-      - no-new-privileges:
     networks: 
       - traefik_proxy
