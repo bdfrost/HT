@@ -400,10 +400,9 @@ services:
       - "/mnt/media:/data"
   dashy: 
     container_name: dashy
+    user: ${PUID}:${PGID}
     environment: 
       - TZ=America/Chicago
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
       - "PORT=4000"
     image: lissy93/dashy:latest
     # cap_drop:
