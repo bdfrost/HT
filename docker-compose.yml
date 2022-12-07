@@ -720,7 +720,7 @@ services:
       - TZ=America/Chicago
       - PORT=4000
       - NODE_ENV=production
-    image: ghcr.io/lissy93/dashy:dashy
+    image: ghcr.io/lissy93/dashy:latest
     # cap_drop:
     #   - ALL
     # cap_add:
