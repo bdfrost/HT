@@ -714,7 +714,7 @@ services:
     user: "${PUID}:${PGID}"
     environment: 
       - TZ=America/Chicago
-      - PORT=4000
+      # - PORT=4000
       - NODE_ENV=production
     volumes: 
       - "/mnt/appdata/dashy/:/app/public/"
@@ -722,7 +722,7 @@ services:
       - traefik.enable=true
       - traefik.backend=dashy
       - "traefik.frontend.rule=Host:dashy.${DOMAINNAME}"
-      - traefik.port=4000
+      # - traefik.port=4000
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
@@ -733,6 +733,8 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
     # healthcheck:
     #   test: ['CMD', 'node', '/app/services/healthcheck']
     #   interval: 1m30s
@@ -744,8 +746,6 @@ services:
     # cap_add:
     #   - CHOWN
     #   - SETGID
-      # - SETUID
-      # - DAC_OVERRIDE
-      # - NET_BIND_SERVICE
-    networks: 
-      - traefik_proxy
+    #   - SETUID
+    #   - DAC_OVERRIDE
+    #   - NET_BIND_SERVICE
