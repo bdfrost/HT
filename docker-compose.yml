@@ -385,12 +385,6 @@ services:
     volumes: 
       - "/mnt/appdata/sonarr:/config"
       - "/mnt/media:/data"
-    healthcheck:
-      test: ['CMD', 'node', '/app/services/healthcheck']
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
   tautulli: 
     container_name: tautulli
     depends_on: 
@@ -714,13 +708,18 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   dashy: 
+    image: ghcr.io/lissy93/dashy:latest
     container_name: dashy
-    user: ${PUID}:${PGID}
+    restart: always
+    user: "${PUID}:${PGID}"
     environment: 
       - TZ=America/Chicago
       - PORT=4000
       - NODE_ENV=production
-    image: ghcr.io/lissy93/dashy:latest
+    networks: 
+      - traefik_proxy
+    volumes: 
+      - "/mnt/appdata/dashy/:/app/public/"
     # cap_drop:
     #   - ALL
     # cap_add:
@@ -746,8 +745,9 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-    networks: 
-      - traefik_proxy
-    restart: always
-    volumes: 
-      - "/mnt/appdata/dashy/:/app/public/"
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
