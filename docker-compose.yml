@@ -406,16 +406,16 @@ services:
       - "PGID=${PGID}"
       - "PORT=4000"
     image: lissy93/dashy:latest
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-      - NET_BIND_SERVICE
-    security_opt:
-      - no-new-privileges:true
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
+    #   - NET_BIND_SERVICE
+    # security_opt:
+    #   - no-new-privileges:true
     labels: 
       - traefik.enable=true
       - traefik.backend=dashy
@@ -431,10 +431,6 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-      # - "traefik.http.middlewares.testheader.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
-      # - "traefik.http.middlewares.testheader.headers.accesscontrolalloworiginlist=https://foo.bar.org,https://example.org"
-      # - "traefik.http.middlewares.testheader.headers.accesscontrolmaxage=100"
-      # - "traefik.http.middlewares.testheader.headers.addvaryheader=true"
     networks: 
       - traefik_proxy
     restart: always
