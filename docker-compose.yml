@@ -705,21 +705,6 @@ services:
       - TZ=America/Chicago
       # - WATCHTOWER_DEBUG=true
     restart: unless-stopped
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=watchtower
-      - "traefik.frontend.rule=Host:watchtower.${DOMAINNAME}"
-      - traefik.port=8080
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
   pmm:
     image: meisnate12/plex-meta-manager:latest
     container_name: pmm
