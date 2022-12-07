@@ -735,17 +735,17 @@ services:
       - traefik.frontend.headers.frameDeny=false
     networks: 
       - traefik_proxy
-    healthcheck:
-      test: ['CMD', 'node', '/app/services/healthcheck']
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-      - NET_BIND_SERVICE
+    # healthcheck:
+    #   test: ['CMD', 'node', '/app/services/healthcheck']
+    #   interval: 1m30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
+    #   - NET_BIND_SERVICE
