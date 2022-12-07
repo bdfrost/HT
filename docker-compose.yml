@@ -716,8 +716,8 @@ services:
       - TZ=America/Chicago
       - PORT=4000
       - NODE_ENV=production
-    networks: 
-      - traefik_proxy
+    # networks: 
+    #   - traefik_proxy
     volumes: 
       - "/mnt/appdata/dashy/:/app/public/"
     # cap_drop:
