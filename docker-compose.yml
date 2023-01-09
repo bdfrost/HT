@@ -179,6 +179,7 @@ services:
     volumes:
       - /mnt/appdata/mylar3:/config
       - /mnt/media:/data
+      - "/mnt/appdata/healthcheck:/config/crontabs"
     restart: unless-stopped
     networks: 
       - traefik_proxy
@@ -385,6 +386,7 @@ services:
     volumes: 
       - "/mnt/appdata/sonarr:/config"
       - "/mnt/media:/data"
+      - /mnt/appdata/healthcheck:/config/crontabs
   tautulli: 
     container_name: tautulli
     depends_on: 
@@ -470,6 +472,7 @@ services:
     volumes:
       - "/mnt/appdata/duplicati:/config"
       - /mnt:/source
+      - /mnt/appdata/healthcheck:/config/crontabs
     restart: unless-stopped
     labels: 
       - traefik.enable=true
