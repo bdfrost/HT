@@ -647,6 +647,8 @@ services:
       - WATCHTOWER_POLL_INTERVAL=1200
       - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
       - WATCHTOWER_CLEANUP=true
+      - "REPO_USER=${DOCKERUID}"
+      - "REPO_PASS=${DOCKERPWD}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
@@ -681,6 +683,8 @@ services:
       - "DOCKER_USR=${PUID}"
       - "DOCKER_GRP=${PGID}"
       - TZ=America/Chicago
+      - "DOCKER_USERNAME=${DOCKERUID}"
+      - "DOCKER_PWD=${DOCKERPWD}"
     restart: unless-stopped
     cap_add:
       - SYS_PTRACE
