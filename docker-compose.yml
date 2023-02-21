@@ -680,11 +680,9 @@ services:
     hostname: pepper.frost.haus
     environment: 
       - DO_NOT_TRACK=1
-      - "DOCKERUID=${PGID}"
-      - "DOCKERPWD=${PUID}"
+      - "DOCKERUID=${DOCKER_USERNAME}"
+      - "DOCKERPWD=${DOCKER_PWD}"
       - TZ=America/Chicago
-      - "DOCKER_USERNAME=${DOCKERUID}"
-      - "DOCKER_PWD=${DOCKERPWD}"
     restart: unless-stopped
     cap_add:
       - SYS_PTRACE
