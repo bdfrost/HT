@@ -683,6 +683,8 @@ services:
       - "DOCKERUID=${DOCKER_USERNAME}"
       - "DOCKERPWD=${DOCKER_PWD}"
       - TZ=America/Chicago
+      - "DOCKER_USR=${PUID}"
+      - "DOCKER_GRP=${PGID}"
     restart: unless-stopped
     cap_add:
       - SYS_PTRACE
