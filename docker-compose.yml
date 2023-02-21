@@ -680,8 +680,8 @@ services:
     hostname: pepper.frost.haus
     environment: 
       - DO_NOT_TRACK=1
-      - "DOCKER_USR=${PUID}"
-      - "DOCKER_GRP=${PGID}"
+      - "DOCKERUID=${PGID}"
+      - "DOCKERPWD=${PUID}"
       - TZ=America/Chicago
       - "DOCKER_USERNAME=${DOCKERUID}"
       - "DOCKER_PWD=${DOCKERPWD}"
