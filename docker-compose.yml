@@ -647,8 +647,8 @@ services:
       - WATCHTOWER_POLL_INTERVAL=1200
       - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
       - WATCHTOWER_CLEANUP=true
-      - "REPO_USER=${DOCKER_USERNAME}"
-      - "REPO_PASS=${DOCKER_PWD}"
+      # - "REPO_USER=${DOCKER_USERNAME}"
+      # - "REPO_PASS=${DOCKER_PWD}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
