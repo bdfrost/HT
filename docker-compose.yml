@@ -635,25 +635,43 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-  watchtower:
-    image: containrrr/watchtower:latest
-    container_name: watchtower
+  # watchtower:
+  #   image: containrrr/watchtower:latest
+  #   container_name: watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /mnt/appdata/watchtower/config.json:/config.json
+  #   environment: 
+  #     - WATCHTOWER_NOTIFICATIONS=slack
+  #     - "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHSLACK}"
+  #     - WATCHTOWER_POLL_INTERVAL=1200
+  #     - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
+  #     - WATCHTOWER_CLEANUP=true
+  #     # - "REPO_USER=${DOCKER_USERNAME}"
+  #     # - "REPO_PASS=${DOCKER_PWD}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #     # - WATCHTOWER_DEBUG=true
+  #   restart: unless-stopped
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    command: serve
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /mnt/appdata/watchtower/config.json:/config.json
-    environment: 
-      - WATCHTOWER_NOTIFICATIONS=slack
-      - "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHSLACK}"
-      - WATCHTOWER_POLL_INTERVAL=1200
-      - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
-      - WATCHTOWER_CLEANUP=true
-      # - "REPO_USER=${DOCKER_USERNAME}"
-      # - "REPO_PASS=${DOCKER_PWD}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
+      - "/mnt/appdata/diun:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
       - TZ=America/Chicago
-      # - WATCHTOWER_DEBUG=true
-    restart: unless-stopped
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+      - "DIUN_WATCH_WORKERS=20"
+      - "DIUN_WATCH_SCHEDULE=0 */6 * * *"
+      - "DIUN_WATCH_JITTER=30s"
+      - "DIUN_PROVIDERS_DOCKER=true"
+    labels:
+      - "diun.enable=true"
+    restart: always
   pmm:
     image: meisnate12/plex-meta-manager:latest
     container_name: pmm
