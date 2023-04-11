@@ -659,7 +659,8 @@ services:
     container_name: diun
     command: serve
     volumes:
-      - "/mnt/appdata/diun:/data"
+      - "/mnt/appdata/diun/data:/data"
+      - "/mnt/appdata/diun/config:/etc/diun"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - TZ=America/Chicago
