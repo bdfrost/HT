@@ -169,35 +169,35 @@ services:
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
       - "traefik.frontend.headers.STSPreload=true"
       - "traefik.frontend.headers.frameDeny=false"
-  mylar3:
-    image: lscr.io/linuxserver/mylar3
-    container_name: mylar3
-    environment:
-      - "TZ=${TZ}"
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-    volumes:
-      - /mnt/appdata/mylar3:/config
-      - /mnt/media:/data
-      - "/mnt/appdata/healthcheck:/config/crontabs"
-    restart: unless-stopped
-    networks: 
-      - traefik_proxy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=mylar3"
-      - "traefik.frontend.rule=Host:mylar3.${DOMAINNAME}"
-      - "traefik.port=8090"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.frontend.headers.SSLRedirect=true"
-      - "traefik.frontend.headers.STSSeconds=315360000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
-      - "traefik.frontend.headers.forceSTSHeader=true"
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - "traefik.frontend.headers.STSIncludeSubdomains=true"
-      - "traefik.frontend.headers.STSPreload=true"
-      - "traefik.frontend.headers.frameDeny=false"
+  # mylar3:
+  #   image: lscr.io/linuxserver/mylar3
+  #   container_name: mylar3
+  #   environment:
+  #     - "TZ=${TZ}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #   volumes:
+  #     - /mnt/appdata/mylar3:/config
+  #     - /mnt/media:/data
+  #     - "/mnt/appdata/healthcheck:/config/crontabs"
+  #   restart: unless-stopped
+  #   networks: 
+  #     - traefik_proxy
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.backend=mylar3"
+  #     - "traefik.frontend.rule=Host:mylar3.${DOMAINNAME}"
+  #     - "traefik.port=8090"
+  #     - "traefik.docker.network=traefik_proxy"
+  #     - "traefik.frontend.headers.SSLRedirect=true"
+  #     - "traefik.frontend.headers.STSSeconds=315360000"
+  #     - "traefik.frontend.headers.browserXSSFilter=true"
+  #     - "traefik.frontend.headers.contentTypeNosniff=true"
+  #     - "traefik.frontend.headers.forceSTSHeader=true"
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - "traefik.frontend.headers.STSIncludeSubdomains=true"
+  #     - "traefik.frontend.headers.STSPreload=true"
+  #     - "traefik.frontend.headers.frameDeny=false"
   organizr: 
     container_name: organizr
     environment: 
@@ -740,7 +740,7 @@ services:
       - "PGID=${PGID}"
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
-      # - SERVERURL=wireguard.frost.haus #optional
+      - SERVERURL=wireguard.frost.haus #optional
       - SERVERPORT=51820 #optional
       - PEERS=laptop,phone,ahberyl,mberyl
       - PEERDNS=auto #optional
@@ -750,7 +750,7 @@ services:
       - LOG_CONFS=true #optional
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE
+      # - SYS_MODULE
     volumes:
       - /mnt/appdata/wireguard:/config
       # - /lib/modules:/lib/modules #optional
