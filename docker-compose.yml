@@ -583,13 +583,22 @@ services:
       - DB_HOST=netbox-db
       - DB_PORT=5432
       - DB_NAME=netbox
+      - "DB_USER=${HTTP_USERNAME}"
+      - "DB_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_DB_CACHE=0
       - REDIS_DB_TASK=1
       - REDIS_HOST=netbox-cache
       - REDIS_PORT=6379
-      - "DB_USER=${HTTP_USERNAME}"
-      - "DB_PASSWORD=${HTTP_PASSWORD}"
+      - "REDIS_CACHE_PASSWORD=${HTTP_PASSWORD}"
       - "REDIS_PASSWORD=${HTTP_PASSWORD}"
+      - REDIS_CACHE_DATABASE=1
+      - REDIS_CACHE_HOST=redis-cache
+      - REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY=false
+      - REDIS_CACHE_SSL=false
+      - REDIS_DATABASE=0
+      - REDIS_HOST=redis
+      - REDIS_INSECURE_SKIP_TLS_VERIFY=false
+      - REDIS_SSL=false
       # - SUPERUSER_EMAIL=
       # - SUPERUSER_PASSWORD=
       # - ALLOWED_HOST=
@@ -600,8 +609,6 @@ services:
       # - REMOTE_AUTH_AUTO_CREATE_USER= #optional
       # - REMOTE_AUTH_DEFAULT_GROUPS= #optional
       # - REMOTE_AUTH_DEFAULT_PERMISSIONS= #optional
-    # networks:
-    #   - traefik_proxy
     volumes:
       - "/mnt/appdata/netbox:/config"
     restart: unless-stopped
@@ -631,8 +638,6 @@ services:
     environment:
       - TZ=America/Chicago
       - "REDIS_PASSWORD=${HTTP_PASSWORD}"
-    # networks:
-    #   - traefik_proxy
     volumes:
       - "/mnt/appdata/netbox-cache:/data"
     labels: 
@@ -651,8 +656,6 @@ services:
       - "POSTGRES_USER=${HTTP_USERNAME}"
       - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
       - POSTGRES_DB=netbox
-    # networks:
-    #   - traefik_proxy
     volumes:
       - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
       - /etc/passwd:/etc/passwd:ro
