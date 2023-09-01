@@ -574,13 +574,35 @@ services:
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
   netbox:
-    image: linuxserver/netbox:3.6.0
+    image: lscr.io/linuxserver/netbox:latest
     container_name: netbox
-    restart: unless-stopped
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      # - SUPERUSER_EMAIL=
+      # - SUPERUSER_PASSWORD=
+      # - ALLOWED_HOST=
+      # - DB_NAME=
+      # - DB_USER=
+      # - DB_PASSWORD=
+      # - DB_HOST=
+      # - DB_PORT=
+      # - REDIS_HOST=
+      # - REDIS_PORT=
+      # - REDIS_PASSWORD=
+      # - REDIS_DB_TASK=
+      # - REDIS_DB_CACHE=
+      # - BASE_PATH= #optional
+      # - REMOTE_AUTH_ENABLED= #optional
+      # - REMOTE_AUTH_BACKEND= #optional
+      # - REMOTE_AUTH_HEADER= #optional
+      # - REMOTE_AUTH_AUTO_CREATE_USER= #optional
+      # - REMOTE_AUTH_DEFAULT_GROUPS= #optional
+      # - REMOTE_AUTH_DEFAULT_PERMISSIONS= #optional
+    volumes:
+      - "/mnt/appdata/netbox:/config"
+    restart: unless-stopped
     labels: 
       - traefik.enable=true
       - traefik.backend=netbox
