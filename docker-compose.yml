@@ -573,6 +573,29 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+  netbox:
+    image: linuxserver/netbox:3.6.0
+    container_name: netbox
+    restart: no
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=netbox
+      - "traefik.frontend.rule=Host:netbox.${DOMAINNAME}"
+      - traefik.port=8001
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
