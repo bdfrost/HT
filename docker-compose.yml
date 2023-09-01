@@ -586,11 +586,11 @@ services:
       - "DB_USER=${HTTP_USERNAME}"
       - "DB_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_HOST=netbox-cache
-      - REDIS_DATABASE=0
-      - REDIS_INSECURE_SKIP_TLS_VERIFY=false
-      - REDIS_SSL=false
       - "REDIS_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_PORT=6379
+      # - REDIS_DATABASE=0
+      # - REDIS_INSECURE_SKIP_TLS_VERIFY=false
+      # - REDIS_SSL=false
       # - REDIS_DB_CACHE=0
       # - REDIS_DB_TASK=1
       # - "REDIS_CACHE_PASSWORD=${HTTP_PASSWORD}"
@@ -598,7 +598,6 @@ services:
       # - REDIS_CACHE_HOST=redis-cache
       # - REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY=false
       # - REDIS_CACHE_SSL=false
-
       # - SUPERUSER_EMAIL=
       # - SUPERUSER_PASSWORD=
       # - ALLOWED_HOST=
