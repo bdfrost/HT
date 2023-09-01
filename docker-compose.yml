@@ -596,7 +596,6 @@ services:
       - REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY=false
       - REDIS_CACHE_SSL=false
       - REDIS_DATABASE=0
-      - REDIS_HOST=redis
       - REDIS_INSECURE_SKIP_TLS_VERIFY=false
       - REDIS_SSL=false
       # - SUPERUSER_EMAIL=
