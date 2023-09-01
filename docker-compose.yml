@@ -594,7 +594,7 @@ services:
       - traefik.enable=true
       - traefik.backend=netbox
       - "traefik.frontend.rule=Host:netbox.${DOMAINNAME}"
-      - traefik.port=8001
+      - traefik.port=8000
       - traefik.docker.network=traefik_proxy
       - traefik.frontend.headers.SSLRedirect=true
       - traefik.frontend.headers.STSSeconds=315360000
