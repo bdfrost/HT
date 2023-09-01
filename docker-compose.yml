@@ -576,7 +576,7 @@ services:
   netbox:
     image: linuxserver/netbox:3.6.0
     container_name: netbox
-    restart: no
+    restart: unless-stopped
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
