@@ -586,28 +586,7 @@ services:
       - "DB_USER=${HTTP_USERNAME}"
       - "DB_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_HOST=netbox-cache
-      # - "REDIS_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_PORT=6379
-      # - REDIS_DATABASE=0
-      # - REDIS_INSECURE_SKIP_TLS_VERIFY=false
-      # - REDIS_SSL=false
-      # - REDIS_DB_CACHE=0
-      # - REDIS_DB_TASK=1
-      # - "REDIS_CACHE_PASSWORD=${HTTP_PASSWORD}"
-      # - REDIS_CACHE_DATABASE=1
-      # - REDIS_CACHE_HOST=redis-cache
-      # - REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY=false
-      # - REDIS_CACHE_SSL=false
-      # - SUPERUSER_EMAIL=
-      # - SUPERUSER_PASSWORD=
-      # - ALLOWED_HOST=
-      # - BASE_PATH= #optional
-      # - REMOTE_AUTH_ENABLED= #optional
-      # - REMOTE_AUTH_BACKEND= #optional
-      # - REMOTE_AUTH_HEADER= #optional
-      # - REMOTE_AUTH_AUTO_CREATE_USER= #optional
-      # - REMOTE_AUTH_DEFAULT_GROUPS= #optional
-      # - REMOTE_AUTH_DEFAULT_PERMISSIONS= #optional
     volumes:
       - "/mnt/appdata/netbox:/config"
     restart: unless-stopped
@@ -636,15 +615,14 @@ services:
     user: ${PUID}:${PGID}
     environment:
       - TZ=America/Chicago
-      # - "REDIS_PASSWORD=${HTTP_PASSWORD}"
     volumes:
       - "/mnt/appdata/netbox-cache:/data"
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=netbox
-      - "traefik.frontend.rule=Host:netbox-cache.${DOMAINNAME}"
-      - traefik.port=6379
-      - traefik.docker.network=traefik_proxy
+    # labels: 
+    #   - traefik.enable=true
+    #   - traefik.backend=netbox
+    #   - "traefik.frontend.rule=Host:netbox-cache.${DOMAINNAME}"
+    #   - traefik.port=6379
+    #   - traefik.docker.network=traefik_proxy
   netbox-db:
     container_name: netbox-db
     image: postgres:14.0-alpine
@@ -658,12 +636,12 @@ services:
     volumes:
       - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
       - /etc/passwd:/etc/passwd:ro
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=netbox-db
-      - "traefik.frontend.rule=Host:netbox-db.${DOMAINNAME}"
-      - traefik.port=5432
-      - traefik.docker.network=traefik_proxy
+    # labels: 
+    #   - traefik.enable=true
+    #   - traefik.backend=netbox-db
+    #   - "traefik.frontend.rule=Host:netbox-db.${DOMAINNAME}"
+    #   - traefik.port=5432
+    #   - traefik.docker.network=traefik_proxy
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
