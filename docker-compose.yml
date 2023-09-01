@@ -576,9 +576,6 @@ services:
   netbox:
     image: lscr.io/linuxserver/netbox:latest
     container_name: netbox
-    env_file:
-      - ./common.env
-      - ./secret.env
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
