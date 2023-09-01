@@ -576,23 +576,26 @@ services:
   netbox:
     image: lscr.io/linuxserver/netbox:latest
     container_name: netbox
+    env_file:
+      - ./common.env
+      - ./secret.env
     environment:
       - "PUID=${PUID}"
       - "PGID=${PGID}"
       - TZ=America/Chicago
+      - DB_HOST=netbox-db
+      - DB_PORT=5432
+      - DB_NAME=netbox
+      - REDIS_DB_CACHE=0
+      - REDIS_DB_TASK=1
+      - REDIS_HOST=netbox-cache
+      - REDIS_PORT=6379
       # - SUPERUSER_EMAIL=
       # - SUPERUSER_PASSWORD=
       # - ALLOWED_HOST=
-      # - DB_NAME=
-      # - DB_USER=
-      # - DB_PASSWORD=
-      # - DB_HOST=
-      # - DB_PORT=
-      # - REDIS_HOST=
-      # - REDIS_PORT=
-      # - REDIS_PASSWORD=
-      # - REDIS_DB_TASK=
-      # - REDIS_DB_CACHE=
+      - "DB_USER=${HTTP_USERNAME}"
+      - "DB_PASSWORD=${HTTP_PASSWORD}"
+      - "REDIS_PASSWORD=${HTTP_USERNAME}"
       # - BASE_PATH= #optional
       # - REMOTE_AUTH_ENABLED= #optional
       # - REMOTE_AUTH_BACKEND= #optional
@@ -618,6 +621,34 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
+    depends_on:
+      - netbox-cache
+      - netbox-db
+  netbox-cache:
+    container_name: netbox-cache
+    image: redis:6.2.6
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=America/Chicago
+      - "DB_USER=${HTTP_USERNAME}"
+      - "DB_PASSWORD=${HTTP_PASSWORD}"
+      - "REDIS_PASSWORD=${HTTP_USERNAME}"
+    volumes:
+      - "/mnt/appdata/netbox-data:/data"
+  netbox-db:
+    container_name: netbox-db
+    image: postgres:14.0-alpine
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=America/Chicago
+      - "DB_USER=${HTTP_USERNAME}"
+      - "DB_PASSWORD=${HTTP_PASSWORD}"
+      - "REDIS_PASSWORD=${HTTP_USERNAME}"
+    volumes:
+      - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
+      - /etc/passwd:/etc/passwd:ro
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
