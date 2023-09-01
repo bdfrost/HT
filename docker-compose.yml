@@ -587,12 +587,12 @@ services:
       - REDIS_DB_TASK=1
       - REDIS_HOST=netbox-cache
       - REDIS_PORT=6379
+      - "DB_USER=${HTTP_USERNAME}"
+      - "DB_PASSWORD=${HTTP_PASSWORD}"
+      - "REDIS_PASSWORD=${HTTP_PASSWORD}"
       # - SUPERUSER_EMAIL=
       # - SUPERUSER_PASSWORD=
       # - ALLOWED_HOST=
-      - "DB_USER=${HTTP_USERNAME}"
-      - "DB_PASSWORD=${HTTP_PASSWORD}"
-      - "REDIS_PASSWORD=${HTTP_USERNAME}"
       # - BASE_PATH= #optional
       # - REMOTE_AUTH_ENABLED= #optional
       # - REMOTE_AUTH_BACKEND= #optional
@@ -628,7 +628,7 @@ services:
     user: ${PUID}:${PGID}
     environment:
       - TZ=America/Chicago
-      - "REDIS_PASSWORD=${HTTP_USERNAME}"
+      - "REDIS_PASSWORD=${HTTP_PASSWORD}"
     volumes:
       - "/mnt/appdata/netbox-data:/data"
   netbox-db:
