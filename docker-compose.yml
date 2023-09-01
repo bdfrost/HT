@@ -650,6 +650,7 @@ services:
       - TZ=America/Chicago
       - "POSTGRES_USER=${HTTP_USERNAME}"
       - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
+      - POSTGRES_DB=netbox
     # networks:
     #   - traefik_proxy
     volumes:
