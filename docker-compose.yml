@@ -630,7 +630,7 @@ services:
       - TZ=America/Chicago
       - "REDIS_PASSWORD=${HTTP_PASSWORD}"
     volumes:
-      - "/mnt/appdata/netbox-data:/data"
+      - "/mnt/appdata/netbox-cache:/data"
   netbox-db:
     container_name: netbox-db
     image: postgres:14.0-alpine
