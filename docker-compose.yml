@@ -586,7 +586,7 @@ services:
       - "DB_USER=${HTTP_USERNAME}"
       - "DB_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_HOST=netbox-cache
-      - "REDIS_PASSWORD=${HTTP_PASSWORD}"
+      # - "REDIS_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_PORT=6379
       # - REDIS_DATABASE=0
       # - REDIS_INSECURE_SKIP_TLS_VERIFY=false
@@ -636,7 +636,7 @@ services:
     user: ${PUID}:${PGID}
     environment:
       - TZ=America/Chicago
-      - "REDIS_PASSWORD=${HTTP_PASSWORD}"
+      # - "REDIS_PASSWORD=${HTTP_PASSWORD}"
     volumes:
       - "/mnt/appdata/netbox-cache:/data"
     labels: 
