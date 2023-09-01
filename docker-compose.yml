@@ -628,8 +628,6 @@ services:
     user: ${PUID}:${PGID}
     environment:
       - TZ=America/Chicago
-      - "DB_USER=${HTTP_USERNAME}"
-      - "DB_PASSWORD=${HTTP_PASSWORD}"
       - "REDIS_PASSWORD=${HTTP_USERNAME}"
     volumes:
       - "/mnt/appdata/netbox-data:/data"
@@ -640,9 +638,8 @@ services:
     user: ${PUID}:${PGID}
     environment:
       - TZ=America/Chicago
-      - "DB_USER=${HTTP_USERNAME}"
-      - "DB_PASSWORD=${HTTP_PASSWORD}"
-      - "REDIS_PASSWORD=${HTTP_USERNAME}"
+      - "POSTGRES_USER=${HTTP_USERNAME}"
+      - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
     volumes:
       - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
       - /etc/passwd:/etc/passwd:ro
