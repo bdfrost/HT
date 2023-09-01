@@ -587,6 +587,8 @@ services:
       - "DB_PASSWORD=${HTTP_PASSWORD}"
       - REDIS_HOST=netbox-cache
       - REDIS_PORT=6379
+      - "SUPERUSER_EMAIL=${MY_EMAIL}""
+      - "SUPERUSER_PASSWORD=${HTTP_PASSWORD}"
     volumes:
       - "/mnt/appdata/netbox:/config"
     restart: unless-stopped
