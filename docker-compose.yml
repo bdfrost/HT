@@ -573,77 +573,65 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  netbox:
-    image: lscr.io/linuxserver/netbox:latest
-    container_name: netbox
-    environment:
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-      - TZ=America/Chicago
-      - DB_HOST=netbox-db
-      - DB_PORT=5432
-      - DB_NAME=netbox
-      - "DB_USER=${HTTP_USERNAME}"
-      - "DB_PASSWORD=${HTTP_PASSWORD}"
-      - REDIS_HOST=netbox-cache
-      - REDIS_PORT=6379
-      - "SUPERUSER_EMAIL=${MY_EMAIL}"
-      - "SUPERUSER_PASSWORD=${HTTP_PASSWORD}"
-    volumes:
-      - "/mnt/appdata/netbox:/config"
-    restart: unless-stopped
-    labels: 
-      - traefik.enable=true
-      - traefik.backend=netbox
-      - "traefik.frontend.rule=Host:netbox.${DOMAINNAME}"
-      - traefik.port=8000
-      - traefik.docker.network=traefik_proxy
-      - traefik.frontend.headers.SSLRedirect=true
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.contentTypeNosniff=true
-      - traefik.frontend.headers.forceSTSHeader=true
-      - traefik.frontend.headers.SSLHost=frost.haus
-      - traefik.frontend.headers.STSIncludeSubdomains=true
-      - traefik.frontend.headers.STSPreload=true
-      - traefik.frontend.headers.frameDeny=false
-    depends_on:
-      - netbox-cache
-      - netbox-db
-  netbox-cache:
-    container_name: netbox-cache
-    image: redis:6.2.6
-    restart: unless-stopped
-    user: ${PUID}:${PGID}
-    environment:
-      - TZ=America/Chicago
-    volumes:
-      - "/mnt/appdata/netbox-cache:/data"
-    # labels: 
-    #   - traefik.enable=true
-    #   - traefik.backend=netbox
-    #   - "traefik.frontend.rule=Host:netbox-cache.${DOMAINNAME}"
-    #   - traefik.port=6379
-    #   - traefik.docker.network=traefik_proxy
-  netbox-db:
-    container_name: netbox-db
-    image: postgres:14.0-alpine
-    restart: unless-stopped
-    user: ${PUID}:${PGID}
-    environment:
-      - TZ=America/Chicago
-      - "POSTGRES_USER=${HTTP_USERNAME}"
-      - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
-      - POSTGRES_DB=netbox
-    volumes:
-      - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
-      - /etc/passwd:/etc/passwd:ro
-    # labels: 
-    #   - traefik.enable=true
-    #   - traefik.backend=netbox-db
-    #   - "traefik.frontend.rule=Host:netbox-db.${DOMAINNAME}"
-    #   - traefik.port=5432
-    #   - traefik.docker.network=traefik_proxy
+  # netbox:
+  #   image: lscr.io/linuxserver/netbox:latest
+  #   container_name: netbox
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #     - DB_HOST=netbox-db
+  #     - DB_PORT=5432
+  #     - DB_NAME=netbox
+  #     - "DB_USER=${HTTP_USERNAME}"
+  #     - "DB_PASSWORD=${HTTP_PASSWORD}"
+  #     - REDIS_HOST=netbox-cache
+  #     - REDIS_PORT=6379
+  #     - "SUPERUSER_EMAIL=${MY_EMAIL}"
+  #     - "SUPERUSER_PASSWORD=${HTTP_PASSWORD}"
+  #   volumes:
+  #     - "/mnt/appdata/netbox:/config"
+  #   restart: unless-stopped
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=netbox
+  #     - "traefik.frontend.rule=Host:netbox.${DOMAINNAME}"
+  #     - traefik.port=8000
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  #   depends_on:
+  #     - netbox-cache
+  #     - netbox-db
+  # netbox-cache:
+  #   container_name: netbox-cache
+  #   image: redis:6.2.6
+  #   restart: unless-stopped
+  #   user: ${PUID}:${PGID}
+  #   environment:
+  #     - TZ=America/Chicago
+  #   volumes:
+  #     - "/mnt/appdata/netbox-cache:/data"
+  # netbox-db:
+  #   container_name: netbox-db
+  #   image: postgres:14.0-alpine
+  #   restart: unless-stopped
+  #   user: ${PUID}:${PGID}
+  #   environment:
+  #     - TZ=America/Chicago
+  #     - "POSTGRES_USER=${HTTP_USERNAME}"
+  #     - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
+  #     - POSTGRES_DB=netbox
+  #   volumes:
+  #     - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
+  #     - /etc/passwd:/etc/passwd:ro
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
