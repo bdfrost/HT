@@ -335,6 +335,7 @@ services:
       - "PGID=${PGID}"
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
+      - HAS_IPV6=false
     image: lscr.io/linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
