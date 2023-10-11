@@ -301,7 +301,7 @@ services:
   radarr: 
     container_name: radarr
     environment: 
-      - DOCKER_MODS=linuxserver/mods:universal-cron
+      # - DOCKER_MODS=linuxserver/mods:universal-cron
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
@@ -335,7 +335,6 @@ services:
       - "PGID=${PGID}"
       - TZ=America/Chicago
       - DOCKER_MODS=linuxserver/mods:universal-cron
-      - HAS_IPV6=false
     image: lscr.io/linuxserver/sabnzbd:latest
     labels: 
       - traefik.enable=true
