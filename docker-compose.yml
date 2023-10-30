@@ -305,7 +305,7 @@ services:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
       - "PGID=${PGID}"
-    image: lscr.io/linuxserver/radarr:5.0.2-nightly
+    image: lscr.io/linuxserver/radarr:latest
     labels: 
       - traefik.enable=true
       - traefik.backend=radarr
