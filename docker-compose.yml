@@ -740,16 +740,16 @@ services:
       - PGID=${PGID}
       - TZ=America/Chicago
     restart: always
-  plexautoskip:
-    image: ghcr.io/mdhiggins/plexautoskip-docker:latest
-    container_name: plexautoskip
-    environment:
-      - "PUID=${PUID}"
-      - "PGID=${PGID}"
-      - TZ=America/Chicago
-    volumes:
-      - "/mnt/appdata/plexautoskip:/config"
-    restart: unless-stopped
+  # plexautoskip:
+  #   image: ghcr.io/mdhiggins/plexautoskip-docker:latest
+  #   container_name: plexautoskip
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #   volumes:
+  #     - "/mnt/appdata/plexautoskip:/config"
+  #   restart: unless-stopped
   netdata:
     image: netdata/netdata:latest
     container_name: netdata
