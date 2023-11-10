@@ -791,37 +791,37 @@ services:
       - traefik.frontend.headers.STSIncludeSubdomains=true
       - traefik.frontend.headers.STSPreload=true
       - traefik.frontend.headers.frameDeny=false
-  # wireguard:
-  #   image: lscr.io/linuxserver/wireguard:latest
-  #   container_name: wireguard
-  #   restart: unless-stopped
-  #   environment:
-  #     - "PUID=${PUID}"
-  #     - "PGID=${PGID}"
-  #     - TZ=America/Chicago
-  #     - DOCKER_MODS=linuxserver/mods:universal-cron
-  #     - SERVERURL=wireguard.frost.haus #optional
-  #     - SERVERPORT=51820 #optional
-  #     - PEERS=laptop,phone,ahberyl,mberyl
-  #     - PEERDNS=auto #optional
-  #     - INTERNAL_SUBNET=10.13.13.0 #optional
-  #     - ALLOWEDIPS=0.0.0.0/0 #optional
-  #     - PERSISTENTKEEPALIVE_PEERS= #optional
-  #     - LOG_CONFS=true #optional
-  #   cap_add:
-  #     - NET_ADMIN
-  #     # - SYS_MODULE
-  #   volumes:
-  #     - /mnt/appdata/wireguard:/config
-  #     # - /lib/modules:/lib/modules #optional
-  #   ports:
-  #     - 51820:51820/udp
-  #   # sysctls:
-  #   #   - net.ipv4.conf.all.src_valid_mark=1
-  #   networks: 
-  #     macvlan_network:
-  #       ipv4_address: 192.168.100.13
-  #   hostname: wireguard
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    restart: unless-stopped
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - SERVERURL=wireguard.frost.haus #optional
+      - SERVERPORT=51820 #optional
+      - PEERS=laptop,phone,ahberyl,mberyl
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - PERSISTENTKEEPALIVE_PEERS= #optional
+      - LOG_CONFS=true #optional
+    cap_add:
+      - NET_ADMIN
+      # - SYS_MODULE
+    volumes:
+      - /mnt/appdata/wireguard:/config
+      # - /lib/modules:/lib/modules #optional
+    ports:
+      - 51820:51820/udp
+    # sysctls:
+    #   - net.ipv4.conf.all.src_valid_mark=1
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.13
+    hostname: wireguard
   # dashy: 
   #   image: ghcr.io/lissy93/dashy:latest
   #   container_name: dashy
