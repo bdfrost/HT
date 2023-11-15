@@ -810,7 +810,7 @@ services:
       - LOG_CONFS=true #optional
     cap_add:
       - NET_ADMIN
-      # - SYS_MODULE
+      - SYS_MODULE
     volumes:
       - /mnt/appdata/wireguard:/config
       - /lib/modules:/lib/modules #optional
