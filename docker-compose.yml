@@ -11,6 +11,7 @@ networks:
       name: traefik_proxy
   macvlan_network:
     driver: macvlan
+    external: true
     driver_opts:
       parent: ens18
     ipam:
@@ -816,8 +817,8 @@ services:
       # - /lib/modules:/lib/modules #optional
     ports:
       - 51820:51820/udp
-    # sysctls:
-    #   - net.ipv4.conf.all.src_valid_mark=1
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
     networks: 
       macvlan_network:
         ipv4_address: 192.168.100.13
