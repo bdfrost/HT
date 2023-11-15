@@ -816,7 +816,6 @@ services:
       - /lib/modules:/lib/modules #optional
     ports:
       - 51820:51820/udp
-      - 51820:51820/tcp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     networks:
