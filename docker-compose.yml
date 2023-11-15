@@ -813,17 +813,14 @@ services:
       # - SYS_MODULE
     volumes:
       - /mnt/appdata/wireguard:/config
-      # - /lib/modules:/lib/modules #optional
+      - /lib/modules:/lib/modules #optional
     ports:
       - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-    # networks: 
-      # macvlan_network:
-      #   ipv4_address: 192.168.100.13
     networks:
       default:
-        # ipv4_address: 172.20.0.50
+        ipv4_address: 172.16.239.100
     hostname: wireguard
   # dashy: 
   #   image: ghcr.io/lissy93/dashy:latest
