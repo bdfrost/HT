@@ -11,7 +11,6 @@ networks:
       name: traefik_proxy
   macvlan_network:
     driver: macvlan
-    external: true
     driver_opts:
       parent: ens18
     ipam:
