@@ -821,7 +821,7 @@ services:
     networks: 
       macvlan_network:
         ipv4_address: 192.168.100.13
-    hostname: wireguard
+    hostname: frost.haus
   # dashy: 
   #   image: ghcr.io/lissy93/dashy:latest
   #   container_name: dashy
