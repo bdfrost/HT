@@ -818,9 +818,9 @@ services:
       - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-    networks:
-      default:
-        ipv4_address: 172.16.239.100
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.13
     hostname: wireguard
   # dashy: 
   #   image: ghcr.io/lissy93/dashy:latest
