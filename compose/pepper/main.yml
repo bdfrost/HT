@@ -1,0 +1,895 @@
+volumes:
+  timemachine-var-lib-samba:
+  timemachine-var-cache-samba:
+  timemachine-run-samba:
+services:
+  # Docker Socket Proxy - Security Enchanced Proxy for Docker Socket
+  socket-proxy:
+    container_name: socket-proxy
+    image: tecnativa/docker-socket-proxy
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    # profiles: ["core", "all"] 
+    networks:
+      socket_proxy:
+        ipv4_address: 192.168.200.254 # You can specify a static IP
+    privileged: true # true for VM. false for unprivileged LXC container on Proxmox.
+    ports:
+      - "127.0.0.1:2375:2375" # Do not expose this to the internet with port forwarding
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - LOG_LEVEL=info # debug,info,notice,warning,err,crit,alert,emerg
+      ## Variables match the URL prefix (i.e. AUTH blocks access to /auth/* parts of the API, etc.).
+      # 0 to revoke access.
+      # 1 to grant access.
+      ## Granted by Default
+      - EVENTS=1
+      - PING=1
+      - VERSION=1
+      ## Revoked by Default
+      # Security critical
+      - AUTH=0
+      - SECRETS=0
+      - POST=1 # Watchtower
+      # Not always needed
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0
+      - CONTAINERS=1 # Traefik, Portainer, etc.
+      - DISTRIBUTION=0
+      - EXEC=0
+      - IMAGES=1 # Portainer
+      - INFO=1 # Portainer
+      - NETWORKS=1 # Portainer
+      - NODES=0
+      - PLUGINS=0
+      - SERVICES=1 # Portainer
+      - SESSION=0
+      - SWARM=0
+      - SYSTEM=0
+      - TASKS=1 # Portainer
+      - VOLUMES=1 # Portainer
+
+  # olivetin:
+  #   container_name: olivetin
+  #   image: jamesread/olivetin
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - "TZ=${TZ}"
+  #   volumes:
+  #     - "/mnt/appdata/olivetin/:/config"
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #     - "/home/${HTTP_USERNAME}/.ssh/:/home/olivetin/.ssh/:ro"
+  #     - "/mnt/appdata/olivetin/sudoer/:/etc/sudoers.d/"
+  #   restart: unless-stopped
+  #   networks: 
+  #     - traefik_proxy
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=olivetin
+  #     - "traefik.frontend.rule=Host:olivetin.${DOMAINNAME}"
+  #     - traefik.port=1337
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  samba:
+    container_name: winshare
+    hostname: samba
+    image: sixeyed/samba
+    volumes:
+    - /mnt/media/fileshare:/fileshare
+    ports:
+    - "139:139"
+    - "445:445"
+    - "137:137/udp"
+    - "138:138/udp"
+    command: samba.sh -s "fileshare;/fileshare;yes;no;yes;all" 
+    restart: always
+  avahi:
+    container_name: avahi
+    image: solidnerd/avahi:0.7
+    network_mode: host
+    volumes:
+     - /mnt/appdata/avahi/:/etc/avahi:ro
+    environment:
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"    
+    restart: always
+  # inventory-hunter-3070:
+  #   container_name: inventory-hunter-3070
+  #   image: ericjmarti/inventory-hunter:latest
+  #   command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
+  #   volumes:
+  #     - /mnt/appdata/inventory-hunter/data:/data
+  #     - /mnt/appdata/inventory-hunter/log:/log
+  #     - /mnt/appdata/inventory-hunter/3070.yaml:/config.yaml
+  #     - /mnt/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
+  #   restart: unless-stopped 
+  # inventory-hunter-ps5:
+  #     container_name: inventory-hunter-ps5
+  #     image: ericjmarti/inventory-hunter:latest
+  #     command: "/src/run.bash --alerter slack --alerter-config /alerters.yaml"
+  #     volumes:
+  #       - /mnt/appdata/inventory-hunter/data:/data
+  #       - /mnt/appdata/inventory-hunter/log:/log
+  #       - /mnt/appdata/inventory-hunter/ps5.yaml:/config.yaml
+  #       - /mnt/appdata/inventory-hunter/alerters.yaml:/alerters.yaml
+  #     restart: unless-stopped 
+  # nextcloud:
+  #   image: ghcr.io/linuxserver/nextcloud
+  #   container_name: nextcloud
+  #   environment:
+  #     - TZ=America/Chicago
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #   volumes:
+  #     - /mnt/appdata/nextcloud/config:/config
+  #     - /mnt/appdata/nextcloud/data:/data
+  #   restart: unless-stopped
+  #   ports:
+  #     - 443:443
+  #   networks: 
+  #     macvlan_network:
+  #       ipv4_address: 192.168.100.11
+  bazarr:
+    image: lscr.io/linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
+      - UMASK_SET=022
+    volumes:
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/tv:/tv"
+      - "/mnt/appdata/bazarr/config:/config"
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=bazarr
+      - "traefik.frontend.rule=Host:bazarr.${DOMAINNAME}"
+      - traefik.port=6767
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+  readarr:
+    image: hotio/readarr:nightly
+    container_name: readarr
+    environment:
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - UMASK_SET=002
+    volumes:
+      - /mnt/appdata/readarr:/config
+      - /mnt/media:/data
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=readarr"
+      - "traefik.frontend.rule=Host:readarr.${DOMAINNAME}"
+      - "traefik.port=8787"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=false"
+  # mylar3:
+  #   image: lscr.io/linuxserver/mylar3
+  #   container_name: mylar3
+  #   environment:
+  #     - "TZ=${TZ}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #   volumes:
+  #     - /mnt/appdata/mylar3:/config
+  #     - /mnt/media:/data
+  #     - "/mnt/appdata/healthcheck:/config/crontabs"
+  #   restart: unless-stopped
+  #   networks: 
+  #     - traefik_proxy
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.backend=mylar3"
+  #     - "traefik.frontend.rule=Host:mylar3.${DOMAINNAME}"
+  #     - "traefik.port=8090"
+  #     - "traefik.docker.network=traefik_proxy"
+  #     - "traefik.frontend.headers.SSLRedirect=true"
+  #     - "traefik.frontend.headers.STSSeconds=315360000"
+  #     - "traefik.frontend.headers.browserXSSFilter=true"
+  #     - "traefik.frontend.headers.contentTypeNosniff=true"
+  #     - "traefik.frontend.headers.forceSTSHeader=true"
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - "traefik.frontend.headers.STSIncludeSubdomains=true"
+  #     - "traefik.frontend.headers.STSPreload=true"
+  #     - "traefik.frontend.headers.frameDeny=false"
+  organizr: 
+    container_name: organizr
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - "TZ=${TZ}"
+      - "fpm=false"
+    image: organizr/organizr:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=organizr
+      - "traefik.frontend.rule=Host:${DOMAINNAME}"
+      - traefik.port=80
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/organizr:/config"
+  # kavita:
+  #   container_name: kavita
+  #   environment: 
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - "TZ=${TZ}"
+  #   image: kizaing/kavita:latest
+  #   volumes:
+  #     - "/mnt/appdata/kavita:/kavita/config"
+  #     - "/mnt/media/manga:/manga"
+  #     - "/mnt/media/books:/books"
+  #     - "/mnt/media/comics:/comics"
+  #   restart: unless-stopped
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=kavita
+  #     - "traefik.frontend.rule=Host:kavita.${DOMAINNAME}"
+  #     - traefik.port=5000
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  plex:
+    image: plexinc/pms-docker:plexpass
+    container_name: plex
+    volumes:
+      - /mnt/ramdisk:/transcode
+      - /mnt/appdata/plex:/config
+      - "/mnt/appdata/plex/Library/Application Support/Plex Media Server/Plug-ins/Trakttv.bundle:/usr/lib/plexmediaserver/Resources/Plug-ins-f05b712b6/Trakttv.bundle"
+      - /mnt/media/tv:/data/tvshows
+      - /mnt/media/tvdvr:/data/tvdvr
+      - /mnt/media/gphotos/photos:/data/photos
+      - /mnt/media/movies:/data/movies
+    environment:
+      - DOCKER_MODS=linuxserver/mods:plex-absolute-hama
+      - VERSION=public
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Chicago
+      - PLEX_CLAIM=${PLEX_CLAIM_CODE}
+    network_mode: host
+    restart: always
+  portainer: 
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=portainer
+      - "traefik.frontend.rule=Host:portainer.${DOMAINNAME}"
+      - traefik.port=9000
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/portainer:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  radarr: 
+    container_name: radarr
+    environment: 
+      # - DOCKER_MODS=linuxserver/mods:universal-cron
+      - "TZ=${TZ}"
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    image: lscr.io/linuxserver/radarr:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=radarr
+      - "traefik.frontend.rule=Host:radarr.${DOMAINNAME}"
+      - traefik.port=7878
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/radarr:/config"
+      - "/mnt/media:/data"
+      - "/mnt/appdata/healthcheck:/config/crontabs"
+  sabnzbd: 
+    container_name: sabnzbd
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+      - HAS_IPV6=false
+    image: lscr.io/linuxserver/sabnzbd:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=sabnzbd
+      - "traefik.frontend.rule=Host:sabnzbd.${DOMAINNAME}"
+      - traefik.port=8080
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/sabnzbd/config/scripts:/app/sabnzbd/scripts"
+      - "/mnt/appdata/sabnzbd/config:/config"
+      - "/mnt/media/:/data/"
+      - /mnt/appdata/healthcheck:/config/crontabs
+  sonarr: 
+    container_name: sonarr
+    environment: 
+      - TZ=America/Chicago
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+    image: lscr.io/linuxserver/sonarr:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=sonarr
+      - "traefik.frontend.rule=Host:sonarr.${DOMAINNAME}"
+      - traefik.port=8989
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/sonarr:/config"
+      - "/mnt/media:/data"
+      - /mnt/appdata/healthcheck:/config/crontabs
+  tautulli: 
+    container_name: tautulli
+    depends_on: 
+      - plex
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+    image: lscr.io/linuxserver/tautulli:latest
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=tautulli
+      - "traefik.frontend.rule=Host:tautulli.${DOMAINNAME}"
+      - traefik.port=8181
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+    networks: 
+      - traefik_proxy
+    restart: always
+    volumes: 
+      - "/mnt/appdata/plexpy:/config"
+      - "/mnt/appdata/plex/Library/Application\\ Support/Plex\\ Media\\ Server/Logs:/logs:ro"
+      - /mnt/appdata/healthcheck:/config/crontabs
+  traefik: 
+    container_name: traefik
+    domainname: "${DOMAINNAME}"
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - "CF_API_EMAIL=${CLOUDFLARE_EMAIL}"
+      - "CF_API_KEY=${CLOUDFLARE_API_KEY}"
+    hostname: traefik
+    image: "traefik:1.7"
+    dns: 8.8.8.8
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=traefik
+      - "traefik.frontend.rule=Host:traefik.${DOMAINNAME}"
+      - traefik.port=8080
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.protocol=http
+      - "traefik.frontend.headers.SSLHost=traefik.${DOMAINNAME}"
+      - traefik.frontend.passHostHeader=true
+      - traefik.frontend.headers.SSLForceHost=true
+      - traefik.frontend.headers.customResponseHeaders=X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+      - traefik.frontend.headers.frameDeny=true
+      - "traefik.frontend.headers.customFrameOptionsValue=allow-from https:${DOMAINNAME}"
+    networks: 
+    - default
+    - traefik_proxy
+    ports: 
+      - "443:443"
+      - "8145:8080"
+    restart: always
+    volumes: 
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/mnt/appdata/traefik:/etc/traefik"
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:amd64-latest
+    container_name: duplicati
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+    volumes:
+      - "/mnt/appdata/duplicati:/config"
+      - /mnt:/source
+      - /mnt/appdata/healthcheck:/config/crontabs
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=duplicati
+      - "traefik.frontend.rule=Host:duplicati.${DOMAINNAME}"
+      - traefik.port=8200
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+  speedtest:
+    image: henrywhitaker3/speedtest-tracker:latest
+    container_name: speedtest
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - OOKLA_EULA_GDPR=true
+    volumes:
+     - "/mnt/appdata/speedtest:/config"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "200k"
+    labels: 
+     - traefik.enable=true
+     - traefik.backend=speedtest
+     - "traefik.frontend.rule=Host:speedtest.${DOMAINNAME}"
+     - traefik.port=80
+     - traefik.docker.network=traefik_proxy
+     - traefik.frontend.headers.SSLRedirect=true
+     - traefik.frontend.headers.STSSeconds=315360000
+     - traefik.frontend.headers.browserXSSFilter=true
+     - traefik.frontend.headers.contentTypeNosniff=true
+     - traefik.frontend.headers.forceSTSHeader=true
+     - traefik.frontend.headers.SSLHost=frost.haus
+     - traefik.frontend.headers.STSIncludeSubdomains=true
+     - traefik.frontend.headers.STSPreload=true
+     - traefik.frontend.headers.frameDeny=false
+  monitorr:
+    image: monitorr/monitorr:latest
+    container_name: monitorr
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+    volumes:
+     - "/mnt/appdata/monitorr:/app"
+    restart: unless-stopped
+    labels: 
+     - traefik.enable=true
+     - traefik.backend=monitorr
+     - "traefik.frontend.rule=Host:monitorr.${DOMAINNAME}"
+     - traefik.port=80
+     - traefik.docker.network=traefik_proxy
+     - traefik.frontend.headers.SSLRedirect=true
+     - traefik.frontend.headers.STSSeconds=315360000
+     - traefik.frontend.headers.browserXSSFilter=true
+     - traefik.frontend.headers.contentTypeNosniff=true
+     - traefik.frontend.headers.forceSTSHeader=true
+     - traefik.frontend.headers.SSLHost=frost.haus
+     - traefik.frontend.headers.STSIncludeSubdomains=true
+     - traefik.frontend.headers.STSPreload=true
+     - traefik.frontend.headers.frameDeny=false
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:nightly
+    container_name: prowlarr
+    environment: 
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+    volumes:
+      - "/mnt/appdata/prowlarr:/config"
+      - /mnt/appdata/healthcheck:/config/crontabs
+    restart: unless-stopped
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=prowlarr
+      - "traefik.frontend.rule=Host:prowlarr.${DOMAINNAME}"
+      - traefik.port=9696
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+  # netbox:
+  #   image: lscr.io/linuxserver/netbox:latest
+  #   container_name: netbox
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #     - DB_HOST=netbox-db
+  #     - DB_PORT=5432
+  #     - DB_NAME=netbox
+  #     - "DB_USER=${HTTP_USERNAME}"
+  #     - "DB_PASSWORD=${HTTP_PASSWORD}"
+  #     - REDIS_HOST=netbox-cache
+  #     - REDIS_PORT=6379
+  #     - "SUPERUSER_EMAIL=${MY_EMAIL}"
+  #     - "SUPERUSER_PASSWORD=${HTTP_PASSWORD}"
+  #   volumes:
+  #     - "/mnt/appdata/netbox:/config"
+  #   restart: unless-stopped
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=netbox
+  #     - "traefik.frontend.rule=Host:netbox.${DOMAINNAME}"
+  #     - traefik.port=8000
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+  #   depends_on:
+  #     - netbox-cache
+  #     - netbox-db
+  # netbox-cache:
+  #   container_name: netbox-cache
+  #   image: redis:6.2.6
+  #   restart: unless-stopped
+  #   user: ${PUID}:${PGID}
+  #   environment:
+  #     - TZ=America/Chicago
+  #   volumes:
+  #     - "/mnt/appdata/netbox-cache:/data"
+  # netbox-db:
+  #   container_name: netbox-db
+  #   image: postgres:14.0-alpine
+  #   restart: unless-stopped
+  #   user: ${PUID}:${PGID}
+  #   environment:
+  #     - TZ=America/Chicago
+  #     - "POSTGRES_USER=${HTTP_USERNAME}"
+  #     - "POSTGRES_PASSWORD=${HTTP_PASSWORD}"
+  #     - POSTGRES_DB=netbox
+  #   volumes:
+  #     - "/mnt/appdata/netbox-db:/var/lib/postgresql/data"
+  #     - /etc/passwd:/etc/passwd:ro
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    restart: unless-stopped
+    environment:
+      - "PUID=${PUID}"
+      - "PGID=${PGID}"
+      - TZ=America/Chicago
+      - DOCKER_MODS=linuxserver/mods:universal-cron
+    volumes:
+      - "/mnt/appdata/overseerr:/config"
+      - /mnt/appdata/healthcheck:/config/crontabs
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=overseerr
+      - "traefik.frontend.rule=Host:overseerr.${DOMAINNAME}"
+      - traefik.port=5055
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+  timemachine:
+    image: mbentley/timemachine:latest
+    container_name: timemachine
+    environment: 
+      - CUSTOM_SMB_CONF=false
+      - CUSTOM_AFP_CONF=false
+      - CUSTOM_USER=false
+      - DEBUG_LEVEL=1
+      - LOG_LEVEL=info  
+      - EXTERNAL_CONF=
+      - HIDE_SHARES=no
+      - MIMIC_MODEL=TimeCapsule8,119
+      - TM_USERNAME=timemachine
+      - TM_GROUPNAME=timemachine
+      - "TM_UID=${PUID}"
+      - "TM_GID=${PGID}"
+      - "PASSWORD=${TM_PASSWORD}"
+      - SET_PERMISSIONS=false
+      - SHARE_NAME=TimeMachine
+      - VOLUME_SIZE_LIMIT="1000000"
+      - VOLUME_SIZE_LIMIT=2T
+      - WORKGROUP=WORKGROUP
+    volumes:
+      - /mnt/media/timecapsule:/opt/timemachine
+      - timemachine-var-lib-samba:/var/lib/samba
+      - timemachine-var-cache-samba:/var/cache/samba
+      - timemachine-run-samba:/run/samba
+    restart: always
+    hostname: timemachine
+    networks: 
+      macvlan_network:
+        ipv4_address: 192.168.100.12
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+  # watchtower:
+  #   image: containrrr/watchtower:latest
+  #   container_name: watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /mnt/appdata/watchtower/config.json:/config.json
+  #   environment: 
+  #     - WATCHTOWER_NOTIFICATIONS=slack
+  #     - "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHSLACK}"
+  #     - WATCHTOWER_POLL_INTERVAL=1200
+  #     - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
+  #     - WATCHTOWER_CLEANUP=true
+  #     # - "REPO_USER=${DOCKER_USERNAME}"
+  #     # - "REPO_PASS=${DOCKER_PWD}"
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #     # - WATCHTOWER_DEBUG=true
+  #   restart: unless-stopped
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    command: serve
+    volumes:
+      - "/mnt/appdata/diun/data:/data"
+      - "/mnt/appdata/diun/config:/etc/diun"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - TZ=America/Chicago
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+    # labels:
+    #   - "diun.enable=true"
+    restart: always
+  pmm:
+    image: meisnate12/plex-meta-manager:latest
+    container_name: pmm
+    volumes:
+      - "/mnt/appdata/pmm:/config"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Chicago
+    restart: always
+  # plexautoskip:
+  #   image: ghcr.io/mdhiggins/plexautoskip-docker:latest
+  #   container_name: plexautoskip
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #   volumes:
+  #     - "/mnt/appdata/plexautoskip:/config"
+  #   restart: unless-stopped
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    hostname: pepper.frost.haus
+    environment: 
+      - DO_NOT_TRACK=1
+      - "DOCKERUID=${DOCKER_USERNAME}"
+      - "DOCKERPWD=${DOCKER_PWD}"
+      - TZ=America/Chicago
+      - "DOCKER_USR=${PUID}"
+      - "DOCKER_GRP=${PGID}"
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /mnt/appdata/netdata/etc/:/etc/netdata/
+      - /mnt/appdata/netdata/lib/:/var/lib/netdata/
+      - /mnt/appdata/netdata/cache/:/var/cache/netdata/
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels: 
+      - traefik.enable=true
+      - traefik.backend=netdata
+      - "traefik.frontend.rule=Host:netdata.${DOMAINNAME}"
+      - traefik.port=19999
+      - traefik.docker.network=traefik_proxy
+      - traefik.frontend.headers.SSLRedirect=true
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.contentTypeNosniff=true
+      - traefik.frontend.headers.forceSTSHeader=true
+      - traefik.frontend.headers.SSLHost=frost.haus
+      - traefik.frontend.headers.STSIncludeSubdomains=true
+      - traefik.frontend.headers.STSPreload=true
+      - traefik.frontend.headers.frameDeny=false
+  # wireguard:
+  #   image: lscr.io/linuxserver/wireguard:latest
+  #   container_name: wireguard
+  #   restart: unless-stopped
+  #   environment:
+  #     - "PUID=${PUID}"
+  #     - "PGID=${PGID}"
+  #     - TZ=America/Chicago
+  #     - DOCKER_MODS=linuxserver/mods:universal-cron
+  #     - SERVERURL=wireguard.frost.haus #optional
+  #     - SERVERPORT=51820 #optional
+  #     - PEERS=laptop,phone,ahberyl,mberyl
+  #     - PEERDNS=auto #optional
+  #     - INTERNAL_SUBNET=10.13.13.0 #optional
+  #     - ALLOWEDIPS=0.0.0.0/0 #optional
+  #     - PERSISTENTKEEPALIVE_PEERS= #optional
+  #     - LOG_CONFS=true #optional
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   volumes:
+  #     - /mnt/appdata/wireguard:/config
+  #     - /lib/modules:/lib/modules #optional
+  #   ports:
+  #     - 51820:51820/udp
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #   networks: 
+  #     macvlan_network:
+  #       ipv4_address: 192.168.100.13
+  #   hostname: frost.haus
+  # dashy: 
+  #   image: ghcr.io/lissy93/dashy:latest
+  #   container_name: dashy
+  #   restart: always
+  #   user: "${PUID}:${PGID}"
+  #   environment: 
+  #     - TZ=America/Chicago
+  #     - NODE_ENV=production
+  #   volumes: 
+  #     - "/mnt/appdata/dashy/:/app/public/"
+  #   labels: 
+  #     - traefik.enable=true
+  #     - traefik.backend=dashy
+  #     - "traefik.frontend.rule=Host:dashy.${DOMAINNAME}"
+  #     - traefik.port=80
+  #     - traefik.docker.network=traefik_proxy
+  #     - traefik.frontend.headers.SSLRedirect=true
+  #     - traefik.frontend.headers.STSSeconds=315360000
+  #     - traefik.frontend.headers.browserXSSFilter=true
+  #     - traefik.frontend.headers.contentTypeNosniff=true
+  #     - traefik.frontend.headers.forceSTSHeader=true
+  #     - traefik.frontend.headers.SSLHost=frost.haus
+  #     - traefik.frontend.headers.STSIncludeSubdomains=true
+  #     - traefik.frontend.headers.STSPreload=true
+  #     - traefik.frontend.headers.frameDeny=false
+    # networks: 
+    #   - traefik_proxy
+    # healthcheck:
+    #   test: ['CMD', 'node', '/app/services/healthcheck']
+    #   interval: 1m30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
+    #   - NET_BIND_SERVICE
