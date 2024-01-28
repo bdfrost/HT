@@ -1,8 +1,4 @@
-volumes:
-  timemachine-var-lib-samba:
-  timemachine-var-cache-samba:
-  timemachine-run-samba:
-services:
+=services:
   # Docker Socket Proxy - Security Enchanced Proxy for Docker Socket
   socket-proxy:
     container_name: socket-proxy

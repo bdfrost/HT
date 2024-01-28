@@ -23,7 +23,10 @@ networks:
     ipam:
       config:
         - subnet: 192.168.200.0/24
-
+volumes:
+  timemachine-var-lib-samba:
+  timemachine-var-cache-samba:
+  timemachine-run-samba:
 include:
   - compose/$HOSTNAME/main.yml
 #  - compose/$HOSTNAME/portainer.yml
