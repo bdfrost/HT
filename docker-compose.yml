@@ -6,8 +6,8 @@ networks:
       config:
       - subnet: 172.16.239.0/24
   traefik_proxy: 
-    external: 
-      name: traefik_proxy
+    external: true
+    name: traefik_proxy
   macvlan_network:
     driver: macvlan
     driver_opts:
